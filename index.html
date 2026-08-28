@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Líneas de trabajo · GCBA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#153244;
+    --navy-light:#1e455c;
+    --teal:#8DE2D6;
+    --gold:#FFCC00;
+    --bg:#F5F7F7;
+    --card:#FFFFFF;
+    --text:#16242B;
+    --muted:#6B7C82;
+    --border:#E4E9EA;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Montserrat',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--teal); color:var(--navy);}
+
+  /* SIDEBAR */
+  .sidebar{
+    width:300px;
+    min-width:300px;
+    background:var(--navy);
+    color:#fff;
+    height:100vh;
+    position:sticky;
+    top:0;
+    display:flex;
+    flex-direction:column;
+    padding:28px 0 0 0;
+  }
+  .brand{
+    padding:0 24px 20px 24px;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .brand .eyebrow{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .brand h1{
+    font-size:19px;
+    font-weight:800;
+    margin:0;
+    line-height:1.25;
+  }
+  .search-wrap{ padding:16px 24px 6px 24px; }
+  .search-wrap input{
+    width:100%;
+    padding:10px 14px;
+    border-radius:9px;
+    border:1px solid rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-family:'Montserrat',sans-serif;
+    font-size:13px;
+    outline:none;
+  }
+  .search-wrap input::placeholder{color:rgba(255,255,255,0.5);}
+  .search-wrap input:focus{border-color:var(--teal); background:rgba(255,255,255,0.13);}
+
+  /* DEPÓSITO AVANCES DE LA SEMANA */
+  .weekly-depot{
+    margin: 12px 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px dashed var(--teal);
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .weekly-depot:hover{ background: rgba(255,255,255,0.1); }
+  .weekly-depot.active{ background: rgba(141,226,214,0.15); border-style: solid; border-color: var(--teal); }
+  .depot-header{ display: flex; justify-content: space-between; align-items: center; }
+  .depot-title{ font-size: 12.5px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
+  .depot-actions { display: flex; align-items: center; gap: 8px; }
+  .depot-count{ background: var(--teal); color: var(--navy); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
+  .depot-clear-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .depot-clear-btn:hover { background: rgba(235, 87, 87, 0.8); }
+
+  .area-list{ flex:1; overflow-y:auto; padding:4px 12px 24px 12px; }
+  .area-list::-webkit-scrollbar{width:6px;}
+  .area-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15); border-radius:3px;}
+
+  .area-item{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding:10px 12px 10px 10px;
+    border-left:3px solid transparent;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:2px;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .area-item:hover{background:rgba(255,255,255,0.07);}
+  .area-item.active{background:rgba(255,255,255,0.09); border-left-color:var(--dot-color, var(--teal));}
+  .area-item.active .area-name{color:#fff;}
+  .area-row{display:flex; justify-content:space-between; align-items:center;}
+  .area-name-wrap{display:flex; align-items:center; gap:8px; min-width:0;}
+  .area-dot{width:9px; height:9px; border-radius:50%; flex-shrink:0; background:var(--dot-color);}
+  .area-name{font-size:13.5px; font-weight:600; color:#EAF1F1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .area-count{font-size:11px; color:rgba(255,255,255,0.55); font-weight:600; flex-shrink:0;}
+  .stack-bar{ display:flex; height:5px; width:100%; border-radius:3px; overflow:hidden; background:rgba(255,255,255,0.08); }
+  .stack-bar span{height:100%;}
+  .all-item{border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:8px; padding-bottom:14px;}
+
+  /* MAIN */
+  .main{ flex:1; padding:36px 44px 60px 44px; max-width:1220px; }
+  .topbar{ display:flex; flex-direction:column; gap:12px; margin-bottom:22px; }
+  .topbar h2{ font-size:28px; font-weight:800; margin:0 0 6px 0; color:var(--navy); }
+  .topbar .sub{ color:var(--muted); font-size:13.5px; font-weight:500; }
+
+  .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px; }
+  .stat-card{
+    background:var(--card);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:8px 16px;
+    cursor:pointer;
+    user-select:none;
+    transition:all .15s ease;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    white-space:nowrap;
+  }
+  .stat-card:hover{border-color:var(--stat-color, var(--navy));}
+  .stat-card .num{font-size:18px; font-weight:800; color:var(--stat-color, var(--navy)); line-height:1;}
+  .stat-card .lbl{font-size:10.5px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;}
+  .stat-card.active{box-shadow:inset 0 0 0 1.5px var(--stat-color, var(--navy)); background:var(--stat-tint, var(--bg));}
+
+  .cards{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .proj-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:5px solid var(--card-color, var(--navy));
+    border-radius:12px;
+    padding:18px 22px;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .proj-card:hover{box-shadow:0 6px 20px rgba(21,50,68,0.08); transform:translateY(-1px);}
+
+  .proj-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
+  .proj-title-area { display: flex; align-items: flex-start; gap: 10px; flex: 1; }
+  .fav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    line-height: 1;
+    transition: transform 0.1s ease;
+    color: #ccc;
+  }
+  .fav-btn:hover { transform: scale(1.2); }
+  .fav-btn.is-fav { color: var(--gold); }
+  
+  .proj-title{font-size:15.5px; font-weight:700; color:var(--navy); line-height:1.3;}
+  .badges{display:flex; gap:6px; flex-shrink:0; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
+  .badge{
+    font-size:10.5px;
+    font-weight:700;
+    padding:4px 11px;
+    border-radius:20px;
+    white-space:nowrap;
+    color:#fff;
+    background:var(--badge-color, var(--navy));
+  }
+  .badge.hubia{background:#EFEAFB; color:#6B48D6;}
+  .tags-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
+  .internal-tag{
+    font-size:10px; font-weight:700; color:var(--muted);
+    background:var(--bg); border:1px solid var(--border);
+    padding:3px 9px; border-radius:20px; display:inline-block;
+  }
+  .proj-area-tag{
+    font-size:10.5px; font-weight:700;
+    color:var(--tag-color, var(--muted));
+    background:var(--tag-bg, var(--bg));
+    border:1px solid var(--tag-border, var(--border));
+    padding:3px 9px; border-radius:20px; display:inline-block;
+  }
+  .proj-desc{font-size:13.5px; line-height:1.6; color:#3A4A50;}
+
+  .empty-state{ text-align:center; padding:60px 20px; color:var(--muted); }
+  .empty-state .big{font-size:40px; margin-bottom:10px;}
+
+  .toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:20px;
+  }
+  .toolbar input[type="text"]{
+    flex:1;
+    min-width:220px;
+    padding:10px 14px;
+    border-radius:9px;
+    border:1.5px solid var(--border);
+    font-family:'Montserrat',sans-serif;
+    font-size:13px;
+    outline:none;
+    background:#fff;
+  }
+  .toolbar input[type="text"]:focus{border-color:var(--navy);}
+  .toolbar select{
+    padding:10px 12px;
+    border-radius:9px;
+    border:1.5px solid var(--border);
+    font-family:'Montserrat',sans-serif;
+    font-size:13px;
+    background:#fff;
+    color:var(--text);
+    outline:none;
+    cursor:pointer;
+    max-width:240px;
+  }
+  .toolbar button{
+    padding:10px 16px;
+    border-radius:9px;
+    border:1.5px solid var(--navy);
+    background:var(--navy);
+    color:#fff;
+    font-family:'Montserrat',sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:opacity .15s ease;
+  }
+  .toolbar button:hover{opacity:0.85;}
+  .toolbar button#hubiaBtn{background:#fff; color:#6B48D6; border-color:#D9CCF5;}
+  .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff; border-color:#6B48D6;}
+
+  @media print{
+    .sidebar, .toolbar{ display:none !important; }
+    .print-header{ display:block !important; margin-bottom:16px; }
+    body{display:block;}
+    .main{padding:10px; max-width:100%;}
+    .proj-card{ break-inside:avoid; box-shadow:none !important; }
+    .stat-card{ cursor:default; box-shadow:none !important; }
+    .topbar{margin-bottom:14px;}
+  }
+  .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
+  .print-header b{ color:var(--navy); }
+
+  @media (max-width:900px){
+    body{flex-direction:column;}
+    .sidebar{width:100%; height:auto; position:relative; padding:20px 0;}
+    .area-list{max-height:260px;}
+    .main{padding:24px 20px 50px 20px;}
+    .stats-row{gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="brand">
+    <div class="eyebrow">TECBA</div>
+    <h1>Líneas de trabajo<br>con áreas del GCBA</h1>
+  </div>
+  
+  <!-- DEPÓSITO AVANCES DE LA SEMANA -->
+  <div class="weekly-depot" id="weeklyDepot" title="Filtrar proyectos favoritos guardados">
+    <div class="depot-header">
+      <span class="depot-title">⭐ Avances de la semana</span>
+      <div class="depot-actions">
+        <span class="depot-count" id="depotCount">0</span>
+        <button class="depot-clear-btn" id="clearDepotBtn" title="Borrar todos los favoritos">Limpiar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" id="searchArea" placeholder="Buscar área...">
+  </div>
+  <div class="area-list" id="areaList"></div>
+</div>
+
+<div class="main">
+  <div class="print-header" id="printHeader"></div>
+  <div class="topbar">
+    <div>
+      <h2 id="areaTitle">Todas las áreas</h2>
+      <div class="sub" id="areaSub"></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="textSearch" placeholder="🔎 Buscar por título o descripción...">
+    <select id="internaFilter">
+      <option value="">Todas las áreas internas</option>
+    </select>
+    <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
+    <button id="printBtn" title="Exportar / imprimir esta vista">🖨️ Exportar / Imprimir</button>
+  </div>
+
+  <div class="stats-row" id="statsRow"></div>
+
+  <div class="cards" id="cardsContainer"></div>
+</div>
+
+<script>
+const DATA = [{"area": "AGC", "items": [{"titulo": "Agente informativo pre-habilitación", "estado": "completado", "ia": true, "internas": [], "descripcion": "Agente informativo de requisitos y proceso del trámite de habilitación de locales comerciales.​"}, {"titulo": "Agente de habilitación", "estado": "en_curso", "ia": true, "internas": [], "descripcion": "Analiza y valida documentación ingresada en trámites de habilitación que realizan analistas humanos.​"}, {"titulo": "Agente de diálogo (Mesa de ayuda)", "estado": "completado", "ia": true, "internas": [], "descripcion": "Agente informativo de estado de trámites y consultas varias.​"}]}, {"area": "AGIP", "items": [{"titulo": "AGIP | Login miba", "estado": "completado", "ia": false, "internas": ["DGCIUD"], "descripcion": "Se trabajó en la incorporación de login miBA en reemplazo de Clave Ciudad. Desde diciembre de 2025, se viene implementando un esquema de convivencia entre ambos sistemas.\nLo único que resta es que AGIP elimine el método de acceso con Clave Ciudad."}, {"titulo": "AGIP | Login Empresas Extranjeras", "estado": "pausado_area", "ia": false, "internas": ["DGCIUD"], "descripcion": "Proyecto orientado a que empresas del exterior que operan en CABA (por ejemplo, plataformas como Uber) puedan tributar localmente. Desarrollo realizado pero pausado por AGIP, que tiene pendiente incluir el botón en su página."}, {"titulo": "Asistente tributario conversacional", "estado": "en_curso", "ia": true, "internas": [], "descripcion": "Identifica automáticamente al contribuyente, detecta sus objetos imponibles (patente y ABL), responde en lenguaje natural y orienta sobre deuda y regularización.​"}, {"titulo": "Despapelización boletas", "estado": "completado", "ia": false, "internas": ["CGSERV"], "descripcion": "Se avanzó, junto con el equipo de Licencias, en la contratación de créditos de Doppler para envíos por correo electrónico, con la intención de sumar también SMS (vía Doppler) y WhatsApp (mediante Botmaker)."}]}, {"area": "Ambiente | Vicejefatura", "items": [{"titulo": "Reserva Natural Lago Lugano", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "Comunicaron de ambiente que están sin internet hace dos semanas. Se derivó el tema a Infra."}, {"titulo": "Web BA Animales", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "En abril salió a producción la nueva landing de BA Animales, que centraliza y mejora la experiencia de los usuarios en los procesos de adopción, publicación de mascotas y gestión de hallazgos. El rediseño optimiza la navegación y accesibilidad, facilitando el acceso a la información y promoviendo una interacción más simple y ordenada con el servicio."}, {"titulo": "DGGAN | Castraciones", "estado": "en_curso", "ia": false, "internas": ["DGSACIU"], "descripcion": "El proyecto busca evolucionar el sistema de turnos para castraciones con el objetivo de mejorar la asignación de turnos y optimizar el uso de la capacidad disponible. Entre las principales mejoras propuestas se encuentran la validación de residentes de CABA, la implementación de confirmaciones previas para reducir el ausentismo, una lista de espera para reutilizar turnos liberados y mecanismos para prevenir usos indebidos, como el bloqueo de usuarios o el establecimiento de límites anuales por persona."}]}, {"area": "C. de Niños/as y Adolescentes", "items": [{"titulo": "CDNNYA | Landing Registro de Chicos Perdidos", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "Se modificó la página web del Registro de Chicos Perdidos, permitiendo darle más visibilidad y difusión a la red interna en cuanto a búsqueda y publicación de niños perdidos, que internamente manejan."}, {"titulo": "CDNNYA | Mejora de información", "estado": "pausado_area", "ia": false, "internas": ["DGGEDOC", "DGSGES", "SSIA"], "descripcion": "El 04/06 Nadia recibió por pedido de Sebastián Gallo retomar la solicitud de un sistema de información que reemplace las bases de Excel que tienen hoy en día. Durante 2025 se relevó gran parte, pero  por decisión del área no se avanzó. Desde Tecba se propuso mejorar su módulo de SADE - sistema LUNNA, actualmente la única herramienta transversal en uso en el ámbito del \nConsejo. Se propuso su transformación en una plataforma moderna, escalable \ny orientada a fortalecer la gestión institucional. Se otorgó la posibilidad de comenzar el trabajo en noviembre 2025, se hizo un plan de trabajo y una estimación presupuestaria. El área decidió no avanzar."}, {"titulo": "Subsidios DASE en PSOC", "estado": "completado", "ia": false, "internas": ["DGGEDOC"], "descripcion": "Se implementó con éxito en la plataforma PSOC el subsidio \"Asignaciones para el Sostenimiento de Estrategias (DASE)\" del CDNNyA, el cual se gestionaba previamente por fuera del sistema. El primer pago se procesó correctamente bajo la modalidad de contaduría configurable, lo que permite que todo el flujo de fondos sea administrado de manera directa por la propia contaduría del área. El área comenzó a utilizarlo para los pagos a partir de mayo."}, {"titulo": "Línea 102 - Integración 147", "estado": "completado", "ia": false, "internas": ["DGCDC"], "descripcion": "Con el objetivo de mejorar la atención de la Línea 102, durante febrero de 2026 se implementó una articulación con la Línea 147 como filtro de primer nivel. Este esquema permite evaluar temporalidad, nivel de riesgo y factores de protección, derivando a la Línea 102 únicamente los casos de menores de edad y situaciones críticas que requieren intervención profesional (Opción 1)."}]}, {"area": "Comunicación y Eventos", "items": [{"titulo": "SSPGE | Landing LINDA", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "Se diseñó, desarrolló e implementó la nueva web de Linda, el sitio donde se puede explorar la ciudad según intereses, momento y forma de salir. Se trabajó también en nuevos evolutivos."}, {"titulo": "SSPGE | BA Espacios", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "DGISIS se encuentra trabajando en un nuevo proyecto en conjunto con Comunicación y Jefatura. Consiste en desarrollar una plataforma para gestionar la reserva de espacios habilitados del GCBA, que puedan ser utilizados por cualquier vecino o empresa.\nFecha estimada de salida a producción (PRD):  18 de agosto."}, {"titulo": "SSPGE | Eventos Masivos", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "La plataforma de eventos masivos está operativa desde julio de 2025. Se incorporó una nueva funcionalidad para que las áreas intervinientes (Salud, Tránsito, Seguridad y Mephu) puedan cotizar servicios, emitir la BUI y validar comprobantes de pago enviados por el efector. Este circuito no modifica el flujo principal actual y permite registrar con precisión los costos cobrados a los privados.\nLa versión completa incorpora la posibilidad de solicitar recotizaciones, un historial de ajustes y el registro integral de intercambios y modificaciones, garantizando trazabilidad, transparencia y orden en el proceso.\nPróximos evolutivos:\n-Integración con BUI F1: Circuito contable completo (incluye el adjunto del comprobante de pago de la BUI). Fecha prevista de salida a PRD: 6-8.\n-Integración con BUI F2: Gestión del pago de la BUI desde la aplicación y envío del comprobante al expediente en SADE. Fecha prevista de salida a PRD: 31-8."}, {"titulo": "Campaña de concientización correo institucional", "estado": "completado", "ia": false, "internas": ["DGSEI"], "descripcion": "Iniciativa desde Seguridad Informática orientada a promover el uso responsable y adecuado del correo institucional, reforzando buenas prácticas de seguridad, confidencialidad y comunicación formal dentro de la organización."}]}, {"area": "COPIDIS", "items": [{"titulo": "DGINCD | Portal de Discapacidad", "estado": "completado", "ia": false, "internas": ["DGCDI", "DGGDA", "DGGEDOC"], "descripcion": "Se creó un sitio que permite ofrecer a cada ciudadano servicios y ofertas adaptados a su perfil específico, contemplando las necesidades particulares de cada persona con discapacidad. Se confeccionó también el RLM de los trámites del CUD."}, {"titulo": "DGINCD | Pushes Vencimiento CUD", "estado": "en_curso", "ia": false, "internas": ["SSCIUI"], "descripcion": "Mensualmente se envían mediante BOTI, recordatorios de vencimientos de CUDs. La base de datos la provee Discapacidad. El equipo de miBA, valida quien tiene el consentimiento para recibir una push, y el equipo de BOTI realiza el envio."}, {"titulo": "DGINCD | CRM Discapacidad", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Se está trabajando en conjunto con el área de Discapacidad para optimizar el proceso del Registro Único Laboral y del Programa de Apoyo para la Vida Independiente (PAI). El back office se gestionará a través de un CRM, con la proyección de incorporar en el futuro nuevos planes y programas dentro de esta misma plataforma."}, {"titulo": "DGAUN | Red Enlaces Discapacidad", "estado": "completado", "ia": false, "internas": [], "descripcion": "Desde la Dirección General de Accesibilidad Universal se conformó una red con referentes de cada área de gobierno. Participan Julieta Sánchez, en el seguimiento de proyectos, y Gabriel, referente de accesibilidad en TECBA, quien asiste a encuentros mensuales junto al resto de los referentes.\nA principios de año se firmó un acta compromiso donde cada área asumió objetivos vinculados a accesibilidad. En el caso de la SECITD, el compromiso es promover la accesibilidad digital mediante soluciones tecnológicas inclusivas que faciliten el acceso a trámites, servicios e información pública. Nuestros proyectos se enmarcan dentro de este compromiso.\nReferente interno: Julieta Sanchez y Gabriel Escobar\nReferente externo: Manuela Lemos."}, {"titulo": "DGINCD | Trámite CUD", "estado": "pausado_area", "ia": false, "internas": ["SSIA"], "descripcion": "A partir del 24 de febrero, el trámite del CUD fue migrado de la plataforma STD a TAD. El objetivo principal de esta medida es dejar de gestionar los legajos en formato papel y comenzar a generarlos de manera completamente electrónica. Esta constituye la primera etapa del proceso.\nTodavía queda pendiente coordinar con el área el avance de la Etapa 2 y 3, que contempla el inicio del trámite en TAD generado desde los SAS (etapa 2) y el cierre de expedientes y la carga de CUD otorgados en RLM, para completar el circuito integral del trámite (etapa 3)."}, {"titulo": "DGINCD | RLM CUD", "estado": "en_curso", "ia": false, "internas": ["DGGEDOC"], "descripcion": "Relacionado con el proyecto de \"Trámite CUD\". se prevé que, una vez aprobado el CUD, un equipo digitalizador del área proceda al cierre del expediente y a la carga de la información en un RLM. De este modo, se busca contar con un registro propio de personas con discapacidad en CABA, actualmente inexistente o dependiente de los datos provistos por ANDIS.\nEste registro es necesario para el proyecto \"Portal de Discapacidad\". > Ver Información.\nReferente interno: Rodrigo Santos / Mery Navares.\nReferente externo: Sebastián Tsuji"}, {"titulo": "Pictogramas", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "A raiz de la Ley de Comunicación Aumentativa y Alternativa (Ley N° 6.904), Discapacidad plantea la necesidad de disponibilizar pictogramas y la posibilidad de generar historias sociales a partir de los mismos en la web de\n buenosaires."}, {"titulo": "Subsidio a Instituciones de PCD", "estado": "completado", "ia": false, "internas": ["DGGEDOC"], "descripcion": "En el marco de las políticas de apoyo social, durante el 2025 se ha lanzado dos veces el subsidio denominado “Apoyo a las instituciones que brindan servicios a las PDC”. Para la tramitación del mismo, se configuró la inscripción mediante TAD. En 2026, se volvió a implementar el subsidio destinado a instituciones, con un período de inscripción comprendido entre el 20 de marzo y el 13 de abril. El apoyo consiste en un monto fijo asignado por normativa, pagadero en una única cuota."}, {"titulo": "Capas de accesibilidad en IDECABA", "estado": "completado", "ia": false, "internas": ["DGGDA"], "descripcion": "Se trabajó en incorporar capas con información geoespacial de prestaciones disponibles y localizaciones referidas a esta área dentro de la plataforma de IDECABA. Se incorporaron las capas de Semáforos Sonoros, servicios para Accesibilidad visual, Acessibilidad motora, Accesibilidad auditiva, Accesibilidad visceral, Accesibilidad mental y Vados."}]}, {"area": "Cultura", "items": [{"titulo": "Cultura | plataforma \"XIURG\"", "estado": "pausado_area", "ia": false, "internas": ["DGGDA"], "descripcion": "Tuvimos una reunión con la gente del Complejo Teatral (CTBA) por su plataforma \"XIURG\". En ella nuclean un universo de 45.000 prendas que hace tiempo que no tiene ninguna evolución ni la adaptan a nuevas tecnologías. Están buscando la mejor forma de actualizarla por lo que se sumó a la reunión DGISIS, y nos comentaron que quieren incorporar ciertas métricas o datos y la mejor forma de visualizarlos  y tener mejor trazabilidad del vestuario, así sea con un tablero u de otra forma. El Teatro Colón por ejemplo también busca sumarse y administrar sus vestuarios por la plataforma\nSe va a armar una mesa de trabajo presencial en el Centro de Vestuario en Chacarita (Zabala 3654) para charlar estos puntos y ver como avanzar, la primer reunión fue solo de presentación."}, {"titulo": "Palacio CECI", "estado": "en_curso", "ia": false, "internas": ["DGINFRA"], "descripcion": "El equipo de INFRA debe terminar el cableado en el Palacio, que por ser un patrimonio de la ciudad sufrió demoras la iniciativa por la necesidad de evaluar como hacer la conexión sin romper las proximidades del palacio.\nCultura envío la Nota correspondiente solicitnado actualización del presupuesto, resta que INFRA la conteste para luego ejectuar la llave."}, {"titulo": "RUBC", "estado": "demorado", "ia": false, "internas": ["DGGEDOC"], "descripcion": "El proyecto RUBC (Registro Único de Bienes Culturales) tiene como fin principal centralizar y unificar en un único registro dentro de SADE toda la información de bienes culturales de los museos, para mejorar la gestión, control y acceso a esos datos"}, {"titulo": "Mecenazgo", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "Desde el 26/02 se encuentra implementado el trámite de Mecenazgo en TAD, agilizando la postulación de proyectos culturales de personas físicas y jurídicas. Se unificó la carga de formularios y documentación técnica bajo una nueva estructura, facilitando la gestión y explotación de datos de cara a la convocatoria 2026. Asimismo, se habilitó para el área un reporte de actualización diaria para el seguimiento de las tramitaciones."}, {"titulo": "BiblioSubte", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "Fueron finalizadas las tareas de conectividad en la primera BiblioSubte de la Red, situada en la estación Plaza de Mayo de la Línea A."}, {"titulo": "Plataforma de Estudio ISA - Moodle", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "ISA pidió una plataforma de e-learning pero quieren usar Moodle porque es la que conocen.\nNecesitan tener un lugar para alojar, no tienen un proveedor asi que se debería presupuestar instalación completa con proveedor, la parte administrativa la tiene el ISA. El mantenimiento entra en la cotización.  Piden una estimación Macro para saber si ellos lo pueden pagar o no."}]}, {"area": "D. Humano y Hábitat", "items": [{"titulo": "DataLake MDHyH", "estado": "completado", "ia": false, "internas": ["DGGDA", "SSIA"], "descripcion": "Acompañamos al Ministerio de Desarrollo Humano y Hábitat en un paso clave hacia una gestión más inteligente y basada en evidencia, con la implementación de seu nuevo Data Lake. Este repositorio unifica y ordena todas las bases de datos del Ministerio, especialmente las vinculadas a las distintas intervenciones sociales. Permite acceder a la información de manera más rápida, generar reportes, análisis y tableros, y tener una mirada integral de cada persona beneficiaria. Esto mejora la trazabilidad, la consistencia y la disponibilidad de datos, y fortalece la toma de decisiones con una visión 360° que hace más eficientes y efectivas las políticas sociales."}, {"titulo": "SSPMA | + Simple", "estado": "en_curso", "ia": false, "internas": ["DGINFRA", "DGISIS", "DGSEI"], "descripcion": "La aplicación +Simple es una plataforma diseñada para ser extremadamente intuitiva y accesible, enfocada en personas mayores de 60 años en la Ciudad de Buenos Aires.\nDesde Tecba, se trabaja en la homologación de nuevas versiones (equipo DGISIS-DGSEI-DGINFRA) y para publicar las mismas en los stores (equipo Canales: Pilar Marco).\nReferente externo: Nicolas Massucci / Yamila Da Silva Gross\nReferente interno: mencionados arriba"}, {"titulo": "Boti - Corresponsabilidad Ciudadanía Porteña", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "Se implementó el envío de notificaciones push a través de Boti para difundir, mediante canales oficiales, información vinculada a la corresponsabilidad del programa Ciudadanía Porteña, reforzando la comunicación con los beneficiarios sobre el cumplimiento de los requisitos y actividades obligatorias."}, {"titulo": "108 | Callbot 147", "estado": "pausado_tecba", "ia": true, "internas": ["DGCDC"], "descripcion": "La iniciativa se trata de trabajar junto al equipo del 108, de Atención Social Inmediata, que recibe durante las 24 horas consultas y solicitudes de la comunidad sobre asistencia a personas y a familias en situación de calle o vulnerabilidad social en la incorporación de un callbot para su línea telefónica. Actualmente, el proyecto se encuentra en pausa hasta definir la propuesta de IA para información general en el 147. Una vez cerrado ese proyecto, se avanzará en replicar la experiencia en esta línea."}, {"titulo": "SSPMA | Conectividad centro de jubilados", "estado": "en_curso", "ia": false, "internas": ["DGINFRA"], "descripcion": "Se recibió un pedido de conectividad para el Centro de Jubilados San Pedro Apóstol (Arregui 4970), solicitado por la Subsecretaría de Personas Mayores. Actualmente, DGINFRA está evaluando el requerimiento para determinar su factibilidad técnica."}]}, {"area": "Deportes", "items": [{"titulo": "Portal Deportes Integración con miBA", "estado": "en_curso", "ia": false, "internas": ["DGCIUD"], "descripcion": "El área de Deportes avanzará con el desarrollo de un nuevo portal integral para centralizar todos los servicios y trámites relacionados a su área. El desarrollo será realizado por un proveedor externo contratado por Deportes. Desde TecBA participaremos acompañando el proyecto para validar que el desarrollo cumpla con los estándares técnicos y lineamientos definidos por ASI. Además, el portal incorporará autenticación mediante miBA, por lo que también participará el equipo de miBA en las definiciones e integración correspondiente.\nSe informó que incluirá turneras, por lo que se prevé dar de baja las turneras actualmente gestionadas desde nuestra plataforma.\nEn agosto se prevé salir con el piloto en producción, con dos polideportivos. En paralelo, se daría de baja esa info en la web para no duplicar."}, {"titulo": "Mecenazgo Deportes", "estado": "en_curso", "ia": false, "internas": ["DGGEDOC", "DGSGES", "SSIA"], "descripcion": "Se volvió a poner en agenda avanzar con la digitalización del mecenazgo deportivo, incorporándolo como trámite en TAD.\n(Mecenazgo = esquema de financiamiento donde privados apoyan proyectos validados por el Estado, con beneficios, y se gestiona como convocatoria/trámite.)\nCronograma de entregas:\n*mediados de julio: Se entregan el prototipo TAD.\n*Fin de Julio: ABM /RUS cerrados. (la carga y configuración administrativa del régimen en el sistema para que después pueda operar correctamente /RUS Registro Único de Subsidios)\n*Primeras dos semanas de Agosto: Configuración y capacitación.\n*Primera semana de Septiebre: Apertura de inscripciones. -> Esta es el objetivo pedido por Jefatura."}]}, {"area": "Desarrollo Económico", "items": [{"titulo": "Desarrollo de Guías de Ciberseguridad para Pymes", "estado": "completado", "ia": false, "internas": ["DGSEI"], "descripcion": "Elaboración de guías de buenas prácticas para fortalecer la ciberseguridad de PyMEs y emprendimientos, promoviendo la adopción de medidas preventivas simples y de bajo costo para reducir riesgos asociados al uso de herramientas digitales."}, {"titulo": "Ley de Economía del Conocimiento", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "Digitalización del trámite de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento: Incluye 3 trámites productivos, de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento y Demostración de cumplimiento de compromisos sin renovación. Se trabajó con la DG de Simplificación Normativa y el área responsable del trámite es la DG de Estrategia Productiva y Regímenes de Promoción, dependiente de la Subse. de Inversiones del Min. Des. Eco."}, {"titulo": "Invest BA", "estado": "completado", "ia": false, "internas": ["DGSACIU"], "descripcion": "Nueva Home creada y estructurada. Migración de sitio externo al ecosistema buenosaires.gob.ar, con implementación en Drupal 10."}]}, {"area": "Desarrollo Urbano", "items": [{"titulo": "Model BA", "estado": "completado", "ia": false, "internas": ["SSIA"], "descripcion": "Se desarrolló un Model Checker como software público y gratuito que permite a los profesionales matriculados comprobar el cumplimiento del Código de Edificación Municipal de sus proyectos de obras privadas en tiempo real. Pudiendo analizar modelos BIM de forma automatizada. Brinda:\nConsultoría BIM (análisis del código actual, manual BIM y guía inicial de modelado, capacitaciones técnicas y teóricas, mesa de ayuda tanto interna como para profesionales matriculados) \nSoftware (adaptan su software con las reglas del Código de Edificación, desarrollo del model checker por etapas, vinculación con plataformas existentes, soporte en soluciones web)."}, {"titulo": "Seguimiento habitual DGISIS", "estado": "en_curso", "ia": false, "internas": ["SSIA"], "descripcion": "Se realizan reuniones de seguimiento entre SDU y DGISIS todos los miércoles con el objetivo de continuar trabajando sobre el vertical, principalmente en evolutivos y desarrollos para los distintos trámites. También se trabaja con las integraciones de los desarrollos que lleva a cabo el área con Novatech."}, {"titulo": "Seguimiento habitual SSIA", "estado": "en_curso", "ia": false, "internas": ["SSIA"], "descripcion": "Se realizan reuniones de seguimiento entre SDU y SSIA todos los miércoles con el objetivo de continuar el seguimiento de jiras vinculadas a cambios en buzones, formularios y wizards, corrección de incidencias e incorporación de nuevas tratas al IUT."}, {"titulo": "Copia de Plano", "estado": "completado", "ia": true, "internas": ["SSIA"], "descripcion": "Se automatizó el trámite del permiso de solicitud de copia de plano a través de la incorporación de N8N y un agente de IA que evalúa la documentación para agilizar la tarea de los analistas de SDU (PRD: 22/04). Como primera mejora evolutiva, se reemplazó el GEDO de texto libre utilizado en el MVP inicial por un formulario controlado (PRD: 11/05)"}, {"titulo": "Constitución de Estado Parcelario", "estado": "en_curso", "ia": true, "internas": ["SSIA"], "descripcion": "En este trámite también se incorporará automatización e inteligencia artificial para la validación de interés legítimo, en continuidad con los desarrollos en curso de Copia de Plano. En este caso se utilizará un agente propio desarrollado en la DG de Datos."}, {"titulo": "Instalaciones", "estado": "en_curso", "ia": true, "internas": ["SSIA"], "descripcion": "Incorporación de la figura “Bajo Responsabilidad Profesional” para las instalaciones sanitarias, eléctrica, mecánica y electromecánica e IA en la revisión de documentación administrativa. Adaptación de SGUI para Generación de Permiso y Conforme automático."}, {"titulo": "Auditoría de procesos", "estado": "demorado", "ia": true, "internas": ["SSIA"], "descripcion": "SDU está trabajando junto a Novatech en el relevamiento, por etapas, de sus trámites con el objetivo de automatizar sus procesos e incorporar capacidades de IA en el mediano plazo. Como primera iniciativa, se priorizó el trámite de Consulta de Usos, para el cual se está desarrollando un chatbot que permita resolver consultas, reducir caratulaciones innecesarias y agilizar la respuesta a los usuarios. En una primera etapa, se implementará un backoffice para los analistas, con el objetivo de optimizar los tiempos de gestión y resolución administrativa."}, {"titulo": "Rediseño de la web SDU", "estado": "en_curso", "ia": false, "internas": ["DGCDC", "DGCDI"], "descripcion": "Iniciativa para reestructurar la web de la Secretaría de Desarrollo Urbano. El equipo de Canales Digitales está trabajando en el desarrollo."}, {"titulo": "Cambios en BA Colaborativa", "estado": "en_curso", "ia": false, "internas": ["DGCDI"], "descripcion": "SDU realizó un relevamiento con su Mesa de Ayuda para mejorar la respuesta a los reclamos y consultas de vecinos. Recurrieron al equipo de BA Colaborativa para pedir modificaciones."}]}, {"area": "Educación", "items": [{"titulo": "SSTEDU | Ventanilla BAC", "estado": "demorado", "ia": false, "internas": ["DGSACIU"], "descripcion": "Desde 2024, Educación fue migrando a BAC las mesas de ayuda que utilizan los colegios. Actualmente continúan solicitando ajustes y modificaciones sobre distintas cadenas de atención, cada una identificada con su propio nombre.\nHoy, el principal punto de atención es la cadena de “Mantenimiento”, ya que los cambios requeridos en BAC generan impacto en SAP. Las modificaciones de BAC estarán incluidas en la versión 7.6, prevista para fines de mayo/principios de junio. En paralelo, el equipo de SAP también debió realizar desarrollos asociados."}, {"titulo": "SSTEDU | Despliegues SINIGEP", "estado": "en_curso", "ia": false, "internas": ["DGINFRA", "DGISIS", "DGSEI"], "descripcion": "SINIGEP es el Sistema de Información de Institutos de Gestión Privada de la Ciudad Autónoma de Buenos Aires. Es una plataforma digital del Ministerio de Educación porteño utilizada para gestionar, digitalizar y supervisar los procesos administrativos, pedagógicos y financieros de las escuelas privadas.\nSemanalmente nos piden un deploy de una nueva versión."}, {"titulo": "SSTEDU | Aprende BA", "estado": "pausado_area", "ia": false, "internas": ["DGCDI"], "descripcion": "La plataforma AprendeBA está orientada a la gestión escolar y permite a las escuelas registrar, administrar y realizar el seguimiento de la trayectoria académica de cada estudiante. Su objetivo es consolidar y ampliar el sistema actual, integrando todos los niveles, modalidades y tipos de gestión en una única herramienta digital.\nEn este marco, el equipo de Educación solicitó el desarrollo de un bot que asista a los docentes ante consultas frecuentes y repetitivas. Desde el equipo de Canales se presentó un informe de diagnóstico de la plataforma para su evaluación, aunque hasta el momento no se recibió respuesta."}, {"titulo": "SSTEDU | Callbot 147 Edu", "estado": "pausado_tecba", "ia": true, "internas": ["DGCDC"], "descripcion": "Se está trabajando junto al área de Educación en la incorporación de un callbot para su línea telefónica. Si bien operan dentro del 147, cuentan con una licitación y operadores propios.\nActualmente, el proyecto se encuentra en pausa hasta definir la propuesta de IA para información general. Una vez cerrado ese proyecto, se avanzará en replicar la experiencia en esta línea.\nReferente interno: Carolina Rebecca\nReferente externo: Gisela Pizurno"}, {"titulo": "Consumo Nación Servicios - Boleto Educativo desde RLM", "estado": "en_curso", "ia": false, "internas": ["DGGDA"], "descripcion": "La idea general es integrar el circuito actual de otorgamiento del beneficio (boleto obligatorio) para que deje de depender de procesos manuales y de la intervención física en comunas, y pase a ser un flujo más automático, trazable y auditable. Hoy el trámite se inicia en TAD, se registra en RLM (SADE) y el Banco Ciudad consume esa información, pero Nación Servicios no está integrado directamente, sino que toda carga de información que hacen es de forma proactiva.\nEl objetivo es que Nación Servicios pueda consumir directamente los datos del RLM, evitando ese paso manual y mejorando el control del proceso.\nEs necesario que NASA se sume al ecosistema de XBA. El equipo de DGGDA se lleva analizar si debe ser si o si por convenio o si pueden hacer alguna flexbilidad en este caso. Consultamos desde planificación un contacto a NASA para hacer ciertas consultas respecto a la integración."}, {"titulo": "WEB UNICABA - ASI", "estado": "en_curso", "ia": false, "internas": ["DGISIS", "DGSEI"], "descripcion": "El ministerio de Educación fue puente con la Universidad de la Ciudad de Buenos Aires, por un requerimiento respecto a su página web."}, {"titulo": "Sistema educativo comunas 2027 | Adecuaciones SADE", "estado": "en_curso", "ia": false, "internas": ["DGGEDOC", "DGSGES", "SSIA"], "descripcion": "Educación nos presentó el proceso de reorganización del sistema educativo, que implicará la eliminación de los distritos escolares y la adopción de una nueva organización por comunas. Este cambio, previsto para implementarse en enero de 2027, tendrá un impacto significativo sobre los sistemas de gestión, especialmente SADE y los trámites asociados."}, {"titulo": "Boleto Estudiantil", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "Se implementó en TAD el trámite de inscripción al Boleto Estudiantil, que constituye la vía de inscripción al subsidio para viajes en subte y su subvención en un 100%. Este trámite incluye la creación de un registro de beneficiarios y está dirigido a estudiantes de carreras terciarias, universitarias y de Centros de Formación Profesional. Es uno de los subsidios que forma parte del programa de Movilidad Porteña."}, {"titulo": "Movilidad Porteña 2026", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "Se avanzó en la optimización del formulario correspondiente al Boleto Estudiantil y se amplió el universo de beneficiarios que podrán realizar el trámite de Movilidad Porteña. El cruce de información ya fue llevado a cabo, a partir del cual se definió el universo de personas pasibles de obtener el beneficio. En función de ello, se envió una notificación por correo electrónico a cada uno de los beneficiarios identificados, a fin de que procedan a realizar el reempadronamiento correspondiente."}]}, {"area": "Espacio Público", "items": [{"titulo": "EMUI", "estado": "demorado", "ia": false, "internas": ["DGISIS"], "descripcion": "El desarrollo está finalizado, pero su salida debe realizarse en conjunto con Ordenamiento, debido a dependencias de configuración en SAP."}, {"titulo": "Canal en SAP", "estado": "completado", "ia": false, "internas": ["DGISIS"], "descripcion": "Funcionalidad para identificar el canal de origen del reclamo en SAP. Liberado el 22/12, validado por MEPHU y Vinculación Ciudadana."}, {"titulo": "API SAP - Ajustes", "estado": "completado", "ia": false, "internas": ["DGISIS"], "descripcion": "APIs para el sistema MEEP entregadas y en funcionamiento; se realizan ajustes y evolutivos a pedido del área."}, {"titulo": "MEPHU | Sistema MEEP", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Desarrollo de una API para la gestión del espacio público, integrada con SAP CRM y SAP ERP.\nPermitirá crear, modificar y consultar avisos y permisos, asegurando que la información esté alineada entre sistemas y centralizando la gestión."}]}, {"area": "Gobierno y Vínculo", "items": [{"titulo": "DGDYPC | Puntos de dolor Defensa al Consumidor", "estado": "en_curso", "ia": false, "internas": ["SSIA"], "descripcion": "Se migró la operatoria de Defensa al Consumidor desde PECTRA —un sistema propio obsoleto y costoso— hacia TAD/SADE, una solución estándar sin costo, intentando mantener la lógica de trabajo existente. La implementación se realizó en etapas y, aunque tuvo algunas demoras, la entrega final (29/12) fue validada por el área, quedando operativa la solución completa y eliminando la dependencia del sistema anterior. Desde el punto de vista de alcance, lo comprometido fue cumplido, aunque no se trata de una herramienta a medida.\nActualmente, la disconformidad del área no se explica tanto por errores puntuales sino por limitaciones estructurales de SADE, que implican menor nivel de automatización, mayor carga manual y pérdida de funcionalidades que existían en PECTRA (como autocompletados, controles y reportes). A esto se suman algunos pendientes de mejora (usabilidad, notificaciones, reportes e integraciones), que siguen en seguimiento.\nEn este contexto, resulta clave ordenar expectativas y diferenciar qué aspectos pueden mejorarse y cuáles responden a restricciones propias de la solución adoptada."}, {"titulo": "SSVC | Orquesta filarmónica Boti", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "El proyecto consistió en la implementación y mejora de una turnera digital para la Orquesta Filarmónica de Buenos Aires, integrada a través de Boti, que permite a los vecinos reservar entradas para ensayos. El proyecto ya se encuentra en producción, con las funcionalidades pedidas por el área y algunos ajustes posteriores."}, {"titulo": "Consorcios | Buscador de administradores", "estado": "en_curso", "ia": false, "internas": ["DGCDI", "DGGDA", "DGGEDOC", "SSIA"], "descripcion": "https://buenosaires.gob.ar/gcaba_historico/gobierno/defensa-al-consumidor/buscador-de-administradores-de-consorcios\nEl buscador de Administradores de Consorcios utiliza actualmente una fuente de datos obsoleta (Pectra), mientras que la operatoria vigente se realiza sobre RLM, generando inconsistencias en la información publicada. Además, la solución actual no cuenta con mantenimiento activo ni un responsable técnico identificado, por lo que se requiere una nueva integración para asegurar la actualización y sostenibilidad del servicio."}, {"titulo": "DGHC | Licencias de conducir", "estado": "en_curso", "ia": false, "internas": ["DGCDI", "DGCIUD", "DGISIS", "DGSACIU", "DGSGES"], "descripcion": "A partir de diversos puntos de dolor identificados por el equipo de DGHC en la experiencia integral de los trámites de Licencias de Conducir, se está trabajando en un conjunto de propuestas orientadas a mejorar la eficiencia operativa, reducir errores y optimizar la experiencia del vecino.\nLas iniciativas abarcan tanto soluciones de corto plazo sobre procesos críticos actuales, como evoluciones orientadas a la digitalización y automatización del trámite, incluyendo el uso de integraciones con sistemas existentes (STD, LICTA/LICBA, Servicios BA) y nuevas capacidades como notificaciones, validaciones automáticas e inteligencia artificial.\nLa implementación de estas mejoras se encuentra en gran medida condicionada por dependencias tecnológicas (principalmente la actualización de STD y la disponibilidad de LICBA), así como por definiciones con otras áreas, por lo que se plantea un abordaje progresivo que combine avances inmediatos con desarrollos estructurales de mediano plazo."}, {"titulo": "DGCEME | Digitalización de trámites de Cementerios", "estado": "en_curso", "ia": false, "internas": ["DGGDA", "DGGEDOC", "DGSGES", "SSIA"], "descripcion": "Relevamiento y acompañamiento de iniciativas de transformación digital del área de Cementerios. Incluye el análisis de incorporación de trámites en TAD, migración de sistemas a RLM, mejoras sobre el dataset de Cementerios Públicos y evaluación de nuevas funcionalidades, con el objetivo de simplificar procesos y modernizar los servicios del área."}, {"titulo": "SSVC | Prioridades SAP", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "* Mejoras de integración con BA Colaborativa: se validó que el alcance requerido es mayor al originalmente previsto. DGISIS realizará una nueva estimación de esfuerzo y presupuesto en función de las definiciones acordadas en la reunión.\n* Consulta de fecha de derivación en SAP: el desarrollo está en curso y mantiene como fecha estimada de finalización el 26/06.\n* Nuevo reporte para Resoluciones Urbanas: se confirmó que no habrá modificaciones respecto del alcance originalmente acordado. Con la validación final de Vínculo Ciudadano, DGISIS podrá avanzar con el desarrollo utilizando el presupuesto ya estimado. Queda pendiente informar la fecha de finalización."}, {"titulo": "DGDYPC | Actas Digitales Defensa al Consumidor", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Se está trabajando en desarrollar un sistema que permita digitalizar el labrado de actas de Defensa al Consumidor con el objetivo de modernizar el sistema actual y acortar tiempos en la administración del área."}, {"titulo": "DGHC | Sistema LICBA", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Se está trabajando en la modernización del sistema de licencias de conducir, reemplazando el sistema actual LICTA, que se encuentra obsoleto, por un nuevo sistema propio llamado LicBA, desarrollado por DGISIS. Se estima que el lanzamiento de LicBA será en febrero de 2027.\nEl nuevo sistema busca ordenar y optimizar todo el proceso, incorporando validaciones automáticas antes y durante la solicitud."}]}, {"area": "Hacienda", "items": [{"titulo": "SSGRH | Equipo BA", "estado": "completado", "ia": false, "internas": ["DGISIS"], "descripcion": "Se desarrolló un portal unificado para empleados del GCBA que centraliza consultas y gestiones laborales. Esta iniciativa busca mejorar la experiencia de usuario, reducir la fragmentación actual y optimizar tiempos de gestión. El portal cuenta con los siguientes módulos: Ventanilla Única, Recibos de Sueldo, Mi Carrera, Beneficios, Instituto Superior de la Carrera, Calendario Laboral, Atajos, Difusión y Cartelera. Salida a producción: marzo 2026.\nSe encuentran trabajando en evolutivos como: incorporar chat con IA para consulta de documentos y la salida de la versión mobile."}, {"titulo": "MHFGC | Mejora Loys", "estado": "en_curso", "ia": false, "internas": ["DGGEDOC"], "descripcion": "Se están impulsando mejoras desde el equipo de Flor Nestasio con el objetivo de optimizar el proceso de LOyS. Estas iniciativas se están trabajando de manera articulada con distintos equipos de Hacienda, especialmente con Contaduría y la Unidad Informática."}, {"titulo": "MHFGC | Plataforma de Subsidios", "estado": "demorado", "ia": false, "internas": ["DGSGES"], "descripcion": "Desarrollo de una nueva plataforma integral de subsidios, cuyo objetivo es unificar y modernizar la gestión de los módulos actuales de RIB/PSOC (SADE) y administrar de punta a punta los subsidios, becas y premios otorgados por el GCBA.\nEl objetivo central de este proyecto es lograr la unificación del 100 % de los beneficiarios únicos, garantizar la trazabilidad de punta a punta de los procesos y habilitar la toma de decisiones basada en datos reales y confiables, y no en supuestos. Asimismo, busca generar eficiencias concretas en el gasto público y evolucionar desde una lógica meramente administrativa hacia una lógica estratégica de gestión de subsidios.\nEs necesario para avanzar con el proyecto la firma de un convenio o acta de acuerdo, impulsada por jefatura, con el Banco Ciudad."}, {"titulo": "MHFGC | Entradas BA - Login miba", "estado": "demorado", "ia": false, "internas": ["DGCIUD"], "descripcion": "En el marco del proyecto Prioridad Porteña, desde Jefatura se solicitó al equipo de Hacienda incorporar el login MiBA en EntradasBA. Para avanzar con la integración, el equipo compartió la documentación técnica correspondiente."}, {"titulo": "Sellos jerárquicos", "estado": "pausado_area", "ia": false, "internas": ["DGGEDOC"], "descripcion": "El proyecto propone automatizar la gestión de los sellos de cargos jerárquicos y de la estructura de reparticiones, mediante la integración de los sistemas SADE y SIAL. La iniciativa aborda los procesos de alta, modificación y baja de sellos, eliminando instancias de carga manual a través de la integración de los sistemas involucrados. La automatización permitirá mejorar la consistencia y precisión de la información, reducir dependencias operativas entre áreas y mitigar riesgos asociados a errores o desactualizaciones.\nComprende dos hitos clave: Fase I -Integración SADE–SIAL para la gestión de sellos de cargos jerárquicos; y Fase II: Integración SADE–SIAL para la migración y actualización de reparticiones."}, {"titulo": "Libros Contables - Digitalización", "estado": "completado", "ia": false, "internas": ["DGGEDOC"], "descripcion": "Esta iniciativa forma parte del plan de modernización y simplificación administrativa, cuyo fin es reducir la carga operativa del papel y optimizar la trazabilidad. Por ello, se implementó la digitalización de los Libros Auxiliares: todos los registros en soporte físico quedan eliminados al estar respaldados en el SIGAF, con excepción del Libro Banco, que se mantendrá transitoriamente pero digitalizado en RLM.\nEn sintonía con este avance, la Contaduría emitió la Disposición 34/2026. Esta norma establece que el registro digital en el módulo de Fondos a Rendir de SIGAFWEB posee plena validez administrativa y legal, sustituyendo de forma definitiva a los antiguos libros en papel para los controles internos."}, {"titulo": "Actualización nueva versión Meta4", "estado": "completado", "ia": false, "internas": [], "descripcion": "Servicio que se construyó con hacienda para poder consumir la información de sellos y estructura. Es decir, la información del organigrama."}, {"titulo": "LOTBA", "estado": "completado", "ia": false, "internas": ["DGGDA"], "descripcion": "Publicación de dos datasets vinculados a la prevención de la ludopatía. Incluyen datasets. Uno de juego ilegal (sitios webs bloqueados por el Gobierno de la Ciudad a partir de denuncias por juego ilegal) y otro de concientización (Actividades de concientización y prevención de ludopatía y juego ilegal)."}]}, {"area": "Higiene", "items": [{"titulo": "Higiene | Mejora del proceso de contenedores en BA Colaborativa y SAP", "estado": "completado", "ia": false, "internas": ["DGGDA", "DGSACIU"], "descripcion": "A partir de la incorporación en BA Colaborativa de la capa de datos de contenedores provista por IDECABA, se desarrolló una mejora en la integración con BA Colaborativa para que, en lugar de enviar la dirección del vecino, se envíe la ubicación del contenedor asociado al reclamo.\nEsto permite que el área reciba información precisa sobre qué contenedor está siendo reportado, mejorando la trazabilidad y eficiencia en la gestión."}, {"titulo": "GOCHU | LIZA", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Implementación del sistema de fiscalización LIZA en la Gerencia Operativa de Control de Higiene Urbana, con el objetivo de incorporar los antecedentes e información histórica actualmente almacenada en SAP para mejorar la gestión y el seguimiento de las inspecciones. Para ello, el área solicitó la exportación de la base de datos y su modelo de datos, incluyendo los últimos antecedentes de cada establecimiento fiscalizado."}]}, {"area": "Infraestructura", "items": [{"titulo": "Mapa ATLAS", "estado": "demorado", "ia": false, "internas": ["DGGDA", "SSCIUI"], "descripcion": "El objetivo central es que el ciudadano tenga la capacidad de planificar sus viajes y desplazamientos de forma eficiente, contando con información precisa para sus trayectos diarios (cortes de calle, frecuencia de colectivos, etc). Esto se logrará mediante la publicación de un mapa interactivo embebido directamente en una página web oficial, el cual se nutrirá de los datos de la plataforma Atlas."}, {"titulo": "Gemelo Digital", "estado": "en_curso", "ia": false, "internas": ["DGGDA"], "descripcion": "Desarrollo de un gemelo digital urbano como réplica virtual de la Ciudad, basada en datos en tiempo real provenientes de sensores e infraestructuras digitales, para modelar y simular escenarios urbanos. El primer caso de uso —cortes de calle— permitirá anticipar el impacto en el flujo vehicular y optimizar la toma de decisiones en la gestión del tránsito."}, {"titulo": "Integración SADE - NASE (Nación Servicios)", "estado": "demorado", "ia": false, "internas": ["DGGDA"], "descripcion": "La idea general es integrar el circuito actual de otorgamiento del beneficio (boleto obligatorio) para que deje de depender de procesos manuales y de la intervención física en comunas, y pase a ser un flujo más automático, trazable y auditable. Hoy el trámite se inicia en TAD, se registra en RLM (SADE) y el Banco Ciudad consume esa información, pero Nación Servicios no está integrado directamente, sino que toda carga de información que hacen es de forma proactiva. El objetivo es que Nación Servicios pueda consumir directamente los datos del RLM, evitando ese paso manual y mejorando el control del proceso."}, {"titulo": "RUTAP - Módulo fiscalizaciones", "estado": "demorado", "ia": false, "internas": ["DGGEDOC"], "descripcion": "Hacer una breve reu por proyecto \"Rutap - módulo fiscalizaciones\" para ver temas relacionados a expedientes, información que pueden o no consumir, etc.\nLa SSIA nos debe disponibilidad de su lado para reunirnos la semana del 15.06"}, {"titulo": "Seguimiento con Ministerio de Infraestructura", "estado": "en_curso", "ia": false, "internas": ["DGCDI", "DGGDA"], "descripcion": "A partir de un pedido de Pablo, vamos a hacer reuniones semanales de seguimiento con el equipo de Transporte. \nUna vez que del minesterio nos confirmen a quien sumar de su lado, agendamos. Pide SSCIUI también estar en esas reuniones por cualquier cuestión vinculada a BAX o la web que pueda surgir."}, {"titulo": "BA TAXI", "estado": "demorado", "ia": false, "internas": ["DGINFRA", "DGISIS"], "descripcion": "El servicio era gestionado por el gobierno, pero se hizo una concesión y la ganó un privado para la aplicación. La empresa tiene que remitir la réplica de la base de datos (tanto de usuarios como de taxistas) a Transporte.\nEs un tema bastante latente con el área. Ellos tienen que acomodarse internamente y definir algunos puntos clave antes de requerir nuestra intervención."}, {"titulo": "Transporte - Movilidad Porteña en TAD", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "El trámite de Movilidad Porteña a través de TAD se activó formalmente el 13 de abril, invitando al ciudadano a reempadronarse y asegurar que el beneficio llegue a quienes efectivamente cumplen con los requisitos. El proceso consistió en el reempadronamiento de beneficiarios (incluyendo jubilados, personas con discapacidad y trasplantados) mediante la validación de sus datos y el cruce del DNI con el Certificado Único de Discapacidad (CUD), permitiendo el acceso al beneficio sobre el valor del pasaje de Subte, a través de tarjetas del Banco Ciudad."}, {"titulo": "Transporte - Subsidio al transporte", "estado": "completado", "ia": false, "internas": ["DGSGES", "SSIA"], "descripcion": "Subsidio de colectivos que fue incorporado a PSOC y luego tiene un trámite adicional de rendiciones, que se encuentra en TAD."}, {"titulo": "Transporte - Portal Atlas", "estado": "completado", "ia": false, "internas": ["DGINFRA", "DGISIS", "DGSEI"], "descripcion": "Ya salió a producción el portal Atlas, luego de un trabajo en conjunto con el área."}, {"titulo": "Transporte - Conectividad Trambús", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "provisión de Fibra óptica para las cámaras de seguridad en el recorrido del Trambús."}, {"titulo": "Tránsito - Informes “Estacionamiento en la Ciudad”", "estado": "completado", "ia": false, "internas": ["DGGDA", "SSIA"], "descripcion": "Se realizaron dos informes destinados a estimar la disponibilidad neta para estacionar en la ciudad, integrando la infraestructura habilitada y las restricciones derivadas de normativas y usos específicos del espacio público. Mientras el primero presenta la temática, el segundo informe amplía la línea de base incorporando reservas vinculadas a bicicleteros, museos, paradas de taxi y de colectivos, embajadas y sedes diplomáticas, sedes comunales, oficinas del Ministerio Público Fiscal, comisarías, escuelas y establecimientos de salud, con el fin de construir una estimación más precisa del espacio neto disponible para estacionamiento en la Ciudad Autónoma de Buenos Aires."}, {"titulo": "Tránsito - Cruce permisos de estacionamiento, CUD y defunciones", "estado": "completado", "ia": false, "internas": ["DGGDA", "SSIA"], "descripcion": "Se realizó un cruce de permisos de estacionamiento de personas que tienen el CUD con aquellas personas que ya están fallecidas y no harán más uso del sistema. El objetivo es automatizarlo para que de manera automática se den de baja los slots al momento del fallecimiento."}]}, {"area": "Jefatura", "items": [{"titulo": "LENX", "estado": "en_curso", "ia": false, "internas": ["DGGDA"], "descripcion": "Expectativa de presentar LENX (la plataforma de análisis de datos) en la próxima reunión de seguimiento 22/05"}, {"titulo": "Plataforma de Desalojos", "estado": "completado", "ia": false, "internas": ["DGISIS"], "descripcion": "Consistió en el desarrollo de una herramienta para ingresar los requerimientos de Justicia de forma estandarizada, incorporando los datos necesarios para la planificación operativa y garantizando la distribución automática de la información entre las áreas intervinientes."}, {"titulo": "Telecom | Mapeo de Circulación", "estado": "demorado", "ia": false, "internas": [], "descripcion": "El objetivo es mapear por dónde circula la gente en CABA (no solo personas en situación de calle). Hoy sabemos dónde viven, pero no por dónde se mueven. Esto se enmarca dentro de la línea de trabajo de mejorar la higiene en la ciudad."}, {"titulo": "Perfil 360°", "estado": "en_curso", "ia": false, "internas": ["DGGDA", "SSIA"], "descripcion": ""}]}, {"area": "Justicia", "items": [{"titulo": "IGE | Web externa", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "El equipo de DGISIS está trabajando en el desarrollo de una web externa para el IGE. Además, desde Seguridad Informática se gestionó un dominio externo para ser utilizado en dicha solución."}, {"titulo": "DGAV | Patrocinio Penal Gratuito", "estado": "en_curso", "ia": false, "internas": ["SSIA"], "descripcion": "La DG de Asistencia a la Víctima planteó la necesidad de reemplazar el formulario de Google Forms utilizado para solicitudes de patrocinio penal gratuito, debido al manejo de información sensible. Se evaluaron alternativas transitorias y una revisión integral del proceso junto a las áreas involucradas. Finalmente, Justicia optó por implementar un formulario de Microsoft, al no requerir cambios significativos en la operatoria actual, por lo que el proyecto quedó desestimado."}, {"titulo": "DGAI | Agente de validación documental", "estado": "completado", "ia": true, "internas": [], "descripcion": "Validador documental: DNI, cédula verde y CUD pre ingreso al controlador.​ Productivo desde el 13/05."}, {"titulo": "DGAI | Refinamiento de multas Telepase", "estado": "completado", "ia": true, "internas": [], "descripcion": "Validación de multas generadas por fallas en la lectura de TelePASE.​ Productivo desde el 19/05."}, {"titulo": "DGAI | Agente pre-resolución", "estado": "en_curso", "ia": true, "internas": [], "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​."}, {"titulo": "DGEMP | Registro de empleadores", "estado": "en_curso", "ia": false, "internas": ["SSIA"], "descripcion": "El proyecto busca simplificar y modernizar el Registro de Empleadores, revisando los trámites actuales para mejorar la experiencia de los usuarios y la calidad de la información. Entre los principales ejes se encuentran la interoperabilidad con otros organismos para evitar solicitar datos que ya posee el Estado, la automatización de procesos y la revisión del esquema de inscripción, actualización y baja de empleadores.\nFue retomado por pedido de Jefatura de Gabinete. Actualmente se encuentra en etapa de relevamiento y análisis: el área compartirá la normativa y la información que hoy se solicita, mientras que Innovación evaluará qué datos son realmente necesarios, cuáles pueden obtenerse por interoperabilidad y qué información del registro se utiliza actualmente con fines estadísticos."}, {"titulo": "DGRDT | Plataforma DICOP", "estado": "en_curso", "ia": false, "internas": ["DGCIUD", "DGGEDOC", "DGSGES"], "descripcion": "Desde Justicia se está impulsando el proyecto DICOP, una plataforma destinada a gestionar de punta a punta las conciliaciones laborales. En ese marco, surgió la necesidad de que los litigantes puedan recibir notificaciones electrónicas directamente desde la plataforma, utilizando el módulo de Notificación Electrónica Fehaciente (NEF), sin requerir la iniciación de un trámite en TAD.\nEn paralelo, la plataforma DICOP se encuentra transitando el proceso de homologación de ASI. En ese marco, el equipo de Justicia suele solicitar acompañamiento para impulsar distintos tickets necesarios para avanzar con la homologación y la puesta en funcionamiento de la solución."}]}, {"area": "Ordenamiento", "items": [{"titulo": "DGFIS - Venta no autorizada | Digitalización de actas", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "El proyecto busca digitalizar y optimizar el proceso inspectivo vinculado a venta no autorizada en vía pública, contemplando las actuaciones de intimación, comprobación y secuestro dentro de un circuito operativo integrado. Los casos pueden originarse tanto por reclamos ingresados por vecinos como por oficios generados a partir de recorridos preventivos realizados por fiscalizadores, gestionándose inicialmente a través de SAP.\nEl área se encuentra trabajándolo con Soflex, estamos disponibles como soporte técnico, pero no llevamos el desarrollo desde TecBA."}, {"titulo": "Ordenamiento | Integración al LD", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Una vez finalizada la digitalización del proceso inspectivo, se prevé avanzar con la integración de Ordenamiento al Libro Digital. La iniciativa sufrió demoras debido a la reestructuración del área y actualmente está siendo impulsada por el equipo de Ordenamiento junto a Soflex. Desde TecBA brindamos soporte técnico y acompañaremos la migración al LD junto con la AGC una vez concluida esa etapa, sin participar del desarrollo de la solución."}]}, {"area": "Salud", "items": [{"titulo": "Cola de atención CEDETAC en Boti", "estado": "completado", "ia": false, "internas": ["DGCDI"], "descripcion": "Se implementó una nueva cola de atención en Boti para reemplazar el WhatsApp institucional de CEDETAC (Centro de Derivación de Estudios de Tomografía y Resonancia Magnética de la Ciudad), que presentaba problemas de capacidad y bloqueos. Con Boti se habilita atención simultánea, derivación entre operadores, horarios configurables y una experiencia unificada para los vecinos. El flujo funciona como un formulario desde el celular, accesible mediante un QR distribuido en hospitales y centros de salud."}, {"titulo": "UPETDESRHCE | Sistema Integrador de Historia Clínica Electrónica", "estado": "en_curso", "ia": false, "internas": ["DGGDA", "DGINFRA", "DGISIS", "DGSEI"], "descripcion": "El proyecto busca habilitar la interoperabilidad entre el sistema de salud público, privado y de la seguridad social, permitiendo compartir información de pacientes entre instituciones.\nEl primer entregable es el Federador BA (MVP), que unifica la identificación de personas mediante un ID único basado en datos mínimos, sin almacenar información clínica, sino actuando como puente entre sistemas.\nSu implementación requiere la adopción de estándares comunes y la integración de los distintos actores a una arquitectura segura (XBA), incluyendo procesos de capacitación.\nEl avance del proyecto depende de resolver aspectos clave como consentimiento, validación de identidad y articulación con actores externos."}, {"titulo": "DGSISAN | Llamador Filas BA", "estado": "pausado_area", "ia": false, "internas": ["DGSACIU"], "descripcion": "Se buscaba que los profesionales puedan llamar pacientes directamente desde el sistema clínico (HIS), integrándolo con el sistema de filas.\nDel lado de TecBA, les presentamos 3 alternativas para avanzar con la integración de los llamadores. Salud decidió avanzar con un desarrollo propio y nos comentaron que, una vez que estuviera listo, se iban a contactar con nosotros para realizar la integración con NUMIA. Desde entonces no volvimos a tener novedades sobre el tema."}, {"titulo": "DGSISAN | Sistema de gestión de residencias", "estado": "en_curso", "ia": false, "internas": ["DGISIS"], "descripcion": "Se finalizó el desarrollo del MVP del Sistema de Gestión de Residencias, una plataforma que centraliza y administra el proceso de inscripción a concursos de residencias médicas y del equipo de salud, integrando TAD, SADE, RENAPER y ANSES. Actualmente el área se encuentra realizando las pruebas funcionales y, en caso de surgir nuevos requerimientos, estos serán evaluados y estimados como evolutivos, fuera del alcance y presupuesto del MVP inicial."}, {"titulo": "Mátriculas | Digitalización de trámites", "estado": "pausado_area", "ia": false, "internas": ["SSIA"], "descripcion": "Iniciativa para digitalizar y modernizar el proceso de matriculación de profesionales de la salud, incorporando los trámites a TAD y definiendo las integraciones necesarias con organismos nacionales para la validación y consulta de información. El proyecto contempla el relevamiento y rediseño de procesos, la definición de formularios, documentación respaldatoria y reglas de negocio para optimizar la gestión administrativa.\nJunto con el Ministerio de Salud se relevaron los procesos vigentes, se analizaron los circuitos actuales y se avanzó en la definición funcional de la solución. Asimismo, se identificaron dependencias e integraciones necesarias con registros nacionales para completar la operatoria digital.\nActualmente, la iniciativa está en pausa porque depende de la firma de un convenio con Nación por parte del área de Salud. Al no haberse registrado avances ni definiciones sobre dicho acuerdo, no fue posible continuar con las integraciones y tareas pendientes. El proyecto permanecerá a la espera de una confirmación del área para retomar el trabajo."}, {"titulo": "Farmacias y trasplantes | Digitalización de trámites", "estado": "pausado_area", "ia": false, "internas": ["SSIA"], "descripcion": "Iniciativa para incorporar a TAD los trámites de habilitación de farmacias, libre regencia y procesos vinculados a trasplantes. El proyecto incluye el relevamiento y rediseño de procesos, la definición de formularios, documentación respaldatoria, validaciones e integraciones necesarias para digitalizar la gestión y reducir la carga operativa de los equipos administrativos.\nJunto con el Ministerio de Salud se relevaron los procesos, se analizaron los circuitos vigentes y se elaboraron propuestas funcionales para estos trámites. También se identificaron definiciones pendientes vinculadas a integraciones y consultas a registros nacionales.\nActualmente, la iniciativa está en pausa porque depende de un convenio con Nación que el área de Salud aún no formalizó. Mientras no haya definiciones sobre ese acuerdo, no será posible avanzar con las integraciones y decisiones pendientes. El proyecto quedará a la espera de una confirmación del área para retomar el trabajo."}, {"titulo": "DGSISAN | Circuito de presentismo", "estado": "en_curso", "ia": false, "internas": ["DGCDI", "DGSACIU"], "descripcion": "El proyecto busca digitalizar el ingreso/presentismo de pacientes en los efectores de Salud mediante Filas Virtuales, reemplazando o complementando el circuito actual de tótems. El paciente escanea un QR desde el celular, se encola y recibe en el teléfono la información de su turno/atención y los avisos correspondientes cuando es llamado. El circuito contempla tanto turnos programados como demanda espontánea."}, {"titulo": "Salud | IA en 147", "estado": "pausado_area", "ia": false, "internas": ["DGCDC"], "descripcion": "Implementación de capacidades de Inteligencia Artificial en la atención telefónica del sistema de salud, incorporando funcionalidades como transcripción en tiempo real, resúmenes automáticos, sugerencias contextuales, alertas para operadores, acceso al historial de interacciones y automatización de cierres de CRM, con el objetivo de optimizar la atención y mejorar la experiencia del ciudadano."}, {"titulo": "Cableado y fibra óptica para hospitales", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "Se trabajó en el cableado y tendido de fibra óptica para instituciones de salud."}]}, {"area": "SAME", "items": [{"titulo": "SAME | Integración con HAAS + Waze", "estado": "en_curso", "ia": false, "internas": [], "descripcion": "La integración entre HAAS Alert y Waze permite enviar alertas digitales en tiempo real a los conductores sobre la presencia cercana de vehículos de emergencia, flotas de servicio o zonas de obras. La idea de la iniciativa es implementar las alertas de ambulancias en camino de HAAS sin instalar hardware en los vehículos."}, {"titulo": "Starlink en ambulancias SAME", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "Se realizó la instalación de antenas Starlink en ambulancias."}]}, {"area": "Sec. Relaciones Internacionales", "items": [{"titulo": "DGCM | Web de Red de Seguridad", "estado": "pausado_area", "ia": false, "internas": ["DGISIS"], "descripcion": "Objetivo: crear una página web por fuera de buenosaires.gob.ar con identidad neutral.  No debe estar asociada a una ciudad, gestión o presidencia específica.\nSe requiere la creación no sólo de la web sino también de un backoffice para carga y validación de contenidos."}, {"titulo": "DGCM | Agente de IA", "estado": "pausado_area", "ia": false, "internas": ["CÉLULA IA"], "descripcion": "Objetivo: creación de un Agente de IA que realice un barrido de documentación y páginas webs, con el fin de realizar informes para el Jefe de Gobierno ante la visita de un funcionario extranjero."}, {"titulo": "DGCM | Actualización landing", "estado": "pausado_area", "ia": false, "internas": ["DGCDI"], "descripcion": "Objetivo: reestructurar y actualizar el contenido de la web de buenosaires.gob.ar"}, {"titulo": "Página Study BA", "estado": "pausado_area", "ia": false, "internas": ["DGCDC", "DGCDI"], "descripcion": "Actualmente ellos tiene dos webs de Study BA:\n  https://buenosaires.gob.ar/gcaba_historico/jefedegobierno/secretariageneral/relacionesinternacionales/study-ba (Actualizada a hoy)\nhttps://study.buenosaires.gob.ar/es/ (Gestiones anteriores, sin permiso de edición)\nhttps://study.buenosaires.gob.ar/en (Gestiones anteriores, sin permiso de edición)\nEl área identifica la necesidad de contar con acceso a la edición y gestión de estas páginas, ya que contienen información y funcionalidades de gran utilidad para estudiantes internacionales. En caso de no ser posible recuperar dichos accesos, se considera conveniente evaluar la migración o reutilización de parte de sus contenidos y funcionalidades, dado que resultan más adecuadas para este público que la página institucional actualmente vigente."}]}, {"area": "SECLYT", "items": [{"titulo": "DGAIGA | BA Obras", "estado": "en_curso", "ia": false, "internas": ["DGCDC", "DGGDA"], "descripcion": "DGGDA está armando los mapas en IDECABA y, una vez validados, se avanzará con la publicación web mediante mapas embebidos. Ya se publicó el dataset de BA Obras en BA Data y resta avanzar con la publicación en IDECABA. Para fines de la semana del 25 estarán disponibles los mapas para validación del área. Queda pendiente coordinar con el equipo de Canales, para el diseño de la landing donde se publicaran los mapas.\nSe resolvió que los mapas serán publicados en la web de JGM."}, {"titulo": "Incorporación firma paralela sobre documentos importados", "estado": "completado", "ia": false, "internas": ["SSIA"], "descripcion": "Se implementó la funcionalidad de firma paralela, que permite disponibilizar una tarea de firma de forma simultánea para todos los firmantes de un documento. Anteriormente, el circuito requería la firma secuencial, que generaba demoras cuando un firmante no completaba su tarea. Esta mejora agiliza procesos colaborativos que requieren múltiples validaciones, como los informes de evaluación en licitaciones públicas, donde todos los evaluadores deben firmar el mismo documento. Con la firma paralela, el documento se libera una vez que todos han firmado, sin depender del orden en que lo hagan."}]}, {"area": "Seguridad", "items": [{"titulo": "Conectividad temporal (Satelital)", "estado": "completado", "ia": false, "internas": ["DGINFRA"], "descripcion": "Edificio para logística de entrega de ropa a PDC: Se procedió a brindar conectividad a Internet mediante una antena de Starlink en el depósito de uniformes de la policía, con el objetivo de garantizar la transmisión en tiempo real de las cámaras de seguridad. Esta medida resulta fundamental para reforzar el control y la vigilancia del lugar, prevenir robos y resguardar adecuadamente los uniformes."}]}, {"area": "Turismo", "items": [{"titulo": "Turismo | Proyectos IA", "estado": "pausado_area", "ia": false, "internas": [], "descripcion": "Nos reunimos en el mes de marzo con la célula de IA. Su principal necesidad es realizar una auditoría de un avatar que están desarrollando con un proveedor (Cognitive). Estos les recomienda comenzar con un tótem donde esté disponible el avatar y, más adelante, avanzar a un canal digital como WhatsApp. Quieren validar si la etapa del tótem es adecuada. Además, les interesa conocer qué herramientas de IA podemos ofrecerles para su trabajo diario. Ya recibimos la información de parte de ellos, la célula de IA (Daniel) presento un informe con un diagnostico."}]}];
+
+const STATUS_META = {
+  completado:      { label:'Completado',           color:'#219653', order:0 },
+  en_curso:        { label:'En curso',             color:'#2F80ED', order:1 },
+  pausado_area:    { label:'Pausado por el área',  color:'#F2994A', order:2 },
+  pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', order:3 },
+  demorado:        { label:'Demorado',             color:'#EB5757', order:4 },
+};
+const STATUS_KEYS = Object.keys(STATUS_META).sort((a,b)=>STATUS_META[a].order-STATUS_META[b].order);
+const INTERNAL_AREAS = ['SSCIUI','DGCDC','DGCIUD','DGCDI','DGSACIU','SSIA','DGGEDOC','DGGDA','DGSGES','DGSEI','DGISIS','DGINFRA','CÉLULA IA'];
+
+function hexToRgba(hex, a){
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+let currentArea = 'TODAS';
+let selectedEstados = new Set();
+let searchTerm = '';
+let textSearchTerm = '';
+let currentInterna = '';
+let currentHubIA = false;
+let weeklyDepotActive = false;
+
+// Persistencia mediante localStorage
+let favorites = new Set(JSON.parse(localStorage.getItem('tecba_favorites') || '[]'));
+
+function saveFavorites() {
+  localStorage.setItem('tecba_favorites', JSON.stringify(Array.from(favorites)));
+}
+
+function getItemKey(item) {
+  return item.area + '::' + item.titulo;
+}
+
+function flatten(){
+  let list = [];
+  DATA.forEach(a=>{ a.items.forEach(i=>{ list.push({area:a.area, ...i}); }); });
+  return list;
+}
+const ALL = flatten();
+
+const AREA_HUES = {};
+DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
+function areaColor(name){
+  const h = AREA_HUES[name] ?? 205;
+  return {
+    dot: `hsl(${h},68%,62%)`,
+    tagBg: `hsl(${h},70%,95%)`,
+    tagColor: `hsl(${h},55%,30%)`,
+    tagBorder: `hsl(${h},55%,80%)`,
+  };
+}
+
+function baseFilteredItems(areaName){
+  let items = areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName);
+  if(weeklyDepotActive){ items = items.filter(i=>favorites.has(getItemKey(i))); }
+  if(currentInterna){ items = items.filter(i=>(i.internas||[]).includes(currentInterna)); }
+  if(currentHubIA){ items = items.filter(i=>i.ia); }
+  if(textSearchTerm.trim()){
+    const q = textSearchTerm.trim().toLowerCase();
+    items = items.filter(i=> i.titulo.toLowerCase().includes(q) || (i.descripcion||'').toLowerCase().includes(q));
+  }
+  return items;
+}
+
+function areaCounts(areaName){
+  const items = baseFilteredItems(areaName);
+  const counts = { total: items.length };
+  STATUS_KEYS.forEach(k=>{ counts[k] = items.filter(i=>i.estado===k).length; });
+  return counts;
+}
+
+function renderSidebar(){
+  document.getElementById('depotCount').textContent = favorites.size;
+  document.getElementById('weeklyDepot').classList.toggle('active', weeklyDepotActive);
+
+  const list = document.getElementById('areaList');
+  list.innerHTML = '';
+  const term = searchTerm.trim().toLowerCase();
+
+  const allC = areaCounts('TODAS');
+  const allDiv = document.createElement('div');
+  allDiv.className = 'area-item all-item' + ((currentArea==='TODAS' && !weeklyDepotActive) ? ' active' : '');
+  allDiv.innerHTML = `
+    <div class="area-row"><span class="area-name-wrap"><span class="area-name">🗂 Todas las áreas</span></span><span class="area-count">${allC.total}</span></div>
+    <div class="stack-bar">${stackSegments(allC)}</div>
+  `;
+  allDiv.onclick = ()=>{ currentArea='TODAS'; weeklyDepotActive=false; selectedEstados.clear(); render(); };
+  list.appendChild(allDiv);
+
+  DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a=>{
+    const c = areaCounts(a.area);
+    const col = areaColor(a.area);
+    const div = document.createElement('div');
+    div.className = 'area-item' + ((currentArea===a.area && !weeklyDepotActive) ? ' active' : '');
+    div.style.setProperty('--dot-color', col.dot);
+    div.innerHTML = `
+      <div class="area-row">
+        <span class="area-name-wrap"><span class="area-dot" style="background:${col.dot}"></span><span class="area-name">${a.area}</span></span>
+        <span class="area-count">${c.total}</span>
+      </div>
+      <div class="stack-bar">${stackSegments(c)}</div>
+    `;
+    div.onclick = ()=>{ currentArea=a.area; weeklyDepotActive=false; selectedEstados.clear(); render(); };
+    list.appendChild(div);
+  });
+}
+
+function stackSegments(c){
+  if(c.total===0) return '';
+  return STATUS_KEYS.map(k=>{
+    const v = c[k];
+    if(!v) return '';
+    const pct = (v/c.total*100).toFixed(1);
+    return `<span style="width:${pct}%; background:${STATUS_META[k].color}"></span>`;
+  }).join('');
+}
+
+function renderStats(){
+  const c = areaCounts(currentArea);
+  const row = document.getElementById('statsRow');
+  let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:${'#153244'}; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
+  STATUS_KEYS.forEach(k=>{
+    if(c[k]===0 && selectedEstados.size===0) return;
+    const meta = STATUS_META[k];
+    const active = selectedEstados.has(k);
+    html += `<div class="stat-card ${active?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
+  });
+  row.innerHTML = html;
+}
+
+function renderHeader(){
+  let title = currentArea==='TODAS' ? 'Todas las áreas' : currentArea;
+  if(weeklyDepotActive) title = '⭐ Avances de la semana (Favoritos)';
+  document.getElementById('areaTitle').textContent = title;
+  const c = areaCounts(currentArea);
+  document.getElementById('areaSub').textContent = `${c.total} línea${c.total===1?'':'s'} de trabajo`;
+}
+
+function renderCards(){
+  let items = baseFilteredItems(currentArea);
+  if(selectedEstados.size > 0){ 
+    items = items.filter(i => selectedEstados.has(i.estado)); 
+  }
+  items.sort((a,b)=> (STATUS_META[a.estado]?.order ?? 99) - (STATUS_META[b.estado]?.order ?? 99));
+
+  const container = document.getElementById('cardsContainer');
+  if(items.length===0){
+    container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`;
+    return;
+  }
+  container.innerHTML = items.map(i => {
+    const key = getItemKey(i);
+    const isFav = favorites.has(key);
+    const col = areaColor(i.area);
+    const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
+    const internas = i.internas || [];
+    const tagsRow = ((currentArea==='TODAS' || weeklyDepotActive) || internas.length>0) ? `
+      <div class="tags-row">
+        ${(currentArea==='TODAS' || weeklyDepotActive) ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}
+        ${internas.map(a=>`<span class="internal-tag">${escapeHtml(a)}</span>`).join('')}
+      </div>` : '';
+    return `
+    <div class="proj-card" style="--card-color:${meta.color}">
+      <div class="proj-head">
+        <div class="proj-title-area">
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de avances de la semana' : 'Marcar como favorito / Avances de la semana'}">${isFav ? '★' : '☆'}</button>
+          <div class="proj-title">${escapeHtml(i.titulo)}</div>
+        </div>
+        <div class="badges">
+          ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
+          <span class="badge" style="--badge-color:${meta.color}">${meta.label}</span>
+        </div>
+      </div>
+      ${tagsRow}
+      <div class="proj-desc">${escapeHtml(i.descripcion)}</div>
+    </div>
+  `;
+  }).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderPrintHeader(){
+  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
+  const filtrosAplicados = [];
+  if(selectedEstados.size > 0) filtrosAplicados.push(Array.from(selectedEstados).map(s=>STATUS_META[s]?.label).join(', '));
+  if(currentInterna) filtrosAplicados.push(currentInterna);
+  if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
+  if(weeklyDepotActive) filtrosAplicados.push('⭐ Avances de la semana');
+  if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
+  const filtrosTxt = filtrosAplicados.length ? ` · Filtros: ${filtrosAplicados.join(', ')}` : '';
+  document.getElementById('printHeader').innerHTML = `TECBA — Líneas de trabajo con áreas del GCBA · <b>${fecha}</b>${filtrosTxt}`;
+}
+
+function render(){
+  renderSidebar();
+  renderHeader();
+  renderStats();
+  renderCards();
+  renderPrintHeader();
+}
+
+function toggleEstado(estado){
+  if(estado === 'todos'){
+    selectedEstados.clear();
+  } else {
+    if(selectedEstados.has(estado)){
+      selectedEstados.delete(estado);
+    } else {
+      selectedEstados.add(estado);
+    }
+  }
+  renderStats();
+  renderCards();
+  renderPrintHeader();
+}
+
+document.getElementById('weeklyDepot').addEventListener('click', (e)=>{
+  if(e.target.closest('#clearDepotBtn')) return;
+  weeklyDepotActive = !weeklyDepotActive;
+  render();
+});
+
+document.getElementById('clearDepotBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  if(favorites.size === 0) return;
+  if(confirm('¿Estás segura de que querés borrar todos los proyectos de "Avances de la semana"?')){
+    favorites.clear();
+    saveFavorites();
+    weeklyDepotActive = false;
+    render();
+  }
+});
+
+document.getElementById('searchArea').addEventListener('input', (e)=>{
+  searchTerm = e.target.value;
+  renderSidebar();
+});
+
+document.getElementById('statsRow').addEventListener('click', (e)=>{
+  const card = e.target.closest('.stat-card');
+  if(!card) return;
+  toggleEstado(card.dataset.estado);
+});
+
+document.getElementById('cardsContainer').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.fav-btn');
+  if(!btn) return;
+  const key = btn.dataset.key;
+  if(favorites.has(key)){
+    favorites.delete(key);
+  } else {
+    favorites.add(key);
+  }
+  saveFavorites();
+  render();
+});
+
+document.getElementById('textSearch').addEventListener('input', (e)=>{
+  textSearchTerm = e.target.value;
+  render();
+});
+
+function populateInternaFilter(){
+  const set = new Set();
+  ALL.forEach(i=>(i.internas||[]).forEach(a=>set.add(a)));
+  const sel = document.getElementById('internaFilter');
+  Array.from(set).sort().forEach(a=>{
+    const opt = document.createElement('option');
+    opt.value = a;
+    opt.textContent = a;
+    sel.appendChild(opt);
+  });
+}
+document.getElementById('internaFilter').addEventListener('change', (e)=>{
+  currentInterna = e.target.value;
+  render();
+});
+populateInternaFilter();
+
+document.getElementById('hubiaBtn').addEventListener('click', (e)=>{
+  currentHubIA = !currentHubIA;
+  e.target.classList.toggle('active', currentHubIA);
+  render();
+});
+
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  try{
+    window.print();
+  }catch(err){
+    alert('El navegador bloqueó la impresión en esta vista previa.');
+  }
+});
+
+render();
+</script>
+</body>
+</html>
