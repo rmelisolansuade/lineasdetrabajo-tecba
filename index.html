@@ -1379,7 +1379,7 @@ const DATA = [
           "SSIA",
           "DGSGES"
         ],
-        "descripcion": "Implementación de un beneficio del 70% de descuento en el colectivo que conecta con el Ministerio de Educación para sus trabajadores. Desde TECBA trabajamos junto al Transporte en crear un RLM con los datos de los beneficiarios, que será utilizado por Banco Ciudad para validar el acceso al beneficio.\nStatus: Transporte se encuentra realizando las validaciones y pruebas junto con Banco Ciudad, previo a la salida a producción prevista para el 1/9."
+        "descripcion": "Implementación de un beneficio del 70% de descuento en el colectivo que conecta con el Ministerio de Educación para sus trabajadores. Desde TECBA trabajamos junto a Transporte en crear un RLM con los datos de los beneficiarios, que será utilizado por Banco Ciudad para validar el acceso al beneficio.\nStatus: Transporte se encuentra realizando las validaciones y pruebas junto con Banco Ciudad, previo a la salida a producción prevista para el 1/9."
       },
       {
         "titulo": "Transporte | BA TAXI",
@@ -1506,7 +1506,7 @@ const DATA = [
         "estado": "en_curso",
         "ia": true,
         "internas": [],
-        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
+        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​.\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
       },
       {
         "titulo": "DGAI | Refinamiento de multas Telepase",
@@ -1517,7 +1517,7 @@ const DATA = [
       },
       {
         "titulo": "DGAV | Patrocinio Penal Gratuito",
-        "estado": "pausado_area",
+        "estado": "cancelado",
         "ia": false,
         "internas": [
           "SSIA"
@@ -1602,7 +1602,7 @@ const DATA = [
       },
       {
         "titulo": "DGSISAN | Llamador Filas BA",
-        "estado": "no_iniciado",
+        "estado": "cancelado",
         "ia": false,
         "internas": [
           "DGSACIU"
@@ -1850,7 +1850,7 @@ const STATUS_META = {
   en_curso:        { label:'En curso',             color:'#2F80ED', order:1 },
   pausado_area:    { label:'Pausado por el área',  color:'#F2994A', order:2 },
   pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', order:3 },
-  demorado:        { label:'Demorado',             color:'#EB5757', order:4 },
+  cancelado:       { label:'Cancelado',            color:'#EB5757', order:4 },
   no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:5 },
 };
 const STATUS_KEYS = Object.keys(STATUS_META).sort((a,b)=>STATUS_META[a].order-STATUS_META[b].order);
@@ -2071,11 +2071,9 @@ function formatDescription(desc) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
   
-  // Replace Status: with <strong>Status:</strong> <em>...</em> (bold status, italic text)
   const formatted = escaped.replace(/(Status\s*:\s*)(.*)/gi, '<strong>$1</strong> <em>$2</em>');
   return formatted.replace(/\n/g, '<br>');
 }
-
 
 function renderCardsView(items, container){
   container.className = 'cards';
@@ -2309,7 +2307,6 @@ document.getElementById('viewModeBtn').addEventListener('click', ()=>{
   render();
 });
 
-// Copy summary report to clipboard
 function showToast(msg){
   const toast = document.getElementById('toastNotification');
   toast.textContent = msg;
@@ -2352,7 +2349,6 @@ document.getElementById('printBtn').addEventListener('click', ()=>{
   }
 });
 
-// Initialize from URL params if present
 readURLParams();
 render();
 </script>
