@@ -532,11 +532,11 @@ const DATA = [
     "area": "AGC",
     "items": [
       {
-        "titulo": "Agente informativo pre-habilitación",
+        "titulo": "Agente de diálogo (Mesa de ayuda)",
         "estado": "completado",
         "ia": true,
         "internas": [],
-        "descripcion": "Agente informativo de requisitos y proceso del trámite de habilitación de locales comerciales. El mismo se encuentra dentro del portal de AGC\nStatus: El agente se encuentra productivo desde el 27/7, el área se encuentra en etapa de entrenamiento y seguimiento del uso."
+        "descripcion": "Agente informativo de estado de trámites y consultas varias. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 4/5. Se encuentra pendiente incorporar la funcionalidad de la voz."
       },
       {
         "titulo": "Agente de habilitación",
@@ -546,11 +546,11 @@ const DATA = [
         "descripcion": "Analiza y valida la documentación presentada en los trámites de habilitación, complementando el trabajo realizado por los analistas humanos.\nStatus: El mismo se encuentra en desarrollo, la fecha prevista de salida a producción es octubre del corriente año."
       },
       {
-        "titulo": "Agente de diálogo (Mesa de ayuda)",
+        "titulo": "Agente informativo pre-habilitación",
         "estado": "completado",
         "ia": true,
         "internas": [],
-        "descripcion": "Agente informativo de estado de trámites y consultas varias. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 4/5. Se encuentra pendiente incorporar la funcionalidad de la voz."
+        "descripcion": "Agente informativo de requisitos y proceso del trámite de habilitación de locales comerciales. El mismo se encuentra dentro del portal de AGC\nStatus: El agente se encuentra productivo desde el 27/7, el área se encuentra en etapa de entrenamiento y seguimiento del uso."
       },
       {
         "titulo": "Registro Comercio de Venta/Arreglos Celulares",
@@ -567,15 +567,6 @@ const DATA = [
     "area": "AGIP",
     "items": [
       {
-        "titulo": "AGIP | Login miba",
-        "estado": "completado",
-        "ia": false,
-        "internas": [
-          "DGCIUD"
-        ],
-        "descripcion": "Se trabajó en la incorporación de login miBA en reemplazo de Clave Ciudad. Desde diciembre de 2025, se viene implementando un esquema de convivencia entre ambos sistemas.\nStatus: Está cumplido. Lo único que resta es que AGIP elimine el método de acceso con Clave Ciudad."
-      },
-      {
         "titulo": "AGIP | Login Empresas Extranjeras",
         "estado": "pausado_area",
         "ia": false,
@@ -583,6 +574,15 @@ const DATA = [
           "DGCIUD"
         ],
         "descripcion": "Proyecto orientado a que empresas del exterior que operan en CABA (por ejemplo, plataformas como Uber) puedan tributar localmente. \nStatus: Desarrollo realizado por el equipo de miBA pero pausado por AGIP, ya que tiene pendiente incluir el botón en su página para que las empresas puedan acceder."
+      },
+      {
+        "titulo": "AGIP | Login miba",
+        "estado": "completado",
+        "ia": false,
+        "internas": [
+          "DGCIUD"
+        ],
+        "descripcion": "Se trabajó en la incorporación de login miBA en reemplazo de Clave Ciudad. Desde diciembre de 2025, se viene implementando un esquema de convivencia entre ambos sistemas.\nStatus: Está cumplido. Lo único que resta es que AGIP elimine el método de acceso con Clave Ciudad."
       },
       {
         "titulo": "Asistente tributario conversacional",
@@ -603,17 +603,8 @@ const DATA = [
     ]
   },
   {
-    "area": "Ambiente | Vicejefatura",
+    "area": "Ambiente",
     "items": [
-      {
-        "titulo": "Web BA Animales",
-        "estado": "completado",
-        "ia": false,
-        "internas": [
-          "DGCDI"
-        ],
-        "descripcion": "Nueva landing de BA Animales, que centraliza y mejora la experiencia de los usuarios en los procesos de adopción, publicación de mascotas y gestión de hallazgos. El rediseño optimiza la navegación y accesibilidad, facilitando el acceso a la información y promoviendo una interacción más simple y ordenada con el servicio.\nLink: https://buenosaires.gob.ar/inicio/animales-ba\nStatus: productiva desde abril 2026"
-      },
       {
         "titulo": "DGGAN | Castraciones",
         "estado": "en_curso",
@@ -622,6 +613,15 @@ const DATA = [
           "DGSACIU"
         ],
         "descripcion": "El proyecto busca evolucionar el sistema de turnos para castraciones con el objetivo de mejorar la asignación de turnos y optimizar el uso de la capacidad disponible. Entre las principales mejoras propuestas se encuentran la validación de residentes de CABA, la implementación de confirmaciones previas para reducir el ausentismo, una lista de espera para reutilizar turnos liberados y mecanismos para prevenir usos indebidos, como el bloqueo de usuarios o el establecimiento de límites anuales por persona.\nStatus: DGSACIU elaboró una estimación de costos que fue remitida a Jefatura. Se estimaron para todos los requerimientos 1324 hs promedio ($46.828.556). SSCIUI va a conversar con el proveedor para validar si se puede paralelizar las tareas y evaluar la implementación para llevar info a Jefatura."
+      },
+      {
+        "titulo": "Web BA Animales",
+        "estado": "completado",
+        "ia": false,
+        "internas": [
+          "DGCDI"
+        ],
+        "descripcion": "Nueva landing de BA Animales, que centraliza y mejora la experiencia de los usuarios en los procesos de adopción, publicación de mascotas y gestión de hallazgos. El rediseño optimiza la navegación y accesibilidad, facilitando el acceso a la información y promoviendo una interacción más simple y ordenada con el servicio.\nLink: https://buenosaires.gob.ar/inicio/animales-ba\nStatus: productiva desde abril 2026"
       }
     ]
   },
@@ -868,6 +868,46 @@ const DATA = [
           "DGGEDOC"
         ],
         "descripcion": "El RUBC es el Registro Único de Bienes Culturales, centralizado en SADE, que busca unificar la información de los bienes culturales de la Ciudad en una única base de datos, reemplazando la gestión mediante planillas y facilitando su administración por parte de las áreas responsables.\nStatus: Se avanzó en la construcción y consolidación de una base unificada con registros cargados y pendientes de incorporación. Se encuentra en etapa de revisión y validación de datos, a la espera de los ajustes finales por parte de Cultura para continuar con la carga y puesta en funcionamiento del registro. Actualmente, pausado por el área."
+      }
+    ]
+  },
+  {
+    "area": "Cultura Ciud. y Resp. Social | Vicejefatura",
+    "items": [
+      {
+        "titulo": "App de Recompensas por Reciclaje",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": ""
+      },
+      {
+        "titulo": "Programa Embajadores de la Ciudad",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": ""
+      },
+      {
+        "titulo": "Plataforma de Voluntariado Corporativo",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": ""
+      },
+      {
+        "titulo": "Red de Bibliotecas Barriales Digitalizadas",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": ""
+      },
+      {
+        "titulo": "Sistema de Certificación de Eventos Sostenibles",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": ""
       }
     ]
   },
@@ -1394,13 +1434,6 @@ const DATA = [
         "descripcion": "La plataforma BA Taxi, anteriormente gestionada por el Gobierno, fue concesionada a un proveedor privado para su operación y desarrollo.\nStatus: Actualmente se brinda asesoramiento y acompañamiento técnico, principalmente en aspectos vinculados al alojamiento de las bases de datos, que estarán a cargo del proveedor privado y se integrarán al Data Lake de Transporte."
       },
       {
-        "titulo": "Transporte | Cámaras en Colectivos",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": [],
-        "descripcion": "Transporte busca aprovechar las cámaras frontales de los colectivos para analizar información e identificar posibles incidencias en la vía pública.\nStatus: El proyecto se encuentra en evaluación junto con la UTN."
-      },
-      {
         "titulo": "Transporte | Conectividad Trambús",
         "estado": "completado",
         "ia": false,
@@ -1408,6 +1441,13 @@ const DATA = [
           "DGINFRA"
         ],
         "descripcion": "Provisión de Fibra óptica para las cámaras de seguridad en el recorrido del Trambús.\nStatus: finalizado."
+      },
+      {
+        "titulo": "Transporte | Cámaras en Colectivos",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": "Transporte busca aprovechar las cámaras frontales de los colectivos para analizar información e identificar posibles incidencias en la vía pública.\nStatus: El proyecto se encuentra en evaluación junto con la UTN."
       },
       {
         "titulo": "Transporte | Movilidad Jubilados DNI",
@@ -1501,21 +1541,21 @@ const DATA = [
         "estado": "completado",
         "ia": true,
         "internas": [],
-        "descripcion": "Validador documental: DNI, cédula verde y CUD pre ingreso al controlador.​\nStatus: Productivo desde el 13/05. Escalamiento progresivo a mayor volumen de conversaciones en BOTI y realización de pruebas para analizar su funcionamiento."
+        "descripcion": "Validador documental: DNI, cédula verde y CUD pre ingreso al controlador.\nStatus: Productivo desde el 13/05. Escalamiento progresivo a mayor volumen de conversaciones en BOTI y realización de pruebas para analizar su funcionamiento."
       },
       {
         "titulo": "DGAI | Agente pre-resolución",
         "estado": "en_curso",
         "ia": true,
         "internas": [],
-        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​.\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
+        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal.\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
       },
       {
         "titulo": "DGAI | Refinamiento de multas Telepase",
         "estado": "completado",
         "ia": true,
         "internas": [],
-        "descripcion": "Validación de multas generadas por fallas en la lectura de TelePASE.​\nStatus: Productivo desde el 19/05."
+        "descripcion": "Validación de multas generadas por fallas en la lectura de TelePASE.\nStatus: Productivo desde el 19/05."
       },
       {
         "titulo": "DGAV | Patrocinio Penal Gratuito",
@@ -1568,6 +1608,60 @@ const DATA = [
           "DGISIS"
         ],
         "descripcion": "Digitalización y optimización del proceso inspectivo de Ordenamiento, integrando en un único circuito las actuaciones de intimación, comprobación y secuestro, con origen en reclamos vecinales o recorridos preventivos de fiscalización y gestión inicial en SAP.\nStatus: En desarrollo por el área junto con Soflex. TecBA brinda soporte técnico y acompañamiento, sin participación directa en el desarrollo."
+      }
+    ]
+  },
+  {
+    "area": "SAME",
+    "items": [
+      {
+        "titulo": "SAME | Integración con HAAS + Waze",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": [],
+        "descripcion": "Integración entre SAME y HAAS para compartir información de la flota de ambulancias, con el objetivo de implementar las alertas de ambulancias en camino de HAAS sin instalar hardware en los vehículos.\nStatus: En etapa de integración y pruebas. SAME avanzó con el envío de datos y realizará la configuración de 3 móviles adicionales. HAAS solicitó muestras con timestamp para validar la latencia de los datos."
+      },
+      {
+        "titulo": "SAME | Tablero de datos",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": [
+          "DGGDA"
+        ],
+        "descripcion": "Desarrollo de un tablero de datos para SAME que permite visualizar y analizar indicadores sobre incidentes registrados, pacientes atendidos, casos críticos, origen y tipo de llamados, distribución geográfica y comportamiento temporal.\nStatus: En evolución. Se está trabajando con SAME en el relevamiento de los datos disponibles y en la definición de la alternativa de consumo e integración."
+      },
+      {
+        "titulo": "Starlink en ambulancias SAME",
+        "estado": "completado",
+        "ia": false,
+        "internas": [
+          "DGINFRA"
+        ],
+        "descripcion": "Se realizó la instalación de antenas Starlink en ambulancias.\nStatus: finalizado."
+      }
+    ]
+  },
+  {
+    "area": "SECLYT",
+    "items": [
+      {
+        "titulo": "DGAIGA | BA Obras",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": [
+          "DGCDC",
+          "DGGDA"
+        ],
+        "descripcion": "DGGDA está armando los mapas en IDECABA y, una vez validados, se avanzará con la publicación web mediante mapas embebidos. Ya se publicó el dataset de BA Obras en BA Data y resta avanzar con la publicación en IDECABA. Para fines de la semana del 25 estarán disponibles los mapas para validación del área. Queda pendiente coordinar con el equipo de Canales, para el diseño de la landing donde se publicarán los mapas.\nSe resolvió que los mapas serán publicados en la web de JGM."
+      },
+      {
+        "titulo": "Incorporación firma paralela sobre documentos importados",
+        "estado": "completado",
+        "ia": false,
+        "internas": [
+          "SSIA"
+        ],
+        "descripcion": "Se implementó la funcionalidad de firma paralela, que permite disponibilizar una tarea de firma de forma simultánea para todos los firmantes de un documento. Anteriormente, el circuito requería la firma secuencial, lo que generaba demoras cuando un firmante no completaba su tarea. Esta mejora agiliza procesos colaborativos que requieren múltiples validaciones, como los informes de evaluación en licitaciones públicas, donde todos los evaluadores deben firmar el mismo documento. Con la firma paralela, el documento se libera una vez que todos han firmado, sin depender del orden en que lo hagan.\nStatus: finalizado."
       }
     ]
   },
@@ -1668,60 +1762,6 @@ const DATA = [
           "DGSEI"
         ],
         "descripcion": "Habilitar la interoperabilidad entre los sistemas de salud público, privado y de la seguridad social, permitiendo el intercambio seguro de información de pacientes mediante estándares comunes y una arquitectura integrada.\nStatus: En desarrollo del MVP Federador BA, orientado a unificar la identificación de personas mediante un ID único, sin almacenar información clínica. El avance se encuentra condicionado por la definición de aspectos de consentimiento, validación de identidad y articulación con actores externos, además de la integración y capacitación de los distintos participantes."
-      }
-    ]
-  },
-  {
-    "area": "SAME",
-    "items": [
-      {
-        "titulo": "SAME | Integración con HAAS + Waze",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": [],
-        "descripcion": "Integración entre SAME y HAAS para compartir información de la flota de ambulancias, con el objetivo de implementar las alertas de ambulancias en camino de HAAS sin instalar hardware en los vehículos.\nStatus: En etapa de integración y pruebas. SAME avanzó con el envío de datos y realizará la configuración de 3 móviles adicionales. HAAS solicitó muestras con timestamp para validar la latencia de los datos."
-      },
-      {
-        "titulo": "SAME | Tablero de datos",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": [
-          "DGGDA"
-        ],
-        "descripcion": "Desarrollo de un tablero de datos para SAME que permite visualizar y analizar indicadores sobre incidentes registrados, pacientes atendidos, casos críticos, origen y tipo de llamados, distribución geográfica y comportamiento temporal.\nStatus: En evolución. Se está trabajando con SAME en el relevamiento de los datos disponibles y en la definición de la alternativa de consumo e integración."
-      },
-      {
-        "titulo": "Starlink en ambulancias SAME",
-        "estado": "completado",
-        "ia": false,
-        "internas": [
-          "DGINFRA"
-        ],
-        "descripcion": "Se realizó la instalación de antenas Starlink en ambulancias.\nStatus: finalizado."
-      }
-    ]
-  },
-  {
-    "area": "SECLYT",
-    "items": [
-      {
-        "titulo": "DGAIGA | BA Obras",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": [
-          "DGCDC",
-          "DGGDA"
-        ],
-        "descripcion": "DGGDA está armando los mapas en IDECABA y, una vez validados, se avanzará con la publicación web mediante mapas embebidos. Ya se publicó el dataset de BA Obras en BA Data y resta avanzar con la publicación en IDECABA. Para fines de la semana del 25 estarán disponibles los mapas para validación del área. Queda pendiente coordinar con el equipo de Canales, para el diseño de la landing donde se publicarán los mapas.\nSe resolvió que los mapas serán publicados en la web de JGM."
-      },
-      {
-        "titulo": "Incorporación firma paralela sobre documentos importados",
-        "estado": "completado",
-        "ia": false,
-        "internas": [
-          "SSIA"
-        ],
-        "descripcion": "Se implementó la funcionalidad de firma paralela, que permite disponibilizar una tarea de firma de forma simultánea para todos los firmantes de un documento. Anteriormente, el circuito requería la firma secuencial, lo que generaba demoras cuando un firmante no completaba su tarea. Esta mejora agiliza procesos colaborativos que requieren múltiples validaciones, como los informes de evaluación en licitaciones públicas, donde todos los evaluadores deben firmar el mismo documento. Con la firma paralela, el documento se libera una vez que todos han firmado, sin depender del orden en que lo hagan.\nStatus: finalizado."
       }
     ]
   },
@@ -1848,8 +1888,8 @@ const DATA = [
 ];
 
 const STATUS_META = {
-  completado:      { label:'Completado',           color:'#219653', order:0 },
-  en_curso:        { label:'En curso',             color:'#2F80ED', order:1 },
+  completado:      { label:'Completado',            color:'#219653', order:0 },
+  en_curso:        { label:'En curso',              color:'#2F80ED', order:1 },
   pausado_area:    { label:'Pausado por el área',  color:'#F2994A', order:2 },
   pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', order:3 },
   cancelado:       { label:'Cancelado',            color:'#EB5757', order:4 },
