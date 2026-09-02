@@ -518,6 +518,211 @@
 <script>
 const DATA = [
   {
+    "area": "AGC",
+    "items": [
+      {
+        "titulo": "Agente informativo pre-habilitación",
+        "estado": "completado",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Agente informativo de requisitos y proceso del trámite de habilitación de locales comerciales. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 27/7, el área se encuentra en etapa de entrenamiento y seguimiento del uso."
+      },
+      {
+        "titulo": "Agente de habilitación",
+        "estado": "en_curso",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Analiza y valida la documentación presentada en los trámites de habilitación, complementando el trabajo realizado por los analistas humanos.\nStatus: El mismo se encuentra en desarrollo, la fecha prevista de salida a producción es octubre del corriente año."
+      },
+      {
+        "titulo": "Agente de diálogo (Mesa de ayuda)",
+        "estado": "en_curso",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Agente informativo de estado de trámites y consultas varias. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 4/5. Se encuentra pendiente incorporar la funcionalidad de la voz."
+      },
+      {
+        "titulo": "Registro Comercio de Venta/Arreglos Celulares",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "La Ley 6.009 reglamenta y requiere el registro y trazabilidad de comercios dedicados a la compra, venta y reparación de celulares usados, repuestos y partes en CABA. AGC será responsable de administrar el registro y fiscalizar los comercios, con el objetivo de prevenir la comercialización de equipos de origen ilícito. Para llevar el registro y gestión, AGC desarrollará un sistema nuevo.\nStatus: Reunión TECBA–AGC–proveedor prevista para el 31/8 o 1/9 para avanzar en el desarrollo y homologación del sistema, con fecha objetivo de puesta en producción el 19/11."
+      }
+    ]
+  },
+  {
+    "area": "AGIP",
+    "items": [
+      {
+        "titulo": "Login miBA",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGCIUD"],
+        "descripcion": "Se trabajó en la incorporación de login miBA en reemplazo de Clave Ciudad. Desde diciembre de 2025, se viene implementando un esquema de convivencia entre ambos sistemas.\nStatus: Está cumplido. Lo único que resta es que AGIP elimine el método de acceso con Clave Ciudad."
+      },
+      {
+        "titulo": "Login Empresas Extranjeras",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCIUD"],
+        "descripcion": "Proyecto orientado a que empresas del exterior que operan en CABA (por ejemplo, plataformas como Uber) puedan tributar localmente.\nStatus: Desarrollo realizado por el equipo de miBA pero pausado por AGIP, ya que tiene pendiente incluir el botón en su página para que las empresas puedan acceder."
+      },
+      {
+        "titulo": "Asistente tributario conversacional",
+        "estado": "en_curso",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Agente de IA que identifica al contribuyente y sus objetos imponibles (Patente, ABL), brindando acompañamiento integral durante todo el ciclo de gestión: vencimientos, emisión de boletas, adhesión al débito automático, estado de deuda y opciones de regularización, de forma proactiva y sin que el ciudadano deba buscar la información.\nStatus: Actualmente, el proceso se encuentra en etapa de licitación y el área está evaluando las propuestas presentadas por los distintos oferentes."
+      },
+      {
+        "titulo": "Despapelización boletas",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["CGSERV"],
+        "descripcion": "Se avanzó, junto con el equipo de Licencias, en la contratación de créditos de Doppler para envíos por correo electrónico, con la intención de sumar también SMS (vía Doppler) y WhatsApp (mediante Botmaker).\nStatus: cumplido."
+      }
+    ]
+  },
+  {
+    "area": "Ambiente",
+    "items": [
+      {
+        "titulo": "Web BA Animales",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGCDI"],
+        "descripcion": "Nueva landing de BA Animales, que centraliza y mejora la experiencia de los usuarios en los procesos de adopción, publicación de mascotas y gestión de hallazgos. El rediseño optimiza la navegación y accesibilidad, facilitando el acceso a la información y promoviendo una interacción más simple y ordenada con el servicio.\nLink: https://buenosaires.gob.ar/inicio/animales-ba\nStatus: productiva desde abril 2026"
+      },
+      {
+        "titulo": "DGGAN | Castraciones",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGSACIU"],
+        "descripcion": "El proyecto busca evolucionar el sistema de turnos para castraciones con el objetivo de mejorar la asignación de turnos y optimizar el uso de la capacidad disponible. Entre las principales mejoras propuestas se encuentran la validación de residentes de CABA, la implementación de confirmaciones previas para reducir el ausentismo, una lista de espera para reutilizar turnos liberados y mecanismos para prevenir usos indebidos, como el bloqueo de usuarios o el establecimiento de límites anuales por persona.\nStatus: DGSACIU elaboró una estimación de costos que fue remitida a Jefatura. Se estimaron para todos los requerimientos 1324 hs promedio ($46.828.556). SSCIUI va a conversar con el proveedor para validar si se puede paralelizar las tareas y evaluar la implementación para llevar info a Jefatura."
+      }
+    ]
+  },
+  {
+    "area": "C. de Niños/as y Adolescentes",
+    "items": [
+      {
+        "titulo": "CDNNYA | Landing Registro de Chicos Perdidos",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGCDI"],
+        "descripcion": "Se modificó la página web del Registro de Chicos Perdidos, permitiendo darle más visibilidad y difusión a la red interna en cuanto a búsqueda y publicación de niños perdidos, que internamente manejan.\nStatus: publicada el 03/07."
+      },
+      {
+        "titulo": "Mejora de información",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGGEDOC", "DGSGES", "SSIA"],
+        "descripcion": "El 04/06 se retomó la solicitud de desarrollar un sistema que reemplace las actuales bases de Excel que el área hoy utirliza. Durante 2025 se realizó un relevamiento y se propuso evolucionar LUNNA, módulo de SADE actualmente utilizado por el Consejo, hacia una plataforma moderna y escalable para fortalecer la gestión institucional; se elaboró un plan de trabajo y una estimación presupuestaria, pero el área decidió no avanzar en ese momento.\nStatus: Se llevó adelante una reunión el 27/08, donde el área solicitó retomar LUNNA (un módulo de SADE que se había desarrollado en 2023, pero nunca llegó a producción por pedido del área); el equipo de SADE está analizando una estimación de costos para llevarlo a producción."
+      },
+      {
+        "titulo": "Subsidios DASE en PSOC",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGGEDOC"],
+        "descripcion": "Se implementó con éxito en la plataforma PSOC el subsidio \"Asignaciones para el Sostenimiento de Estrategias (DASE)\" del CDNNyA, el cual se gestionaba previamente por fuera del sistema. El primer pago se procesó correctamente bajo la modalidad de contaduría configurable, lo que permite que todo el flujo de fondos sea administrado de manera directa por la propia contaduría del área. El área comenzó a utilizarlo para los pagos a partir de mayo.\nStatus: completado."
+      },
+      {
+        "titulo": "Línea 102 - Integración 147",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGCDC"],
+        "descripcion": "Con el objetivo de mejorar la atención de la Línea 102, durante febrero de 2026 se implementó una articulación con la Línea 147 como filtro de primer nivel. Este esquema permite evaluar temporalidad, nivel de riesgo y factores de protección, derivando a la Línea 102 únicamente los casos de menores de edad y situaciones críticas que requieren intervención profesional (Opción 1).\nStatus: completado."
+      }
+    ]
+  },
+  {
+    "area": "Comunicación y Eventos",
+    "items": [
+      {
+        "titulo": "SSPGE | Landing LINDA",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGCDI"],
+        "descripcion": "Se diseñó, desarrolló e implementó la nueva web de Linda, el sitio donde se puede explorar la ciudad según intereses, momento y forma de salir. Se trabajó también en nuevos evolutivos.\nLink: https://linda.buenosaires.gob.ar/\nStatus: web productiva."
+      },
+      {
+        "titulo": "SSPGE | BA Espacios",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "DGISIS se encuentra trabajando en un nuevo proyecto en conjunto con las áreas de Comunicación y Jefatura. La iniciativa consiste en el desarrollo de una plataforma para la gestión y reserva de espacios habilitados del GCBA, que podrán ser utilizados tanto por vecinos como por empresas.\nStatus: Desde el 18/8 el sistema ya se encuentra operativo en el entorno de producción y listo para su utilización. Queda pendiente por el área la salida oficial."
+      },
+      {
+        "titulo": "SSPGE | Eventos Masivos",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "La plataforma de eventos masivos está operativa desde julio de 2025. Se incorporó una nueva funcionalidad para que las áreas intervinientes (Salud, Tránsito, Seguridad y Mephu) puedan cotizar servicios, emitir la BUI y validar comprobantes de pago enviados por el efector. Este circuito no modifica el flujo principal actual y permite registrar con precisión los costos cobrados a los privados.\nStatus: La plataforma ya cuenta con las funcionalidades de recotización, historial de ajustes y registro integral de intercambios y modificaciones, asegurando la trazabilidad y transparencia del proceso. Se entrega 31/8."
+      },
+      {
+        "titulo": "Campaña de concientización correo institucional",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGSEI"],
+        "descripcion": "Iniciativa desde Seguridad Informática orientada a promover el uso responsable y adecuado del correo institucional, reforzando buenas prácticas de seguridad, confidencialidad y comunicación formal dentro de la organización.\nStatus: campaña completada."
+      }
+    ]
+  },
+  {
+    "area": "Cultura",
+    "items": [
+      {
+        "titulo": "Plataforma \"XIURG\"",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "Evolución de la plataforma XIURG del Complejo Teatral de Buenos Aires (CTBA), utilizada para gestionar un universo de aproximadamente 45.000 prendas de vestuario. Se busca modernizar la plataforma, incorporar nuevas métricas y mejorar la visualización y trazabilidad del vestuario, con la posibilidad de sumar al Teatro Colón y otros organismos.\nStatus: Se realizó la reunión y presentación inicial en el complejo teatral. El equipo de DGISIS le solicitó la información correspondiente para comprender el objetivo y las prioridades, pero desde el lado del Complejo Teatral no hubo más respuestas."
+      },
+      {
+        "titulo": "Palacio CECI",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGINFRA"],
+        "descripcion": "El equipo de Infraestructura debe finalizar el cableado en el Palacio. Debido a que se trata de un edificio declarado patrimonio de la ciudad, la iniciativa sufrió demoras, ya que fue necesario evaluar alternativas para realizar la conexión sin afectar ni intervenir la estructura y el entorno del inmueble.\nStatus: Cultura envió la nota correspondiente solicitando la actualización del presupuesto. La unidad ejecutora ya se encuentra habilitada y el equipo de Infraestructura está a la espera de la autorización del área de espacio público para continuar con las tareas externas."
+      },
+      {
+        "titulo": "RUBC",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGEDOC"],
+        "descripcion": "El RUBC es el Registro Único de Bienes Culturales, centralizado en SADE, que busca unificar la información de los bienes culturales de la Ciudad en una única base de datos, reemplazando la gestión mediante planillas y facilitando su administración por parte de las áreas responsables.\nStatus: Se avanzó en la construcción y consolidación de una base unificada con registros cargados y pendientes de incorporación. Se encuentra en etapa de revisión y validación de datos, a la espera de los ajustes finales por parte de Cultura para continuar con la carga y puesta en funcionamiento del registro. Actualmente, pausado por el área."
+      },
+      {
+        "titulo": "Mecenazgo",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGSGES", "SSIA"],
+        "descripcion": "Trámite de Mecenazgo en TAD, que agiliza la postulación de proyectos culturales de personas físicas y jurídicas. Se unificó la carga de formularios y documentación técnica bajo una nueva estructura, facilitando la gestión y explotación de datos de cara a la convocatoria 2026. Asimismo, se habilitó para el área un reporte de actualización diaria para el seguimiento de las tramitaciones.\nStatus: implementado desde el 26/02."
+      },
+      {
+        "titulo": "BiblioSubte",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGINFRA"],
+        "descripcion": "Tareas de conectividad en la primera BiblioSubte de la Red, situada en la estación Plaza de Mayo de la Línea A.\nStatus: conectividad realizada."
+      },
+      {
+        "titulo": "Plataforma de Estudio ISA - Moodle",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "ISA (Instituto Superior del Arte) pidió una plataforma de e-learning pero quieren usar Moodle porque es la que conocen. Necesitan tener un lugar para alojar, no tienen un proveedor así que se debería presupuestar instalación completa con proveedor, la parte administrativa la tiene el ISA. El mantenimiento entra en la cotización. Piden una estimación macro para saber si ellos lo pueden pagar o no.\nStatus: Se les respondió el 20/08 por mail con una propuesta estimativa, pero no hubo respuesta."
+      },
+      {
+        "titulo": "Museo del Cine (Servidores)",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGINFRA"],
+        "descripcion": "Iniciativa orientada a garantizar el resguardo y preservación del patrimonio audiovisual del Museo del Cine mediante la migración de la información a los Data Centers del GCBA y la adecuación de los sistemas asociados.\nStatus: Definir y dimensionar la solución de almacenamiento e infraestructura necesaria para asegurar la conservación y continuidad operativa de la información."
+      }
+    ]
+  },
+  {
     "area": "D. Humano y Hábitat",
     "items": [
       {
@@ -554,6 +759,51 @@ const DATA = [
         "ia": false,
         "internas": ["DGINFRA"],
         "descripcion": "Se recibió un pedido de conectividad para el Centro de Jubilados San Pedro Apóstol (Arregui 4970), solicitado por la Subsecretaría de Personas Mayores. Actualmente, DGINFRA está evaluando el requerimiento para determinar su factibilidad técnica.\nStatus: El 24/8 se realizó el primer relevamiento. Ahora se coordina con los proveedores el relevamiento de FO y cableado para definir el tendido necesario para instalar dos AP; la ingeniería de FO ya está definida."
+      }
+    ]
+  },
+  {
+    "area": "Deportes",
+    "items": [
+      {
+        "titulo": "Portal Deportes Integración con miBA",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCIUD"],
+        "descripcion": "El área de Deportes avanzará con el desarrollo de un nuevo portal integral para centralizar todos los servicios y trámites relacionados a su área. El desarrollo será realizado por un proveedor externo contratado por Deportes. Desde TecBA participaremos acompañando el proyecto para validar que el desarrollo cumpla con los estándares técnicos y lineamientos definidos por ASI. Además, el portal incorporará autenticación mediante miBA, por lo que también participará el equipo de miBA en las definiciones e integración correspondiente.\nStatus: La fecha planificada de salida a producción es 10/09, con una instancia preliminar de F&F el 03/10."
+      },
+      {
+        "titulo": "Mecenazgo Deportes",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGGEDOC", "DGSGES", "SSIA"],
+        "descripcion": "Digitalización en TAD del Régimen de Mecenazgo y Patrocinio Deportivo, permitiendo la presentación y gestión digital de proyectos deportivos. El trámite contempla también la identificación de proyectos que soliciten el carácter de Inclusión Social y la posibilidad de adjuntar documentación respaldatoria.\nStatus: El trámite ya está configurado en ambientes bajos y se prevé su habilitación en TAD el 4/9. Resta que el área envíe las CCOO para formalizar la fecha y defina los usuarios y buzones de TAD."
+      }
+    ]
+  },
+  {
+    "area": "Desarrollo Económico",
+    "items": [
+      {
+        "titulo": "Desarrollo de Guías de Ciberseguridad para Pymes",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGSEI"],
+        "descripcion": "Elaboración de guías de buenas prácticas para fortalecer la ciberseguridad de PyMEs y emprendimientos, promoviendo la adopción de medidas preventivas simples y de bajo costo para reducir riesgos asociados al uso de herramientas digitales.\nStatus: guías finalizadas."
+      },
+      {
+        "titulo": "Ley de Economía del Conocimiento",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGSGES", "SSIA"],
+        "descripcion": "Digitalización del trámite de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento: Incluye 3 trámites, de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento y Demostración de cumplimiento de compromisos sin renovación. Se trabajó con la DG de Simplificación Normativa y el área responsable del trámite es la DG de Estrategia Productiva y Regímenes de Promoción, dependiente de la Subse. de Inversiones del Min. Des. Eco.\nStatus: trámites productivos."
+      },
+      {
+        "titulo": "Invest BA",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGSACIU"],
+        "descripcion": "Nueva Home creada y estructurada. Migración de sitio externo al ecosistema buenosaires.gob.ar, con implementación en Drupal 10.\nStatus: home publicada."
       }
     ]
   },
@@ -615,140 +865,6 @@ const DATA = [
         "ia": false,
         "internas": ["DGCDI"],
         "descripcion": "SDU realizó un relevamiento con su Mesa de Ayuda para mejorar la respuesta a los reclamos y consultas de vecinos. Recurrieron al equipo de BA Colaborativa para pedir modificaciones.\nStatus: Se continúa trabajando en mejoras en BA Colaborativa. Se realizó una reunión el 25/08 con el área para revisar modificaciones."
-      }
-    ]
-  },
-  {
-    "area": "Salud",
-    "items": [
-      {
-        "titulo": "Cola de atención CEDETAC en Boti",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCDI"],
-        "descripcion": "Se implementó una nueva cola de atención en Boti para reemplazar el WhatsApp institucional de CEDETAC (Centro de Derivación de Estudios de Tomografía y Resonancia Magnética de la Ciudad), que presentaba problemas de capacidad y bloqueos. Con Boti se habilita atención simultánea, derivación entre operadores, horarios configurables y una experiencia unificada para los vecinos. El flujo funciona como un formulario desde el celular, accesible mediante un QR distribuido en hospitales y centros de salud.\nStatus: en funcionamiento."
-      },
-      {
-        "titulo": "UPETDESRHCE | Sistema Integrador de Historia Clínica Electrónica",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA", "DGINFRA", "DGISIS", "DGSEI"],
-        "descripcion": "Habilitar la interoperabilidad entre los sistemas de salud público, privado y de la seguridad social, permitiendo el intercambio seguro de información de pacientes mediante estándares comunes y una arquitectura integrada.\nStatus: En desarrollo del MVP Federador BA, orientado a unificar la identificación de personas mediante un ID único, sin almacenar información clínica. El avance se encuentra condicionado por la definición de aspectos de consentimiento, validación de identidad y articulación con actores externos, además de la integración y capacitación de los distintos participantes."
-      },
-      {
-        "titulo": "DGSISAN | Llamador Filas BA",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGSACIU"],
-        "descripcion": "Se buscaba que los profesionales puedan llamar pacientes directamente desde el sistema clínico (HIS), integrándolo con el sistema de filas. Del lado de TecBA, les presentamos 3 alternativas para avanzar con la integración de los llamadores. Salud decidió avanzar con un desarrollo propio.\nStatus: cancelado por el área."
-      },
-      {
-        "titulo": "DGSISAN | Sistema de gestión de residencias",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Desarrollo del Sistema de Gestión de Residencias, plataforma que centraliza y administra la inscripción a concursos de residencias médicas y la gestión del equipo de salud, integrando TAD, SADE, RENAPER y ANSES.\nStatus: En QA. El 27/08, DGISIS informó al área que se encuentra a la espera de la aprobación de DGSEI sobre la versión para avanzar con su instalación en HML. Los nuevos requerimientos que surjan serán evaluados como evolutivos, fuera del alcance y presupuesto del MVP."
-      },
-      {
-        "titulo": "Mátriculas | Digitalización de trámites",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "Digitalización y modernización del proceso de matriculación de profesionales de la salud mediante su incorporación a TAD, incluyendo el rediseño de procesos, formularios, documentación, reglas de negocio e integraciones con organismos nacionales.\nStatus: En pausa. Se relevaron los procesos y se avanzó en la definición funcional junto con el Ministerio de Salud, identificando las integraciones necesarias con registros nacionales. La continuidad depende de la firma de un convenio con Nación por parte de Salud. Se aguarda confirmación del área para retomar las tareas pendientes."
-      },
-      {
-        "titulo": "Farmacias y trasplantes | Digitalización de trámites",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "Digitalización en TAD de los trámites de habilitación de farmacias, libre regencia y procesos vinculados a trasplantes, incluyendo el relevamiento y rediseño de circuitos, formularios, documentación, validaciones e integraciones necesarias.\nStatus: En pausa. Se relevaron los procesos y se elaboraron propuestas funcionales junto con el Ministerio de Salud. El avance depende de la formalización de un convenio con Nación, necesario para definir las integraciones y aspectos pendientes. Se aguarda confirmación de Salud para retomar la iniciativa."
-      },
-      {
-        "titulo": "DGSISAN | Circuito de presentismo",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCDI", "DGSACIU"],
-        "descripcion": "El proyecto busca digitalizar el ingreso/presentismo de pacientes en los efectores de Salud mediante Filas Virtuales, reemplazando o complementando el circuito actual de tótems. El paciente escanea un QR desde el celular, se encola y recibe en el teléfono la información de su turno/atención y los avisos correspondientes cuando es llamado. El circuito contempla tanto turnos programados como demanda espontánea.\nStatus: Se encuentran refinando el diseño de la pantalla con el equipo de DGSACIU. 28/08 reunión con el área para avanzar con validaciones."
-      },
-      {
-        "titulo": "Salud | IA en 147",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCDC"],
-        "descripcion": "Implementación de capacidades de IA en la atención telefónica del sistema de salud, incorporando transcripción en tiempo real, resúmenes automáticos, sugerencias contextuales, alertas, consulta del historial de interacciones y automatización de cierres en CRM, para optimizar la atención y mejorar la experiencia ciudadana.\nStatus: A la espera de definiciones por parte del área de Salud para avanzar con la iniciativa."
-      },
-      {
-        "titulo": "Cableado y fibra óptica para hospitales",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGINFRA"],
-        "descripcion": "Se trabajó en el cableado y tendido de fibra óptica para instituciones de salud.\nStatus: completado."
-      },
-      {
-        "titulo": "Portal Salud",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["SSCIUI", "SSIA"],
-        "descripcion": "Desarrollo de un Portal de Salud para centralizar la gestión y comunicación con pacientes, permitiendo el acceso a información de la historia clínica, gestión de turnos y recepción de comunicaciones y notificaciones del sistema de salud.\nStatus: Se está organizando una primera reunión con Pablo, DGCDI y SSIA para conocer la propuesta y evaluar oportunidades de trabajo conjunto, incluyendo la alternativa de desarrollar el portal desde TecBA como un apartado de BAX."
-      }
-    ]
-  },
-  {
-    "area": "Espacio Público",
-    "items": [
-      {
-        "titulo": "EMUI",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Incorporación de EMUI al flujo de fiscalización hacia OFSC, el sistema utilizado por el organismo, incluyendo la incorporación de actas digitales y la integración del proceso de fiscalización mediante Oracle.\nStatus: Finalizado. La solución ya se encuentra implementada, restando únicamente algunos ajustes menores."
-      },
-      {
-        "titulo": "Canal en SAP",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Funcionalidad para identificar el canal de origen del reclamo en SAP.\nStatus: Liberado el 22/12, validado por MEPHU y Vinculación Ciudadana."
-      },
-      {
-        "titulo": "Sistema MEEP",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Desarrollo de una aplicación para la gestión del espacio público, integrada con SAP CRM y SAP ERP. Permite crear, modificar y consultar avisos y permisos, asegurando que la información esté alineada entre sistemas y centralizando la gestión.\nStatus: Se está trabajando en las integraciones que necesitan para obtener datos de SAP y poder manejarlo desde su sistema MEEP."
-      }
-    ]
-  },
-  {
-    "area": "C. de Niños/as y Adolescentes",
-    "items": [
-      {
-        "titulo": "CDNNYA | Landing Registro de Chicos Perdidos",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCDI"],
-        "descripcion": "Se modificó la página web del Registro de Chicos Perdidos, permitiendo darle más visibilidad y difusión a la red interna en cuanto a búsqueda y publicación de niños perdidos, que internamente manejan.\nStatus: publicada el 03/07."
-      },
-      {
-        "titulo": "Mejora de información",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGGEDOC", "DGSGES", "SSIA"],
-        "descripcion": "El 04/06 se retomó la solicitud de desarrollar un sistema que reemplace las actuales bases de Excel que el área hoy utirliza. Durante 2025 se realizó un relevamiento y se propuso evolucionar LUNNA, módulo de SADE actualmente utilizado por el Consejo, hacia una plataforma moderna y escalable para fortalecer la gestión institucional; se elaboró un plan de trabajo y una estimación presupuestaria, pero el área decidió no avanzar en ese momento.\nStatus: Se llevó adelante una reunión el 27/08, donde el área solicitó retomar LUNNA (un módulo de SADE que se había desarrollado en 2023, pero nunca llegó a producción por pedido del área); el equipo de SADE está analizando una estimación de costos para llevarlo a producción."
-      },
-      {
-        "titulo": "Subsidios DASE en PSOC",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGGEDOC"],
-        "descripcion": "Se implementó con éxito en la plataforma PSOC el subsidio \"Asignaciones para el Sostenimiento de Estrategias (DASE)\" del CDNNyA, el cual se gestionaba previamente por fuera del sistema. El primer pago se procesó correctamente bajo la modalidad de contaduría configurable, o que permite que todo el flujo de fondos sea administrado de manera directa por la propia contaduría del área. El área comenzó a utilizarlo para los pagos a partir de mayo.\nStatus: completado."
-      },
-      {
-        "titulo": "Línea 102 - Integración 147",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCDC"],
-        "descripcion": "Con el objetivo de mejorar la atención de la Línea 102, durante febrero de 2026 se implementó una articulación con la Línea 147 como filtro de primer nivel. Este esquema permite evaluar temporalidad, nivel de riesgo y factores de protección, derivando a la Línea 102 únicamente los casos de menores de edad y situaciones críticas que requieren intervención profesional (Opción 1).\nStatus: completado."
       }
     ]
   },
@@ -828,166 +944,6 @@ const DATA = [
     ]
   },
   {
-    "area": "Sec. Relaciones Internacionales",
-    "items": [
-      {
-        "titulo": "DGCM | Web de Red de Seguridad",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Creación una página web por fuera de buenosaires.gob.ar con identidad neutral.  No debe estar asociada a una ciudad, gestión o presidencia específica. Se requiere la creación no sólo de la web sino también de un backoffice para carga y validación de contenidos.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
-      },
-      {
-        "titulo": "DGCM | Agente de IA",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": [],
-        "descripcion": "Creación de un Agente de IA que realice un barrido de documentación y páginas webs, con el fin de realizar informes para el Jefe de Gobierno ante la visita de un funcionario extranjero.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
-      },
-      {
-        "titulo": "DGCM | Actualización landing",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGCDI"],
-        "descripcion": "Reestructurar y actualizar el contenido de la web de buenosaires.gob.ar\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
-      },
-      {
-        "titulo": "Página Study BA",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGCDC", "DGCDI"],
-        "descripcion": "Study BA cuenta actualmente con distintas páginas web externas, algunas sin acceso para su edición. El área necesita recuperar la gestión de estos sitios o, en su defecto, evaluar la reutilización o migración de sus contenidos y funcionalidades a la web de buenos aires.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
-      }
-    ]
-  },
-  {
-    "area": "Comunicación y Eventos",
-    "items": [
-      {
-        "titulo": "SSPGE | Landing LINDA",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCDI"],
-        "descripcion": "Se diseñó, desarrolló e implementó la nueva web de Linda, el sitio donde se puede explorar la ciudad según intereses, momento y forma de salir. Se trabajó también en nuevos evolutivos.\nLink: https://linda.buenosaires.gob.ar/\nStatus: web productiva."
-      },
-      {
-        "titulo": "SSPGE | BA Espacios",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "DGISIS se encuentra trabajando en un nuevo proyecto en conjunto con las áreas de Comunicación y Jefatura. La iniciativa consiste en el desarrollo de una plataforma para la gestión y reserva de espacios habilitados del GCBA, que podrán ser utilizados tanto por vecinos como por empresas.\nStatus: Desde el 18/8 el sistema ya se encuentra operativo en el entorno de producción y listo para su utilización. Queda pendiente por el área la salida oficial."
-      },
-      {
-        "titulo": "SSPGE | Eventos Masivos",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "La plataforma de eventos masivos está operativa desde julio de 2025. Se incorporó una nueva funcionalidad para que las áreas intervinientes (Salud, Tránsito, Seguridad y Mephu) puedan cotizar servicios, emitir la BUI y validar comprobantes de pago enviados por el efector. Este circuito no modifica el flujo principal actual y permite registrar con precisión los costos cobrados a los privados.\nStatus: La plataforma ya cuenta con las funcionalidades de recotización, historial de ajustes y registro integral de intercambios y modificaciones, asegurando la trazabilidad y transparencia del proceso. Se entrega 31/8."
-      },
-      {
-        "titulo": "Campaña de concientización correo institucional",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGSEI"],
-        "descripcion": "Iniciativa desde Seguridad Informática orientada a promover el uso responsable y adecuado del correo institucional, reforzando buenas prácticas de seguridad, confidencialidad y comunicación formal dentro de la organización.\nStatus: campaña completada."
-      }
-    ]
-  },
-  {
-    "area": "AGIP",
-    "items": [
-      {
-        "titulo": "Login miBA",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCIUD"],
-        "descripcion": "Se trabajó en la incorporación de login miBA en reemplazo de Clave Ciudad. Desde diciembre de 2025, se viene implementando un esquema de convivencia entre ambos sistemas.\nStatus: Está cumplido. Lo único que resta es que AGIP elimine el método de acceso con Clave Ciudad."
-      },
-      {
-        "titulo": "Login Empresas Extranjeras",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCIUD"],
-        "descripcion": "Proyecto orientado a que empresas del exterior que operan en CABA (por ejemplo, plataformas como Uber) puedan tributar localmente.\nStatus: Desarrollo realizado por el equipo de miBA pero pausado por AGIP, ya que tiene pendiente incluir el botón en su página para que las empresas puedan acceder."
-      },
-      {
-        "titulo": "Asistente tributario conversacional",
-        "estado": "en_curso",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Agente de IA que identifica al contribuyente y sus objetos imponibles (Patente, ABL), brindando acompañamiento integral durante todo el ciclo de gestión: vencimientos, emisión de boletas, adhesión al débito automático, estado de deuda y opciones de regularización, de forma proactiva y sin que el ciudadano deba buscar la información.\nStatus: Actualmente, el proceso se encuentra en etapa de licitación y el área está evaluando las propuestas presentadas por los distintos oferentes."
-      },
-      {
-        "titulo": "Despapelización boletas",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["CGSERV"],
-        "descripcion": "Se avanzó, junto con el equipo de Licencias, en la contratación de créditos de Doppler para envíos por correo electrónico, con la intención de sumar también SMS (vía Doppler) y WhatsApp (mediante Botmaker).\nStatus: cumplido."
-      }
-    ]
-  },
-  {
-    "area": "Hacienda",
-    "items": [
-      {
-        "titulo": "SSGRH | Equipo BA",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Se desarrolló un portal unificado para empleados del GCBA que centraliza consultas y gestiones laborales. Esta iniciativa busca mejorar la experiencia de usuario, reducir la fragmentación actual y optimizar tiempos de gestión. El portal cuenta con los siguientes módulos: Ventanilla Única, Recibos de Sueldo, Mi Carrera, Beneficios, Instituto Superior de la Carrera, Calendario Laboral, Atajos, Difusión y Cartelera. Se encuentra productivo desde marzo 2026.\nStatus: en desarrollo incorporación de chat con IA para consulta de documentos."
-      },
-      {
-        "titulo": "MHFGC | Mejora Loys",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGEDOC"],
-        "descripcion": "Se están impulsando mejoras desde el equipo de Flor Nestasio con el objetivo de optimizar el proceso de LOyS.\nStatus: Estas iniciativas se están trabajando de manera articulada con distintos equipos de Hacienda, especialmente con Contaduría y la Unidad Informática."
-      },
-      {
-        "titulo": "MHFGC | Plataforma de Subsidios",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGSGES"],
-        "descripcion": "Desarrollo de una nueva plataforma integral de subsidios, cuyo objetivo es unificar y modernizar la gestión de los módulos actuales de RIB/PSOC (SADE) y administrar de punta a punta los subsidios, becas y premios otorgados por el GCBA. El objetivo central de este proyecto es lograr la unificación del 100 % de los beneficiarios únicos, garantizar la trazabilidad de punta a punta de los procesos y habilitar la toma de decisiones basada en datos reales y confiables, y no en supuestos. Asimismo, busca generar eficiencias concretas en el gasto público y evolucionar desde una lógica meramente administrativa hacia una lógica estratégica de gestión de subsidios.\nStatus: Es necesario para avanzar con el proyecto la firma de un convenio o acta de acuerdo, impulsada por jefatura, con el Banco Ciudad."
-      },
-      {
-        "titulo": "MHFGC | Entradas BA - Login miba",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCIUD"],
-        "descripcion": "En el marco del proyecto Prioridad Porteña, desde Jefatura se solicitó al equipo de Hacienda incorporar el login MiBA en EntradasBA. Para avanzar con la integración, el equipo compartió la documentación técnica correspondiente.\nStatus: El equipo de login está trabajando en la integración y pidiéndole al equipo de Hacienda las credenciales para disponibilizar en BAX las entradas."
-      },
-      {
-        "titulo": "Sellos jerárquicos",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGEDOC"],
-        "descripcion": "El proyecto propone automatizar la gestión de los sellos de cargos jerárquicos y de la estructura de reparticiones, mediante la integración de los sistemas SADE y SIAL. La iniciativa aborda los procesos de alta, modificación y baja de sellos, eliminando instancias de carga manual a través de la integración de los sistemas involucrados. La automatización permitirá mejorar la consistencia y precisión de la información, reducir dependencias operativas entre áreas y mitigar riesgos asociados a errores o desactualizaciones.\nStatus: pausado por el área."
-      },
-      {
-        "titulo": "Libros Contables - Digitalización",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGGEDOC"],
-        "descripcion": "Esta iniciativa forma parte del plan de modernización y simplificación administrativa, cuyo fin es reducir la carga operativa del papel y optimizar la trazabilidad. Por ello, se implementó la digitalización de los Libros Auxiliares: todos los registros en soporte físico quedan eliminados al estar respaldados en el SIGAF, con excepción del Libro Banco, que se mantendrá transitoriamente pero digitalizado en RLM.\nStatus: completado."
-      },
-      {
-        "titulo": "Actualización nueva versión Meta4",
-        "estado": "completado",
-        "ia": false,
-        "internas": [],
-        "descripcion": "Servicio que se construyó con hacienda para poder consumir la información de sellos y estructura. Es decir, la información del organigrama.\nStatus: completado."
-      },
-      {
-        "titulo": "LOTBA Datasets",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "Publicación de dos datasets vinculados a la prevención de la ludopatía. Incluyen datasets. Uno de juego ilegal (sitios webs bloqueados por el Gobierno de la Ciudad a partir de denuncias por juego ilegal) y otro de concientización (Actividades de concientización y prevención de ludopatía y juego ilegal).\nStatus: publicados."
-      }
-    ]
-  },
-  {
     "area": "Educación",
     "items": [
       {
@@ -1049,87 +1005,28 @@ const DATA = [
     ]
   },
   {
-    "area": "Justicia",
+    "area": "Espacio Público",
     "items": [
       {
-        "titulo": "IGE | Web externa",
+        "titulo": "EMUI",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Incorporación de EMUI al flujo de fiscalización hacia OFSC, el sistema utilizado por el organismo, incluyendo la incorporación de actas digitales y la integración del proceso de fiscalización mediante Oracle.\nStatus: Finalizado. La solución ya se encuentra implementada, restando únicamente algunos ajustes menores."
+      },
+      {
+        "titulo": "Canal en SAP",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Funcionalidad para identificar el canal de origen del reclamo en SAP.\nStatus: Liberado el 22/12, validado por MEPHU y Vinculación Ciudadana."
+      },
+      {
+        "titulo": "Sistema MEEP",
         "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
-        "descripcion": "El equipo de DGISIS está trabajando en el desarrollo de una web externa para el IGE. Además, desde Seguridad Informática se gestionó un dominio externo para ser utilizado en dicha solución.\nStatus: Se está definiendo el harness que se va a utilizar. El backoffice ya está desarrollado, pero se transformó en realizar correcciones. Esperan tener el backoffice cerrado para juntarse con el área."
-      },
-      {
-        "titulo": "DGAV | Patrocinio Penal Gratuito",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "La DG de Asistencia a la Víctima planteó la necesidad de reemplazar el formulario de Google Forms utilizado para solicitudes de patrocinio penal gratuito, debido al manejo de información sensible. Se evaluaron alternativas transitorias y una revisión integral del proceso junto a las áreas involucradas.\nStatus: Justicia optó por implementar un formulario de Microsoft, al no requerir cambios significativos en la operatoria actual, por lo que el proyecto quedó desestimado."
-      },
-      {
-        "titulo": "DGAI | Agente de validación documental",
-        "estado": "completado",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Validador documental: DNI, cédula verde y CUD pre ingreso al controlador.​\nStatus: Productivo desde el 13/05. Escalamiento progresivo a mayor volumen de conversaciones en BOTI y realización de pruebas para analizar su funcionamiento."
-      },
-      {
-        "titulo": "DGAI | Refinamiento de multas Telepase",
-        "estado": "completado",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Validación de multas generadas por fallas en la lectura de TelePASE.​\nStatus: Productivo desde el 19/05."
-      },
-      {
-        "titulo": "DGAI | Agente pre-resolución",
-        "estado": "en_curso",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
-      },
-      {
-        "titulo": "DGEMP | Registro de empleadores",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "Simplificación y modernización del Registro de Empleadores, con foco en mejorar la experiencia de los usuarios, reducir la carga de información y mejorar la calidad de los datos mediante interoperabilidad y automatización. Pedido por Jefatura.\nStatus: El 25/08 se realizó una reunión con AGIP para analizar servicios que permitan interoperar información actualmente solicitada en el registro y avanzar en su simplificación. GOPD evaluará la documentación requerida para identificar oportunidades de reducción de requisitos."
-      },
-      {
-        "titulo": "DGRDT | Plataforma DICOP",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCIUD", "DGGEDOC", "DGSGES"],
-        "descripcion": "DICOP es una plataforma de Justicia para la gestión de conciliaciones laborales. Se está trabajando en su integración con NEF para el envío de notificaciones electrónicas fehacientes y con miBA, contemplando el alta y vinculación de usuarios y el requerimiento de Nivel 3.\nStatus: Esta semana se realizaron reuniones con ASI, SSIA (TAD) y SSCIUI (miBA), acordando avanzar con las integraciones entre DICOP–NEF y DICOP–miBA. Dado que DICOP estaría productiva aproximadamente en diciembre, se continuará acompañando al área en la definición de requerimientos y dudas, para avanzar con las integraciones cuando la plataforma esté disponible."
-      }
-    ]
-  },
-  {
-    "area": "Ordenamiento",
-    "items": [
-      {
-        "titulo": "Digitalización de actas",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "Digitalización y optimización del proceso inspectivo de Ordenamiento, integrando en un único circuito las actuaciones de intimación, comprobación y secuestro, con origen en reclamos vecinales o recorridos preventivos de fiscalización y gestión inicial en SAP.\nStatus: En desarrollo por el área junto con Soflex. TecBA brinda soporte técnico y acompañamiento, sin participación directa en el desarrollo."
-      }
-    ]
-  },
-  {
-    "area": "Higiene",
-    "items": [
-      {
-        "titulo": "Higiene | Mejora del proceso de contenedores en BA Colaborativa y SAP",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGGDA", "DGSACIU"],
-        "descripcion": "A partir de la incorporación en BA Colaborativa de la capa de datos de contenedores provista por IDECABA, se desarrolló una mejora en la integración con BA Colaborativa para que, en lugar de enviar la dirección del vecino, se envíe la ubicación del contenedor asociado al reclamo. Esto permite que el área reciba información precisa sobre qué contenedor está siendo reportado, mejorando la trazabilidad y eficiencia en la gestión.\nStatus: en funcionamiento."
-      },
-      {
-        "titulo": "GOCHU | LIZA",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "A partir de la implementación del sistema de fiscalización LIZA en la Gerencia de Control de Higiene Urbana, el área solicitó incorporar la información histórica almacenada en SAP en su nuevo sistema, incluyendo los últimos antecedentes de cada establecimiento fiscalizado.\nStatus: Se envió al área la propuesta, se les pidió que carguen ticket y se enviará el presupuesto."
+        "descripcion": "Desarrollo de una aplicación para la gestión del espacio público, integrada con SAP CRM y SAP ERP. Permite crear, modificar y consultar avisos y permisos, asegurando que la información esté alineada entre sistemas y centralizando la gestión.\nStatus: Se está trabajando en las integraciones que necesitan para obtener datos de SAP y poder manejarlo desde su sistema MEEP."
       }
     ]
   },
@@ -1202,212 +1099,82 @@ const DATA = [
     ]
   },
   {
-    "area": "Turismo",
+    "area": "Hacienda",
     "items": [
       {
-        "titulo": "Turismo | Proyectos IA",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": [],
-        "descripcion": "Turismo está desarrollando, junto al proveedor Cognitive, un avatar de IA para atención al público. El equipo de IA realizó una auditoría para validar la propuesta de implementación inicial en un tótem y evaluar su futura extensión a canales digitales como WhatsApp\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
-      }
-    ]
-  },
-  {
-    "area": "TecBA - Proyectos estratégicos",
-    "items": [
-      {
-        "titulo": "LENX",
+        "titulo": "SSGRH | Equipo BA",
         "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "LenX Es una plataforma de analítica de datos impulsada por inteligencia artificial, diseñada para integrar información de distintas áreas de gestión de la Ciudad en un único entorno de consulta. Mediante lenguaje natural y agentes especializados, permitirá explorar datos, generar portales e identificar tendencias para facilitar la toma de decisiones basada en evidencia.\nStatus: se encuentra en etapa de desarrollo, integración y validación; aún no está operativa para su uso general. La última versión de desarrollo fue implementada el 20/08 para pruebas internas. Actualmente se realizan ajustes con finalización estimada para fines de septiembre, que incluyen una nueva ronda de control de calidad de los agentes, la incorporación de bases de datos de obras y mejoras en la experiencia de usuario para sus versiones web y mobile."
-      },
-      {
-        "titulo": "Perfil 360°",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "Perfil 360 : es una herramienta que centraliza e integra información de distintas áreas y sistemas de Gobierno para construir una visión integral de cada ciudadano, facilitando el análisis y seguimiento de las inversiones, subsidios y servicios brindados por el Estado.\nStatus: Actualmente se encuentra en desarrollo de su MVP, enfocado en consolidar una visión integrada del gasto e inversión pública por persona. Ya se avanzó en el modelado de categorías de subsidios y en el desarrollo de la solución en entorno DEV. Como próximos pasos, se trabaja en la definición de los mecanismos de intercambio de datos entre áreas y en el marco normativo necesario para habilitar su integración y evolución."
-      },
-      {
-        "titulo": "BAX",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGINFRA", "DGISIS", "DGSEI", "SSCIUI", "SSIA"],
-        "descripcion": "BAX: Asistente conversacional del Gobierno de la Ciudad que centraliza el acceso a información, trámites y servicios a través de canales digitales, utilizando inteligencia artificial para brindar una experiencia simple, personalizada y cada vez más autónoma.\nStatus: La plataforma se encuentra operativa desde y evoluciona hacia un modelo 100% agéntico, con 36 agentes especializados. Actualmente avanza en la unificación de los canales de voz y chat y en la incorporación de nuevos servicios e integraciones para ampliar sus capacidades de atención y gestión."
-      },
-      {
-        "titulo": "Gemelo digital",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "Gemelo Digital: Plataforma en desarrollo que integra y visualiza información georreferenciada de la Ciudad para generar una representación digital del entorno urbano, facilitando el monitoreo, análisis y planificación basada en datos.\nStatus: el producto se encuentra en desarrollo."
-      },
-      {
-        "titulo": "XBA",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "X-BA es un software de código abierto que permite compartir datos de forma segura entre distintas áreas y organismos de la Ciudad, facilitando la interoperabilidad y el uso estratégico de la información.\nStatus: En desarrollo."
-      },
-      {
-        "titulo": "147 (Opción 2)",
-        "estado": "no_iniciado",
-        "ia": true,
-        "internas": ["DGCDC"],
-        "descripcion": "Incorporación de inteligencia artificial a la Línea 147, canal telefónico de atención ciudadana para la gestión de solicitudes y reclamos.\nStatus: En análisis conceptual y de alcance."
-      }
-    ]
-  },
-  {
-    "area": "Jefatura",
-    "items": [
-      {
-        "titulo": "Plataforma de Desalojos",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGISIS"],
-        "descripcion": "Consistió en el desarrollo de una herramienta para ingresar los requerimientos de Justicia de forma estandarizada, incorporando los datos necesarios para la planificación operativa y garantizando la distribución automática de la información entre las áreas intervinientes.\nStatus: completado."
+        "descripcion": "Se desarrolló un portal unificado para empleados del GCBA que centraliza consultas y gestiones laborales. Esta iniciativa busca mejorar la experiencia de usuario, reducir la fragmentación actual y optimizar tiempos de gestión. El portal cuenta con los siguientes módulos: Ventanilla Única, Recibos de Sueldo, Mi Carrera, Beneficios, Instituto Superior de la Carrera, Calendario Laboral, Atajos, Difusión y Cartelera. Se encuentra productivo desde marzo 2026.\nStatus: en desarrollo incorporación de chat con IA para consulta de documentos."
       },
       {
-        "titulo": "Telecom | Mapeo de Circulación",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "Proyecto orientado a relevar y visualizar los patrones de movilidad de las personas en CABA, con el objetivo de generar información que contribuya a mejorar la planificación y las políticas de higiene urbana (posibilidad que otras áreas utilicen los datos). Personal aportará los datos y el equipo de Gobernanza de Datos desarrollará una herramienta para su visualización.\nStatus: Jefatura se encuentra gestionando el proceso de contratación con la empresa."
-      }
-    ]
-  },
-  {
-    "area": "SECLYT",
-    "items": [
-      {
-        "titulo": "DGAIGA | BA Obras",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCDC", "DGGDA"],
-        "descripcion": "Se publicó un dataset de BA Obras en BA Data y se quiere avanzar con la publicación de un mapa con las obras finalizadas y en proceso en IDECABA.\nStatus: Queda pendiente que el área defina dónde se publicarán los mapas."
-      },
-      {
-        "titulo": "Incorporación firma paralela sobre documentos importados",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "Se implementó la funcionalidad de firma paralela, que permite disponibilizar una tarea de firma de forma simultánea para todos los firmantes de un documento. Anteriormente, el circuito requería la firma secuencial, lo que generaba demoras cuando un firmante no completaba su tarea. Esta mejora agiliza procesos colaborativos que requieren múltiples validaciones, como los informes de evaluación en licitaciones públicas, donde todos los evaluadores deben firmar el mismo documento. Con la firma paralela, el documento se libera una vez que todos han firmado, sin depender del orden en que lo hagan.\nStatus: completado."
-      },
-      {
-        "titulo": "Proyecto ArchiBA",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["SSIA", "DGISIS"],
-        "descripcion": "Se avanzó en el relevamiento inicial de ArchiBA y se acordó impulsar una reingeniería tecnológica de la plataforma de la plataforma debido a su obsolescencia tecnológica y situación fuera de estándar.\nStatus: TECBA analizará alternativas de solución e integración con SADE (Módulo ARCH), mientras que el equipo de SECLYT revisará el PET vigente y compartirá información sobre volúmenes de datos para evaluar futuras decisiones de infraestructura y almacenamiento."
-      }
-    ]
-  },
-  {
-    "area": "Deportes",
-    "items": [
-      {
-        "titulo": "Portal Deportes Integración con miBA",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGCIUD"],
-        "descripcion": "El área de Deportes avanzará con el desarrollo de un nuevo portal integral para centralizar todos los servicios y trámites relacionados a su área. El desarrollo será realizado por un proveedor externo contratado por Deportes. Desde TecBA participaremos acompañando el proyecto para validar que el desarrollo cumpla con los estándares técnicos y lineamientos definidos por ASI. Además, el portal incorporará autenticación mediante miBA, por lo que también participará el equipo de miBA en las definiciones e integración correspondiente.\nStatus: La fecha planificada de salida a producción es 10/09, con una instancia preliminar de F&F el 03/10."
-      },
-      {
-        "titulo": "Mecenazgo Deportes",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGGEDOC", "DGSGES", "SSIA"],
-        "descripcion": "Digitalización en TAD del Régimen de Mecenazgo y Patrocinio Deportivo, permitiendo la presentación y gestión digital de proyectos deportivos. El trámite contempla también la identificación de proyectos que soliciten el carácter de Inclusión Social y la posibilidad de adjuntar documentación respaldatoria.\nStatus: El trámite ya está configurado en ambientes bajos y se prevé su habilitación en TAD el 4/9. Resta que el área envíe las CCOO para formalizar la fecha y defina los usuarios y buzones de TAD."
-      }
-    ]
-  },
-  {
-    "area": "Cultura",
-    "items": [
-      {
-        "titulo": "Plataforma \"XIURG\"",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGGDA"],
-        "descripcion": "Evolución de la plataforma XIURG del Complejo Teatral de Buenos Aires (CTBA), utilizada para gestionar un universo de aproximadamente 45.000 prendas de vestuario. Se busca modernizar la plataforma, incorporar nuevas métricas y mejorar la visualización y trazabilidad del vestuario, con la posibilidad de sumar al Teatro Colón y otros organismos.\nStatus: Se realizó la reunión y presentación inicial en el complejo teatral. El equipo de DGISIS le solicitó la información correspondiente para comprender el objetivo y las prioridades, pero desde el lado del Complejo Teatral no hubo más respuestas."
-      },
-      {
-        "titulo": "Palacio CECI",
-        "estado": "en_curso",
-        "ia": false,
-        "internas": ["DGINFRA"],
-        "descripcion": "El equipo de Infraestructura debe finalizar el cableado en el Palacio. Debido a que se trata de un edificio declarado patrimonio de la ciudad, la iniciativa sufrió demoras, ya que fue necesario evaluar alternativas para realizar la conexión sin afectar ni intervenir la estructura y el entorno del inmueble.\nStatus: Cultura envió la nota correspondiente solicitando la actualización del presupuesto. La unidad ejecutora ya se encuentra habilitada y el equipo de Infraestructura está a la espera de la autorización del área de espacio público para continuar con las tareas externas."
-      },
-      {
-        "titulo": "RUBC",
+        "titulo": "MHFGC | Mejora Loys",
         "estado": "en_curso",
         "ia": false,
         "internas": ["DGGEDOC"],
-        "descripcion": "El RUBC es el Registro Único de Bienes Culturales, centralizado en SADE, que busca unificar la información de los bienes culturales de la Ciudad en una única base de datos, reemplazando la gestión mediante planillas y facilitando su administración por parte de las áreas responsables.\nStatus: Se avanzó en la construcción y consolidación de una base unificada con registros cargados y pendientes de incorporación. Se encuentra en etapa de revisión y validación de datos, a la espera de los ajustes finales por parte de Cultura para continuar con la carga y puesta en funcionamiento del registro. Actualmente, pausado por el área."
+        "descripcion": "Se están impulsando mejoras desde el equipo de Flor Nestasio con el objetivo de optimizar el proceso de LOyS.\nStatus: Estas iniciativas se están trabajando de manera articulada con distintos equipos de Hacienda, especialmente con Contaduría y la Unidad Informática."
       },
       {
-        "titulo": "Mecenazgo",
+        "titulo": "MHFGC | Plataforma de Subsidios",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGSGES"],
+        "descripcion": "Desarrollo de una nueva plataforma integral de subsidios, cuyo objetivo es unificar y modernizar la gestión de los módulos actuales de RIB/PSOC (SADE) y administrar de punta a punta los subsidios, becas y premios otorgados por el GCBA. El objetivo central de este proyecto es lograr la unificación del 100 % de los beneficiarios únicos, garantizar la trazabilidad de punta a punta de los procesos y habilitar la toma de decisiones basada en datos reales y confiables, y no en supuestos. Asimismo, busca generar eficiencias concretas en el gasto público y evolucionar desde una lógica meramente administrativa hacia una lógica estratégica de gestión de subsidios.\nStatus: Es necesario para avanzar con el proyecto la firma de un convenio o acta de acuerdo, impulsada por jefatura, con el Banco Ciudad."
+      },
+      {
+        "titulo": "MHFGC | Entradas BA - Login miba",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCIUD"],
+        "descripcion": "En el marco del proyecto Prioridad Porteña, desde Jefatura se solicitó al equipo de Hacienda incorporar el login MiBA en EntradasBA. Para avanzar con la integración, el equipo compartió la documentación técnica correspondiente.\nStatus: El equipo de login está trabajando en la integración y pidiéndole al equipo de Hacienda las credenciales para disponibilizar en BAX las entradas."
+      },
+      {
+        "titulo": "Sellos jerárquicos",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGEDOC"],
+        "descripcion": "El proyecto propone automatizar la gestión de los sellos de cargos jerárquicos y de la estructura de reparticiones, mediante la integración de los sistemas SADE y SIAL. La iniciativa aborda los procesos de alta, modificación y baja de sellos, eliminando instancias de carga manual a través de la integración de los sistemas involucrados. La automatización permitirá mejorar la consistencia y precisión de la información, reducir dependencias operativas entre áreas y mitigar riesgos asociados a errores o desactualizaciones.\nStatus: pausado por el área."
+      },
+      {
+        "titulo": "Libros Contables - Digitalización",
         "estado": "completado",
         "ia": false,
-        "internas": ["DGSGES", "SSIA"],
-        "descripcion": "Trámite de Mecenazgo en TAD, que agiliza la postulación de proyectos culturales de personas físicas y jurídicas. Se unificó la carga de formularios y documentación técnica bajo una nueva estructura, facilitando la gestión y explotación de datos de cara a la convocatoria 2026. Asimismo, se habilitó para el área un reporte de actualización diaria para el seguimiento de las tramitaciones.\nStatus: implementado desde el 26/02."
+        "internas": ["DGGEDOC"],
+        "descripcion": "Esta iniciativa forma parte del plan de modernización y simplificación administrativa, cuyo fin es reducir la carga operativa del papel y optimizar la trazabilidad. Por ello, se implementó la digitalización de los Libros Auxiliares: todos los registros en soporte físico quedan eliminados al estar respaldados en el SIGAF, con excepción del Libro Banco, que se mantendrá transitoriamente pero digitalizado en RLM.\nStatus: completado."
       },
       {
-        "titulo": "BiblioSubte",
+        "titulo": "Actualización nueva versión Meta4",
         "estado": "completado",
         "ia": false,
-        "internas": ["DGINFRA"],
-        "descripcion": "Tareas de conectividad en la primera BiblioSubte de la Red, situada en la estación Plaza de Mayo de la Línea A.\nStatus: conectividad realizada."
+        "internas": [],
+        "descripcion": "Servicio que se construyó con hacienda para poder consumir la información de sellos y estructura. Es decir, la información del organigrama.\nStatus: completado."
       },
       {
-        "titulo": "Plataforma de Estudio ISA - Moodle",
-        "estado": "no_iniciado",
+        "titulo": "LOTBA Datasets",
+        "estado": "completado",
         "ia": false,
-        "internas": ["DGISIS"],
-        "descripcion": "ISA (Instituto Superior del Arte) pidió una plataforma de e-learning pero quieren usar Moodle porque es la que conocen. Necesitan tener un lugar para alojar, no tienen un proveedor así que se debería presupuestar instalación completa con proveedor, la parte administrativa la tiene el ISA. El mantenimiento entra en la cotización. Piden una estimación macro para saber si ellos lo pueden pagar o no.\nStatus: Se les respondió el 20/08 por mail con una propuesta estimativa, pero no hubo respuesta."
-      },
-      {
-        "titulo": "Museo del Cine (Servidores)",
-        "estado": "no_iniciado",
-        "ia": false,
-        "internas": ["DGINFRA"],
-        "descripcion": "Iniciativa orientada a garantizar el resguardo y preservación del patrimonio audiovisual del Museo del Cine mediante la migración de la información a los Data Centers del GCBA y la adecuación de los sistemas asociados.\nStatus: Definir y dimensionar la solución de almacenamiento e infraestructura necesaria para asegurar la conservación y continuidad operativa de la información."
+        "internas": ["DGGDA"],
+        "descripcion": "Publicación de dos datasets vinculados a la prevención de la ludopatía. Incluyen datasets. Uno de juego ilegal (sitios webs bloqueados por el Gobierno de la Ciudad a partir de denuncias por juego ilegal) y otro de concientización (Actividades de concientización y prevención de ludopatía y juego ilegal).\nStatus: publicados."
       }
     ]
   },
   {
-    "area": "AGC",
+    "area": "Higiene",
     "items": [
       {
-        "titulo": "Agente informativo pre-habilitación",
+        "titulo": "Higiene | Mejora del proceso de contenedores en BA Colaborativa y SAP",
         "estado": "completado",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Agente informativo de requisitos y proceso del trámite de habilitación de locales comerciales. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 27/7, el área se encuentra en etapa de entrenamiento y seguimiento del uso."
-      },
-      {
-        "titulo": "Agente de habilitación",
-        "estado": "en_curso",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Analiza y valida la documentación presentada en los trámites de habilitación, complementando el trabajo realizado por los analistas humanos.\nStatus: El mismo se encuentra en desarrollo, la fecha prevista de salida a producción es octubre del corriente año."
-      },
-      {
-        "titulo": "Agente de diálogo (Mesa de ayuda)",
-        "estado": "en_curso",
-        "ia": true,
-        "internas": [],
-        "descripcion": "Agente informativo de estado de trámites y consultas varias. El mismo se encuentra dentro del portal de AGC.\nStatus: El agente se encuentra productivo desde el 4/5. Se encuentra pendiente incorporar la funcionalidad de la voz."
-      },
-      {
-        "titulo": "Registro Comercio de Venta/Arreglos Celulares",
-        "estado": "no_iniciado",
         "ia": false,
-        "internas": ["SSIA"],
-        "descripcion": "La Ley 6.009 reglamenta y requiere el registro y trazabilidad de comercios dedicados a la compra, venta y reparación de celulares usados, repuestos y partes en CABA. AGC será responsable de administrar el registro y fiscalizar los comercios, con el objetivo de prevenir la comercialización de equipos de origen ilícito. Para llevar el registro y gestión, AGC desarrollará un sistema nuevo.\nStatus: Reunión TECBA–AGC–proveedor prevista para el 31/8 o 1/9 para avanzar en el desarrollo y homologación del sistema, con fecha objetivo de puesta en producción el 19/11."
+        "internas": ["DGGDA", "DGSACIU"],
+        "descripcion": "A partir de la incorporación en BA Colaborativa de la capa de datos de contenedores provista por IDECABA, se desarrolló una mejora en la integración con BA Colaborativa para que, en lugar de enviar la dirección del vecino, se envíe la ubicación del contenedor asociado al reclamo. Esto permite que el área reciba información precisa sobre qué contenedor está siendo reportado, mejorando la trazabilidad y eficiencia en la gestión.\nStatus: en funcionamiento."
+      },
+      {
+        "titulo": "GOCHU | LIZA",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "A partir de la implementación del sistema de fiscalización LIZA en la Gerencia de Control de Higiene Urbana, el área solicitó incorporar la información histórica almacenada en SAP en su nuevo sistema, incluyendo los últimos antecedentes de cada establecimiento fiscalizado.\nStatus: Se envió al área la propuesta, se les pidió que carguen ticket y se enviará el presupuesto."
       }
     ]
   },
@@ -1494,6 +1261,91 @@ const DATA = [
     ]
   },
   {
+    "area": "Jefatura",
+    "items": [
+      {
+        "titulo": "Plataforma de Desalojos",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Consistió en el desarrollo de una herramienta para ingresar los requerimientos de Justicia de forma estandarizada, incorporando los datos necesarios para la planificación operativa y garantizando la distribución automática de la información entre las áreas intervinientes.\nStatus: completado."
+      },
+      {
+        "titulo": "Telecom | Mapeo de Circulación",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "Proyecto orientado a relevar y visualizar los patrones de movilidad de las personas en CABA, con el objetivo de generar información que contribuya a mejorar la planificación y las políticas de higiene urbana (posibilidad que otras áreas utilicen los datos). Personal aportará los datos y el equipo de Gobernanza de Datos desarrollará una herramienta para su visualización.\nStatus: Jefatura se encuentra gestionando el proceso de contratación con la empresa."
+      }
+    ]
+  },
+  {
+    "area": "Justicia",
+    "items": [
+      {
+        "titulo": "IGE | Web externa",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "El equipo de DGISIS está trabajando en el desarrollo de una web externa para el IGE. Además, desde Seguridad Informática se gestionó un dominio externo para ser utilizado en dicha solución.\nStatus: Se está definiendo el harness que se va a utilizar. El backoffice ya está desarrollado, pero se transformó en realizar correcciones. Esperan tener el backoffice cerrado para juntarse con el área."
+      },
+      {
+        "titulo": "DGAV | Patrocinio Penal Gratuito",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["SSIA"],
+        "descripcion": "La DG de Asistencia a la Víctima planteó la necesidad de reemplazar el formulario de Google Forms utilizado para solicitudes de patrocinio penal gratuito, debido al manejo de información sensible. Se evaluaron alternativas transitorias y una revisión integral del proceso junto a las áreas involucradas.\nStatus: Justicia optó por implementar un formulario de Microsoft, al no requerir cambios significativos en la operatoria actual, por lo que el proyecto quedó desestimado."
+      },
+      {
+        "titulo": "DGAI | Agente de validación documental",
+        "estado": "completado",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Validador documental: DNI, cédula verde y CUD pre ingreso al controlador.​\nStatus: Productivo desde el 13/05. Escalamiento progresivo a mayor volumen de conversaciones en BOTI y realización de pruebas para analizar su funcionamiento."
+      },
+      {
+        "titulo": "DGAI | Refinamiento de multas Telepase",
+        "estado": "completado",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Validación de multas generadas por fallas en la lectura de TelePASE.​\nStatus: Productivo desde el 19/05."
+      },
+      {
+        "titulo": "DGAI | Agente pre-resolución",
+        "estado": "en_curso",
+        "ia": true,
+        "internas": [],
+        "descripcion": "Agente informativo del estado de multas y posibilidad de pago y/o turno con el controlador dentro de un mismo canal​\nStatus: Bolt ya hizo la migración a REST y se mantiene la fecha de septiembre para la salida de la primera versión."
+      },
+      {
+        "titulo": "DGEMP | Registro de empleadores",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["SSIA"],
+        "descripcion": "Simplificación y modernización del Registro de Empleadores, con foco en mejorar la experiencia de los usuarios, reducir la carga de información y mejorar la calidad de los datos mediante interoperabilidad y automatización. Pedido por Jefatura.\nStatus: El 25/08 se realizó una reunión con AGIP para analizar servicios que permitan interoperar información actualmente solicitada en el registro y avanzar en su simplificación. GOPD evaluará la documentación requerida para identificar oportunidades de reducción de requisitos."
+      },
+      {
+        "titulo": "DGRDT | Plataforma DICOP",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCIUD", "DGGEDOC", "DGSGES"],
+        "descripcion": "DICOP es una plataforma de Justicia para la gestión de conciliaciones laborales. Se está trabajando en su integración con NEF para el envío de notificaciones electrónicas fehacientes y con miBA, contemplando el alta y vinculación de usuarios y el requerimiento de Nivel 3.\nStatus: Esta semana se realizaron reuniones con ASI, SSIA (TAD) y SSCIUI (miBA), acordando avanzar con las integraciones entre DICOP–NEF y DICOP–miBA. Dado que DICOP estaría productiva aproximadamente en diciembre, se continuará acompañando al área en la definición de requerimientos y dudas, para avanzar con las integraciones cuando la plataforma esté disponible."
+      }
+    ]
+  },
+  {
+    "area": "Ordenamiento",
+    "items": [
+      {
+        "titulo": "Digitalización de actas",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Digitalización y optimización del proceso inspectivo de Ordenamiento, integrando en un único circuito las actuaciones de intimación, comprobación y secuestro, con origen en reclamos vecinales o recorridos preventivos de fiscalización y gestión inicial en SAP.\nStatus: En desarrollo por el área junto con Soflex. TecBA brinda soporte técnico y acompañamiento, sin participación directa en el desarrollo."
+      }
+    ]
+  },
+  {
     "area": "SAME",
     "items": [
       {
@@ -1520,47 +1372,136 @@ const DATA = [
     ]
   },
   {
-    "area": "Ambiente",
+    "area": "SECLYT",
     "items": [
       {
-        "titulo": "Web BA Animales",
-        "estado": "completado",
-        "ia": false,
-        "internas": ["DGCDI"],
-        "descripcion": "Nueva landing de BA Animales, que centraliza y mejora la experiencia de los usuarios en los procesos de adopción, publicación de mascotas y gestión de hallazgos. El rediseño optimiza la navegación y accesibilidad, facilitando el acceso a la información y promoviendo una interacción más simple y ordenada con el servicio.\nLink: https://buenosaires.gob.ar/inicio/animales-ba\nStatus: productiva desde abril 2026"
-      },
-      {
-        "titulo": "DGGAN | Castraciones",
+        "titulo": "DGAIGA | BA Obras",
         "estado": "en_curso",
         "ia": false,
-        "internas": ["DGSACIU"],
-        "descripcion": "El proyecto busca evolucionar el sistema de turnos para castraciones con el objetivo de mejorar la asignación de turnos y optimizar el uso de la capacidad disponible. Entre las principales mejoras propuestas se encuentran la validación de residentes de CABA, la implementación de confirmaciones previas para reducir el ausentismo, una lista de espera para reutilizar turnos liberados y mecanismos para prevenir usos indebidos, como el bloqueo de usuarios o el establecimiento de límites anuales por persona.\nStatus: DGSACIU elaboró una estimación de costos que fue remitida a Jefatura. Se estimaron para todos los requerimientos 1324 hs promedio ($46.828.556). SSCIUI va a conversar con el proveedor para validar si se puede paralelizar las tareas y evaluar la implementación para llevar info a Jefatura."
+        "internas": ["DGCDC", "DGGDA"],
+        "descripcion": "Se publicó un dataset de BA Obras en BA Data y se quiere avanzar con la publicación de un mapa con las obras finalizadas y en proceso en IDECABA.\nStatus: Queda pendiente que el área defina dónde se publicarán los mapas."
+      },
+      {
+        "titulo": "Incorporación firma paralela sobre documentos importados",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["SSIA"],
+        "descripcion": "Se implementó la funcionalidad de firma paralela, que permite disponibilizar una tarea de firma de forma simultánea para todos los firmantes de un documento. Anteriormente, el circuito requería la firma secuencial, lo que generaba demoras cuando un firmante no completaba su tarea. Esta mejora agiliza procesos colaborativos que requieren múltiples validaciones, como los informes de evaluación en licitaciones públicas, donde todos los evaluadores deben firmar el mismo documento. Con la firma paralela, el documento se libera una vez que todos han firmado, sin depender del orden en que lo hagan.\nStatus: completado."
+      },
+      {
+        "titulo": "Proyecto ArchiBA",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["SSIA", "DGISIS"],
+        "descripcion": "Se avanzó en el relevamiento inicial de ArchiBA y se acordó impulsar una reingeniería tecnológica de la plataforma de la plataforma debido a su obsolescencia tecnológica y situación fuera de estándar.\nStatus: TECBA analizará alternativas de solución e integración con SADE (Módulo ARCH), mientras que el equipo de SECLYT revisará el PET vigente y compartirá información sobre volúmenes de datos para evaluar futuras decisiones de infraestructura y almacenamiento."
       }
     ]
   },
   {
-    "area": "Desarrollo Económico",
+    "area": "Salud",
     "items": [
       {
-        "titulo": "Desarrollo de Guías de Ciberseguridad para Pymes",
+        "titulo": "Cola de atención CEDETAC en Boti",
         "estado": "completado",
         "ia": false,
-        "internas": ["DGSEI"],
-        "descripcion": "Elaboración de guías de buenas prácticas para fortalecer la ciberseguridad de PyMEs y emprendimientos, promoviendo la adopción de medidas preventive simples y de bajo costo para reducir riesgos asociados al uso de herramientas digitales.\nStatus: guías finalizadas."
+        "internas": ["DGCDI"],
+        "descripcion": "Se implementó una nueva cola de atención en Boti para reemplazar el WhatsApp institucional de CEDETAC (Centro de Derivación de Estudios de Tomografía y Resonancia Magnética de la Ciudad), que presentaba problemas de capacidad y bloqueos. Con Boti se habilita atención simultánea, derivación entre operadores, horarios configurables y una experiencia unificada para los vecinos. El flujo funciona como un formulario desde el celular, accesible mediante un QR distribuido en hospitales y centros de salud.\nStatus: en funcionamiento."
       },
       {
-        "titulo": "Ley de Economía del Conocimiento",
-        "estado": "completado",
+        "titulo": "UPETDESRHCE | Sistema Integrador de Historia Clínica Electrónica",
+        "estado": "en_curso",
         "ia": false,
-        "internas": ["DGSGES", "SSIA"],
-        "descripcion": "Digitalización del trámite de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento: Incluye 3 trámites, de Inscripción y Renovación al Régimen de Promoción de Economía del Conocimiento y Demostración de cumplimiento de compromisos sin renovación. Se trabajó con la DG de Simplificación Normativa y el área responsable del trámite es la DG de Estrategia Productiva y Regímenes de Promoción, dependiente de la Subse. de Inversiones del Min. Des. Eco.\nStatus: trámites productivos."
+        "internas": ["DGGDA", "DGINFRA", "DGISIS", "DGSEI"],
+        "descripcion": "Habilitar la interoperabilidad entre los sistemas de salud público, privado y de la seguridad social, permitiendo el intercambio seguro de información de pacientes mediante estándares comunes y una arquitectura integrada.\nStatus: En desarrollo del MVP Federador BA, orientado a unificar la identificación de personas mediante un ID único, sin almacenar información clínica. El avance se encuentra condicionado por la definición de aspectos de consentimiento, validación de identidad y articulación con actores externos, además de la integración y capacitación de los distintos participantes."
       },
       {
-        "titulo": "Invest BA",
+        "titulo": "DGSISAN | Llamador Filas BA",
         "estado": "completado",
         "ia": false,
         "internas": ["DGSACIU"],
-        "descripcion": "Nueva Home creada y estructurada. Migración de sitio externo al ecosistema buenosaires.gob.ar, con implementación en Drupal 10.\nStatus: home publicada."
+        "descripcion": "Se buscaba que los profesionales puedan llamar pacientes directamente desde el sistema clínico (HIS), integrándolo con el sistema de filas. Del lado de TecBA, les presentamos 3 alternativas para avanzar con la integración de los llamadores. Salud decidió avanzar con un desarrollo propio.\nStatus: cancelado por el área."
+      },
+      {
+        "titulo": "DGSISAN | Sistema de gestión de residencias",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Desarrollo del Sistema de Gestión de Residencias, plataforma que centraliza y administra la inscripción a concursos de residencias médicas y la gestión del equipo de salud, integrando TAD, SADE, RENAPER y ANSES.\nStatus: En QA. El 27/08, DGISIS informó al área que se encuentra a la espera de la aprobación de DGSEI sobre la versión para avanzar con su instalación en HML. Los nuevos requerimientos que surjan serán evaluados como evolutivos, fuera del alcance y presupuesto del MVP."
+      },
+      {
+        "titulo": "Mátriculas | Digitalización de trámites",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["SSIA"],
+        "descripcion": "Digitalización y modernización del proceso de matriculación de profesionales de la salud mediante su incorporación a TAD, incluyendo el rediseño de procesos, formularios, documentación, reglas de negocio e integraciones con organismos nacionales.\nStatus: En pausa. Se relevaron los procesos y se avanzó en la definición funcional junto con el Ministerio de Salud, identificando las integraciones necesarias con registros nacionales. La continuidad depende de la firma de un convenio con Nación por parte de Salud. Se aguarda confirmación del área para retomar las tareas pendientes."
+      },
+      {
+        "titulo": "Farmacias y trasplantes | Digitalización de trámites",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["SSIA"],
+        "descripcion": "Digitalización en TAD de los trámites de habilitación de farmacias, libre regencia y procesos vinculados a trasplantes, incluyendo el relevamiento y rediseño de circuitos, formularios, documentación, validaciones e integraciones necesarias.\nStatus: En pausa. Se relevaron los procesos y se elaboraron propuestas funcionales junto con el Ministerio de Salud. El avance depende de la formalización de un convenio con Nación, necesario para definir las integraciones y aspectos pendientes. Se aguarda confirmación de Salud para retomar la iniciativa."
+      },
+      {
+        "titulo": "DGSISAN | Circuito de presentismo",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCDI", "DGSACIU"],
+        "descripcion": "El proyecto busca digitalizar el ingreso/presentismo de pacientes en los efectores de Salud mediante Filas Virtuales, reemplazando o complementando el circuito actual de tótems. El paciente escanea un QR desde el celular, se encola y recibe en el teléfono la información de su turno/atención y los avisos correspondientes cuando es llamado. El circuito contempla tanto turnos programados como demanda espontánea.\nStatus: Se encuentran refinando el diseño de la pantalla con el equipo de DGSACIU. 28/08 reunión con el área para avanzar con validaciones."
+      },
+      {
+        "titulo": "Salud | IA en 147",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGCDC"],
+        "descripcion": "Implementación de capacidades de IA en la atención telefónica del sistema de salud, incorporando transcripción en tiempo real, resúmenes automáticos, sugerencias contextuales, alertas, consulta del historial de interacciones y automatización de cierres en CRM, para optimizar la atención y mejorar la experiencia ciudadana.\nStatus: A la espera de definiciones por parte del área de Salud para avanzar con la iniciativa."
+      },
+      {
+        "titulo": "Cableado y fibra óptica para hospitales",
+        "estado": "completado",
+        "ia": false,
+        "internas": ["DGINFRA"],
+        "descripcion": "Se trabajó en el cableado y tendido de fibra óptica para instituciones de salud.\nStatus: completado."
+      },
+      {
+        "titulo": "Portal Salud",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["SSCIUI", "SSIA"],
+        "descripcion": "Desarrollo de un Portal de Salud para centralizar la gestión y comunicación con pacientes, permitiendo el acceso a información de la historia clínica, gestión de turnos y recepción de comunicaciones y notificaciones del sistema de salud.\nStatus: Se está organizando una primera reunión con Pablo, DGCDI y SSIA para conocer la propuesta y evaluar oportunidades de trabajo conjunto, incluyendo la alternativa de desarrollar el portal desde TecBA como un apartado de BAX."
+      }
+    ]
+  },
+  {
+    "area": "Sec. Relaciones Internacionales",
+    "items": [
+      {
+        "titulo": "DGCM | Web de Red de Seguridad",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGISIS"],
+        "descripcion": "Creación una página web por fuera de buenosaires.gob.ar con identidad neutral.  No debe estar asociada a una ciudad, gestión o presidencia específica. Se requiere la creación no sólo de la web sino también de un backoffice para carga y validación de contenidos.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
+      },
+      {
+        "titulo": "DGCM | Agente de IA",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": "Creación de un Agente de IA que realice un barrido de documentación y páginas webs, con el fin de realizar informes para el Jefe de Gobierno ante la visita de un funcionario extranjero.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
+      },
+      {
+        "titulo": "DGCM | Actualización landing",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGCDI"],
+        "descripcion": "Reestructurar y actualizar el contenido de la web de buenosaires.gob.ar\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
+      },
+      {
+        "titulo": "Página Study BA",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGCDC", "DGCDI"],
+        "descripcion": "Study BA cuenta actualmente con distintas páginas web externas, algunas sin acceso para su edición. El área necesita recuperar la gestión de estos sitios o, en su defecto, evaluar la reutilización o migración de sus contenidos y funcionalidades a la web de buenos aires.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       }
     ]
   },
@@ -1573,6 +1514,65 @@ const DATA = [
         "ia": false,
         "internas": ["DGINFRA"],
         "descripcion": "Edificio para logística de entrega de ropa a PDC: Se procedió a brindar conectividad a Internet mediante una antena de Starlink en el depósito de uniformes de la policía, con el objetivo de garantizar la transmisión en tiempo real de las cámaras de seguridad. Esta medida resulta fundamental para reforzar el control y la vigilancia del lugar, prevenir robos y resguardar adecuadamente los uniformes.\nStatus: completado."
+      }
+    ]
+  },
+  {
+    "area": "TecBA - Proyectos estratégicos",
+    "items": [
+      {
+        "titulo": "LENX",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "LenX Es una plataforma de analítica de datos impulsada por inteligencia artificial, diseñada para integrar información de distintas áreas de gestión de la Ciudad en un único entorno de consulta. Mediante lenguaje natural y agentes especializados, permitirá explorar datos, generar portales e identificar tendencias para facilitar la toma de decisiones basada en evidencia.\nStatus: se encuentra en etapa de desarrollo, integración y validación; aún no está operativa para su uso general. La última versión de desarrollo fue implementada el 20/08 para pruebas internas. Actualmente se realizan ajustes con finalización estimada para fines de septiembre, que incluyen una nueva ronda de control de calidad de los agentes, la incorporación de bases de datos de obras y mejoras en la experiencia de usuario para sus versiones web y mobile."
+      },
+      {
+        "titulo": "Perfil 360°",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "Perfil 360 : es una herramienta que centraliza e integra información de distintas áreas y sistemas de Gobierno para construir una visión integral de cada ciudadano, facilitando el análisis y seguimiento de las inversiones, subsidios y servicios brindados por el Estado.\nStatus: Actualmente se encuentra en desarrollo de su MVP, enfocado en consolidar una visión integrada del gasto e inversión pública por persona. Ya se avanzó en el modelado de categorías de subsidios y en el desarrollo de la solución en entorno DEV. Como próximos pasos, se trabaja en la definición de los mecanismos de intercambio de datos entre áreas y en el marco normativo necesario para habilitar su integración y evolución."
+      },
+      {
+        "titulo": "BAX",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGINFRA", "DGISIS", "DGSEI", "SSCIUI", "SSIA"],
+        "descripcion": "BAX: Asistente conversacional del Gobierno de la Ciudad que centraliza el acceso a información, trámites y servicios a través de canales digitales, utilizando inteligencia artificial para brindar una experiencia simple, personalizada y cada vez más autónoma.\nStatus: La plataforma se encuentra operativa desde y evoluciona hacia un modelo 100% agéntico, con 36 agentes especializados. Actualmente avanza en la unificación de los canales de voz y chat y en la incorporación de nuevos servicios e integraciones para ampliar sus capacidades de atención y gestión."
+      },
+      {
+        "titulo": "Gemelo digital",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "Gemelo Digital: Plataforma en desarrollo que integra y visualiza información georreferenciada de la Ciudad para generar una representación digital del entorno urbano, facilitando el monitoreo, análisis y planificación basada en datos.\nStatus: el producto se encuentra en desarrollo."
+      },
+      {
+        "titulo": "XBA",
+        "estado": "en_curso",
+        "ia": false,
+        "internas": ["DGGDA"],
+        "descripcion": "X-BA es un software de código abierto que permite compartir datos de forma segura entre distintas áreas y organismos de la Ciudad, facilitando la interoperabilidad y el uso estratégico de la información.\nStatus: En desarrollo."
+      },
+      {
+        "titulo": "147 (Opción 2)",
+        "estado": "no_iniciado",
+        "ia": true,
+        "internas": ["DGCDC"],
+        "descripcion": "Incorporación de inteligencia artificial a la Línea 147, canal telefónico de atención ciudadana para la gestión de solicitudes y reclamos.\nStatus: En análisis conceptual y de alcance."
+      }
+    ]
+  },
+  {
+    "area": "Turismo",
+    "items": [
+      {
+        "titulo": "Turismo | Proyectos IA",
+        "estado": "no_iniciado",
+        "ia": false,
+        "internas": [],
+        "descripcion": "Turismo está desarrollando, junto al proveedor Cognitive, un avatar de IA para atención al público. El equipo de IA realizó una auditoría para validar la propuesta de implementación inicial en un tótem y evaluar su futura extensión a canales digitales como WhatsApp\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       }
     ]
   }
