@@ -516,7 +516,7 @@
 </div>
 
 <script>
-// Función auxiliar para deducir el estado estrictamente de la cadena de etiquetas
+// Función robusta para deducir el estado estrictamente de la cadena de etiquetas
 function parseEstado(etiquetasArr) {
   const etqStr = (etiquetasArr || []).join(';').toLowerCase();
   if (etqStr.includes('cancelado')) return 'cancelado';
@@ -575,7 +575,7 @@ const RAW_DATA = [
         "titulo": "Login Empresas Extranjeras",
         "ia": false,
         "internas": ["DGCIUD"],
-        "etiquetas": ["DGCIUD", "En curso"],
+        "etiquetas": ["DGCIUD", "Pausado por el área"],
         "descripcion": "Proyecto orientado a que empresas del exterior que operan en CABA (por ejemplo, plataformas como Uber) puedan tributar localmente.\nStatus: Desarrollo realizado por el equipo de miBA pero pausado por AGIP, ya que tiene pendiente incluir el botón en su página para que las empresas puedan acceder."
       },
       {
@@ -627,7 +627,7 @@ const RAW_DATA = [
         "titulo": "Mejora de información",
         "ia": false,
         "internas": ["DGGEDOC", "DGSGES", "SSIA"],
-        "etiquetas": ["SSIA", "DGGEDOC", "DGSGES", "En curso"],
+        "etiquetas": ["SSIA", "DGGEDOC", "DGSGES"],
         "descripcion": "El 04/06 se retomó la solicitud de desarrollar un sistema que reemplace las actuales bases de Excel que el área hoy utirliza. Durante 2025 se realizó un relevamiento y se propuso evolucionar LUNNA, módulo de SADE actualmente utilizado por el Consejo, hacia una plataforma moderna y escalable para fortalecer la gestión institucional; se elaboró un plan de trabajo y una estimación presupuestaria, pero el área decidió no avanzar en ese momento.\nStatus: Se llevó adelante una reunión el 27/08, donde el área solicitó retomar LUNNA (un módulo de SADE que se había desarrollado en 2023, pero nunca llegó a producción por pedido del área); el equipo de SADE está analizando una estimación de costos para llevarlo a producción."
       },
       {
@@ -660,7 +660,7 @@ const RAW_DATA = [
         "titulo": "SSPGE | BA Espacios",
         "ia": false,
         "internas": ["DGISIS"],
-        "etiquetas": ["DGISIS", "No iniciado"],
+        "etiquetas": ["DGISIS", "En curso"],
         "descripcion": "DGISIS se encuentra trabajando en un nuevo proyecto en conjunto con las áreas de Comunicación y Jefatura. La iniciativa consiste en el desarrollo de una plataforma para la gestión y reserva de espacios habilitados del GCBA, que podrán ser utilizados tanto por vecinos como por empresas.\nStatus: Desde el 18/8 el sistema ya se encuentra operativo en el entorno de producción y listo para su utilización. Queda pendiente por el área la salida oficial."
       },
       {
@@ -668,7 +668,7 @@ const RAW_DATA = [
         "ia": false,
         "internas": ["DGISIS"],
         "descripcion": "La plataforma de eventos masivos está operativa desde julio de 2025. Se incorporó una nueva funcionalidad para que las áreas intervinientes (Salud, Tránsito, Seguridad y Mephu) puedan cotizar servicios, emitir la BUI y validar comprobantes de pago enviados por el efector. Este circuito no modifica el flujo principal actual y permite registrar con precisión los costos cobrados a los privados.\nStatus: La plataforma ya cuenta con las funcionalidades de recotización, historial de ajustes y registro integral de intercambios y modificaciones, asegurando la trazabilidad y transparencia del proceso. Se entrega 31/8.",
-        "etiquetas": ["DGISIS", "No iniciado"]
+        "etiquetas": ["DGISIS", "En curso"]
       },
       {
         "titulo": "Campaña de concientización correo institucional",
@@ -686,7 +686,7 @@ const RAW_DATA = [
         "titulo": "Plataforma \"XIURG\"",
         "ia": false,
         "internas": ["DGGDA"],
-        "etiquetas": ["DGGDA", "En curso"],
+        "etiquetas": ["DGGDA", "Pausado por el área"],
         "descripcion": "Evolución de la plataforma XIURG del Complejo Teatral de Buenos Aires (CTBA), utilizada para gestionar un universo de aproximadamente 45.000 prendas de vestuario. Se busca modernizar la plataforma, incorporar nuevas métricas y mejorar la visualización y trazabilidad del vestuario, con la posibilidad de sumar al Teatro Colón y otros organismos.\nStatus: Se realizó la reunión y presentación inicial en el complejo teatral. El equipo de DGISIS le solicitó la información correspondiente para comprender el objetivo y las prioridades, pero desde el lado del Complejo Teatral no hubo más respuestas."
       },
       {
@@ -787,7 +787,7 @@ const RAW_DATA = [
         "titulo": "Mecenazgo Deportes",
         "ia": false,
         "internas": ["DGGEDOC", "DGSGES", "SSIA"],
-        "etiquetas": ["SSIA", "DGGEDOC", "DGSGES", "No iniciado"],
+        "etiquetas": ["SSIA", "DGGEDOC", "DGSGES", "En curso"],
         "descripcion": "Digitalización en TAD del Régimen de Mecenazgo y Patrocinio Deportivo, permitiendo la presentación y gestión digital de proyectos deportivos. El trámite contempla también la identificación de proyectos que soliciten el carácter de Inclusión Social y la posibilidad de adjuntar documentación respaldatoria.\nStatus: El trámite ya está configurado en ambientes bajos y se prevé su habilitación en TAD el 4/9. Resta que el área envíe las CCOO para formalizar la fecha y defina los usuarios y buzones de TAD."
       }
     ]
@@ -823,7 +823,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Model BA",
-        "estado": "completado",
         "ia": false,
         "internas": ["SSIA"],
         "etiquetas": ["SSIA", "Completado"],
@@ -831,7 +830,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "SGUI - Mantenimiento y Evolutivos",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -841,7 +839,7 @@ const RAW_DATA = [
         "titulo": "Trámite: Copia de Plano",
         "ia": true,
         "internas": ["SSIA"],
-        "etiquetas": ["SSIA", "HUB IA", "En curso"],
+        "etiquetas": ["SSIA", "HUB IA", "Completado"],
         "descripcion": "Proyecto llevado a cabo por TECBA - SSIA. Desarrollo de agente de IA que automatiza la validación del interés legítimo, generando respuestas en lenguaje natural y reduciendo el trabajo operativo del analista. El agente se encuentra operativo en el trámite desde el 21/04. Con posterioridad a su puesta en producción, se han implementado dos nuevas versiones orientadas al ajuste y optimización de sus funcionalidades. La última actualización, desplegada el 14/08, incorporó mejoras sustanciales en las validaciones de interés legítimo, la optimización del documento GEDO generado mediante IA, mayor precisión en los mensajes de error y una gestión más eficiente de archivos de gran tamaño, incrementando así la confiabilidad general del proceso.\nStatus: se continúa trabajando en evolutivos de mejora continua para refinar la respuesta del agente."
       },
       {
@@ -977,7 +975,7 @@ const RAW_DATA = [
         "titulo": "SSTEDU | Aprende BA",
         "ia": false,
         "internas": ["DGCDI"],
-        "etiquetas": ["DGCDI", "En curso"],
+        "etiquetas": ["DGCDI", "Pausado por el área"],
         "descripcion": "La plataforma AprendeBA está orientada a la gestión escolar y permite a las escuelas registrar, administrar y realizar el seguimiento de la trayectoria académica de cada estudiante. Su objetivo es consolidar y ampliar el sistema actual, integrando todos los niveles, modalidades y tipos de gestión en una única herramienta digital.\nStatus: El equipo de Educación solicitó el desarrollo de un bot que asista a los docentes ante consultas frecuentes y repetitivas. Desde el equipo de Canales se presentó un informe de diagnóstico de la plataforma para su evaluación, aunque hasta el momento no se recibió respuesta."
       },
       {
@@ -1012,7 +1010,7 @@ const RAW_DATA = [
         "titulo": "IEL 2027",
         "ia": false,
         "internas": ["DGINFRA", "DGISIS", "SSCIUI"],
-        "etiquetas": ["SSCIUI", "DGISIS", "DGINFRA", "No iniciado"],
+        "etiquetas": ["SSCIUI", "DGISIS", "DGINFRA", "En curso"],
         "descripcion": "Inscripción Escolar en Línea (IEL) es la plataforma utilizada por el Ministerio de Educación para gestionar las inscripciones escolares. Se está preparando la plataforma para el proceso de inscripción correspondiente al ciclo lectivo 2027, cuya apertura será el 5/10.\nStatus: Se está actualizando la información en los canales y realizando pruebas de estrés sobre la plataforma para validar su funcionamiento previo a la apertura."
       }
     ]
@@ -1085,7 +1083,7 @@ const RAW_DATA = [
         "titulo": "SSVC | Prioridades SAP",
         "ia": false,
         "internas": ["DGISIS"],
-        "etiquetas": ["DGISIS", "No iniciado"],
+        "etiquetas": ["DGISIS", "En curso"],
         "descripcion": "El área solicitó 3 mejoras específicas en SAP, que se están realizando con presupuesto de TECBA (acordado con Nadia).\nStatus:\n* Mejoras de integración con BA Colaborativa: En progreso. Fecha fin desarrollo y apto para pruebas 04/09.\n* Agregados SAP HANA: Se encuentra en producción desde el 27/08, en validación de usuario.\n* Nuevo reporte para Resoluciones Urbanas: Se cumplió con la entrega 24/08 en tiempo y forma. El usuario el 25/08 nos dió el OK de sus pruebas con lo cual estamos planificando día de salida a PRD."
       },
       {
@@ -1116,7 +1114,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "SSGRH | Equipo BA",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -1124,23 +1121,20 @@ const RAW_DATA = [
       },
       {
         "titulo": "MHFGC | Mejora Loys",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGEDOC"],
-        "etiquetas": ["DGGEDOC", "En curso"],
+        "etiquetas": ["DGGEDOC", "Pausado por el área"],
         "descripcion": "Se están impulsando mejoras desde el equipo de Flor Nestasio con el objetivo de optimizar el proceso de LOyS.\nStatus: Estas iniciativas se están trabajando de manera articulada con distintos equipos de Hacienda, especialmente con Contaduría y la Unidad Informática."
       },
       {
         "titulo": "MHFGC | Plataforma de Subsidios",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGSGES"],
-        "etiquetas": ["DGSGES", "En curso"],
+        "etiquetas": ["DGSGES", "Pausado por el área"],
         "descripcion": "Desarrollo de una nueva plataforma integral de subsidios, cuyo objetivo es unificar y modernizar la gestión de los módulos actuales de RIB/PSOC (SADE) y administrar de punta a punta los subsidios, becas y premios otorgados por el GCBA. El objetivo central de este proyecto es lograr la unificación del 100 % de los beneficiarios únicos, garantizar la trazabilidad de punta a punta de los procesos y habilitar la toma de decisiones basada en datos reales y confiables, y no en supuestos. Asimismo, busca generar eficiencias concretas en el gasto público y evolucionar desde una lógica meramente administrativa hacia una lógica estratégica de gestión de subsidios.\nStatus: Es necesario para avanzar con el proyecto la firma de un convenio o acta de acuerdo, impulsada por jefatura, con el Banco Ciudad."
       },
       {
         "titulo": "MHFGC | Entradas BA - Login miba",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGCIUD"],
         "etiquetas": ["DGCIUD", "En curso"],
@@ -1148,7 +1142,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Sellos jerárquicos",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGEDOC"],
         "etiquetas": ["DGGEDOC", "Pausado por el área"],
@@ -1156,7 +1149,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Libros Contables - Digitalización",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGGEDOC"],
         "etiquetas": ["DGGEDOC", "Completado"],
@@ -1164,7 +1156,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Actualización nueva versión Meta4",
-        "estado": "completado",
         "ia": false,
         "internas": [],
         "etiquetas": ["Completado"],
@@ -1172,7 +1163,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "LOTBA Datasets",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["DGGDA", "Completado"],
@@ -1185,7 +1175,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Higiene | Mejora del proceso de contenedores en BA Colaborativa y SAP",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGGDA", "DGSACIU"],
         "etiquetas": ["DGSACIU", "DGGDA", "Completado"],
@@ -1193,7 +1182,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "GOCHU | LIZA",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -1206,7 +1194,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Transporte | BA TAXI",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGINFRA", "DGISIS"],
         "etiquetas": ["DGISIS", "DGINFRA", "En curso"],
@@ -1214,7 +1201,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Transporte | Movilidad Porteña en TAD",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGSGES", "SSIA"],
         "etiquetas": ["SSIA", "DGSGES", "Completado"],
@@ -1222,7 +1208,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Transporte | Subsidio al transporte",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGSGES", "SSIA"],
         "etiquetas": ["SSIA", "DGSGES", "Completado"],
@@ -1230,7 +1215,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Transporte | Conectividad Trambús",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGINFRA"],
         "etiquetas": ["DGINFRA", "Completado"],
@@ -1238,7 +1222,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Tránsito | Informes “Estacionamiento en la Ciudad”",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGGDA", "SSIA"],
         "etiquetas": ["SSIA", "DGGDA", "Completado"],
@@ -1246,7 +1229,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Tránsito | Cruce permisos de estacionamiento, CUD y defunciones",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGGDA", "SSIA"],
         "etiquetas": ["SSIA", "DGGDA", "Completado"],
@@ -1254,31 +1236,27 @@ const RAW_DATA = [
       },
       {
         "titulo": "Transporte | Cámaras en Colectivos",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": [],
-        "etiquetas": ["No iniciado"],
+        "etiquetas": ["En curso"],
         "descripcion": "Transporte busca aprovechar las cámaras frontales de los colectivos para analizar información e identificar posibles incidencias en la vía pública.\nStatus: El proyecto se encuentra en evaluación junto con la UTN."
       },
       {
         "titulo": "Transporte | Sensores Trambúes",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGINFRA"],
-        "etiquetas": ["DGINFRA", "No iniciado"],
+        "etiquetas": ["DGINFRA", "En curso"],
         "descripcion": "Implementación de sensores IoT en las paradas de Trambús para monitorear variables ambientales como ruido, calidad del aire y partículas. TECBA proveerá la conectividad, plataforma, dashboard, gateways y mantenimiento, mientras que Transporte asumirá la adquisición de los sensores.\nStatus: Se realizó una reunión y se envió el catálogo de sensores; Transporte está definiendo la cantidad necesaria y realizando la evaluación presupuestaria."
       },
       {
         "titulo": "Transporte | Movilidad Jubilados DNI",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGSGES", "SSIA"],
-        "etiquetas": ["SSIA", "DGSGES", "No iniciado"],
+        "etiquetas": ["SSIA", "DGSGES", "En curso"],
         "descripcion": "Incorporación del DNI como nuevo medio de acceso al beneficio de viaje gratuito en subte para jubilados que cobran hasta 2,5 haberes mínimos, sumándose a los canales existentes (SUBE y tarjeta Web). Se implementará el trámite necesario para que nuevos beneficiarios puedan acceder a esta modalidad y para que quienes ya cuentan con el beneficio puedan optar por utilizar su DNI.\nStatus: Ya se realizó el relevamiento con el área y se definieron los trámites a eliminar; el 2/9 se realizará una nueva reunión para avanzar con la implementación."
       },
       {
         "titulo": "T09 Subsidio Transporte Educación",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGSGES", "SSIA"],
         "etiquetas": ["SSIA", "DGSGES", "Completado"],
@@ -1286,7 +1264,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Carriles Exclusivos Tambúes | Transporte",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGSACIU", "SSIA"],
         "etiquetas": ["SSIA", "DGSACIU", "No iniciado"],
@@ -1299,7 +1276,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Plataforma de Desalojos",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "Completado"],
@@ -1307,7 +1283,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Telecom | Mapeo de Circulación",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["DGGDA", "En curso"],
@@ -1320,7 +1295,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "IGE | Web externa",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -1328,15 +1302,13 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGAV | Patrocinio Penal Gratuito",
-        "estado": "completado",
         "ia": false,
         "internas": ["SSIA"],
-        "etiquetas": ["SSIA", "Completado"],
+        "etiquetas": ["SSIA", "Cancelado"],
         "descripcion": "La DG de Asistencia a la Víctima planteó la necesidad de reemplazar el formulario de Google Forms utilizado para solicitudes de patrocinio penal gratuito, debido al manejo de información sensible. Se evaluaron alternativas transitorias y una revisión integral del proceso junto a las áreas involucradas.\nStatus: Justicia optó por implementar un formulario de Microsoft, al no requerir cambios significativos en la operatoria actual, por lo que el proyecto quedó desestimado."
       },
       {
         "titulo": "DGAI | Agente de validación documental",
-        "estado": "completado",
         "ia": true,
         "internas": [],
         "etiquetas": ["HUB IA", "Completado"],
@@ -1344,7 +1316,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGAI | Refinamiento de multas Telepase",
-        "estado": "completado",
         "ia": true,
         "internas": [],
         "etiquetas": ["HUB IA", "Completado"],
@@ -1352,7 +1323,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGAI | Agente pre-resolución",
-        "estado": "en_curso",
         "ia": true,
         "internas": [],
         "etiquetas": ["HUB IA", "En curso"],
@@ -1360,7 +1330,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGEMP | Registro de empleadores",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["SSIA"],
         "etiquetas": ["SSIA", "En curso"],
@@ -1368,7 +1337,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGRDT | Plataforma DICOP",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGCIUD", "DGGEDOC", "DGSGES"],
         "etiquetas": ["DGCIUD", "DGGEDOC", "DGSGES", "En curso"],
@@ -1381,7 +1349,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Digitalización de actas",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -1394,7 +1361,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Integración con HAAS + Waze",
-        "estado": "en_curso",
         "ia": false,
         "internas": [],
         "etiquetas": ["En curso"],
@@ -1402,7 +1368,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Starlink en ambulancias SAME",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGINFRA"],
         "etiquetas": ["DGINFRA", "Completado"],
@@ -1410,7 +1375,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Tablero de datos",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["DGGDA", "En curso"],
@@ -1423,7 +1387,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "DGAIGA | BA Obras",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGCDC", "DGGDA"],
         "etiquetas": ["DGCDI", "DGCDC", "En curso"],
@@ -1431,7 +1394,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Incorporación firma paralela sobre documentos importados",
-        "estado": "completado",
         "ia": false,
         "internas": ["SSIA"],
         "etiquetas": ["SSIA", "Completado"],
@@ -1439,7 +1401,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Proyecto ArchiBA",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["SSIA", "DGISIS"],
         "etiquetas": ["SSIA", "DGISIS", "En curso"],
@@ -1452,7 +1413,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Cola de atención CEDETAC en Boti",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGCDI"],
         "etiquetas": ["DGCDI", "Completado"],
@@ -1460,7 +1420,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "UPETDESRHCE | Sistema Integrador de Historia Clínica Electrónica",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA", "DGINFRA", "DGISIS", "DGSEI"],
         "etiquetas": ["DGSEI", "DGISIS", "DGINFRA", "DGGDA", "En curso"],
@@ -1468,7 +1427,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGSISAN | Llamador Filas BA",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGSACIU"],
         "etiquetas": ["DGSACIU", "Cancelado"],
@@ -1476,7 +1434,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "DGSISAN | Sistema de gestión de residencias",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
         "etiquetas": ["DGISIS", "En curso"],
@@ -1484,23 +1441,20 @@ const RAW_DATA = [
       },
       {
         "titulo": "Mátriculas | Digitalización de trámites",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["SSIA"],
-        "etiquetas": ["SSIA", "En curso"],
+        "etiquetas": ["SSIA", "Pausado por el área"],
         "descripcion": "Digitalización y modernización del proceso de matriculación de profesionales de la salud mediante su incorporación a TAD, incluyendo el rediseño de procesos, formularios, documentación, reglas de negocio e integraciones con organismos nacionales.\nStatus: En pausa. Se relevaron los procesos y se avanzó en la definición funcional junto con el Ministerio de Salud, identificando las integraciones necesarias con registros nacionales. La continuidad depende de la firma de un convenio con Nación por parte de Salud. Se aguarda confirmación del área para retomar las tareas pendientes."
       },
       {
         "titulo": "Farmacias y trasplantes | Digitalización de trámites",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["SSIA"],
-        "etiquetas": ["SSIA", "En curso"],
+        "etiquetas": ["SSIA", "Pausado por el área"],
         "descripcion": "Digitalización en TAD de los trámites de habilitación de farmacias, libre regencia y procesos vinculados a trasplantes, incluyendo el relevamiento y rediseño de circuitos, formularios, documentación, validaciones e integraciones necesarias.\nStatus: En pausa. Se relevaron los procesos y se elaboraron propuestas funcionales junto con el Ministerio de Salud. El avance depende de la formalización de un convenio con Nación, necesario para definir las integraciones y aspectos pendientes. Se aguarda confirmación de Salud para retomar la iniciativa."
       },
       {
         "titulo": "DGSISAN | Circuito de presentismo",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGCDI", "DGSACIU"],
         "etiquetas": ["DGCDI", "DGSACIU", "En curso"],
@@ -1508,7 +1462,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Salud | IA en 147",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGCDC"],
         "etiquetas": ["DGCDC", "En curso"],
@@ -1516,7 +1469,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Cableado y fibra óptica para hospitales",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGINFRA"],
         "etiquetas": ["DGINFRA", "Completado"],
@@ -1524,7 +1476,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Portal Salud",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["SSCIUI", "SSIA"],
         "etiquetas": ["SSCIUI", "SSIA", "No iniciado"],
@@ -1537,34 +1488,30 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "DGCM | Web de Red de Seguridad",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGISIS"],
-        "etiquetas": ["DGISIS", "En curso"],
+        "etiquetas": ["DGISIS", "Pausado por el área"],
         "descripcion": "Creación una página web por fuera de buenosaires.gob.ar con identidad neutral.  No debe estar asociada a una ciudad, gestión o presidencia específica. Se requiere la creación no sólo de la web sino también de un backoffice para carga y validación de contenidos.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       },
       {
         "titulo": "DGCM | Agente de IA",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": [],
-        "etiquetas": ["DGSEI", "No iniciado", "DGCDI"],
+        "etiquetas": ["DGSEI", "Pausado por el área", "DGCDI"],
         "descripcion": "Creación de un Agente de IA que realice un barrido de documentación y páginas webs, con el fin de realizar informes para el Jefe de Gobierno ante la visita de un funcionario extranjero.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       },
       {
         "titulo": "DGCM | Actualización landing",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGCDI"],
-        "etiquetas": ["No iniciado"],
+        "etiquetas": ["DGCDI", "Pausado por el área"],
         "descripcion": "Reestructurar y actualizar el contenido de la web de buenosaires.gob.ar\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       },
       {
         "titulo": "Página Study BA",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGCDC", "DGCDI"],
-        "etiquetas": ["SSCIUI", "SSIA", "No iniciado"],
+        "etiquetas": ["DGCDI", "DGCDC", "Pausado por el área"],
         "descripcion": "Study BA cuenta actualmente con distintas páginas web externas, algunas sin acceso para su edición. El área necesita recuperar la gestión de estos sitios o, en su defecto, evaluar la reutilización o migración de sus contenidos y funcionalidades a la web de buenos aires.\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       }
     ]
@@ -1574,7 +1521,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Conectividad temporal (Satelital)",
-        "estado": "completado",
         "ia": false,
         "internas": ["DGINFRA"],
         "etiquetas": ["DGINFRA", "Completado"],
@@ -1587,7 +1533,6 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "LENX",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["DGGDA", "En curso"],
@@ -1595,15 +1540,13 @@ const RAW_DATA = [
       },
       {
         "titulo": "Perfil 360°",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": ["DGGDA"],
-        "etiquetas": ["DGINFRA", "No iniciado"],
+        "etiquetas": ["DGINFRA", "En curso"],
         "descripcion": "Perfil 360 : es una herramienta que centraliza e integra información de distintas áreas y sistemas de Gobierno para construir una visión integral de cada ciudadano, facilitando el análisis y seguimiento de las inversiones, subsidios y servicios brindados por el Estado.\nStatus: Actualmente se encuentra en desarrollo de su MVP, enfocado en consolidar una visión integrada del gasto e inversión pública por persona. Ya se avanzó en el modelado de categorías de subsidios y en el desarrollo de la solución en entorno DEV. Como próximos pasos, se trabaja en la definición de los mecanismos de intercambio de datos entre áreas y en el marco normativo necesario para habilitar su integración y evolución."
       },
       {
         "titulo": "BAX",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGINFRA", "DGISIS", "DGSEI", "SSCIUI", "SSIA"],
         "etiquetas": ["SSCIUI", "SSIA", "DGSEI", "DGISIS", "DGINFRA", "En curso"],
@@ -1611,7 +1554,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "Gemelo digital",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["SSCIUI", "DGCDC", "HUB IA", "Completado"],
@@ -1619,7 +1561,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "XBA",
-        "estado": "en_curso",
         "ia": false,
         "internas": ["DGGDA"],
         "etiquetas": ["DGGDA", "En curso"],
@@ -1627,7 +1568,6 @@ const RAW_DATA = [
       },
       {
         "titulo": "147 (Opción 2)",
-        "estado": "no_iniciado",
         "ia": true,
         "internas": ["DGCDC"],
         "etiquetas": ["DGCDC", "No iniciado", "HUB IA"],
@@ -1640,10 +1580,9 @@ const RAW_DATA = [
     "items": [
       {
         "titulo": "Turismo | Proyectos IA",
-        "estado": "no_iniciado",
         "ia": false,
         "internas": [],
-        "etiquetas": ["No iniciado"],
+        "etiquetas": ["Pausado por el área"],
         "descripcion": "Turismo está desarrollando, junto al proveedor Cognitive, un avatar de IA para atención al público. El equipo de IA realizó una auditoría para validar la propuesta de implementación inicial en un tótem y evaluar su futura extensión a canales digitales como WhatsApp\nStatus: Sin avances; el área no volvió a contactarnos por este proyecto."
       }
     ]
@@ -1683,15 +1622,13 @@ let textSearchTerm = '';
 let currentInterna = '';
 let currentHubIA = false;
 let weeklyDepotActive = false;
-let viewMode = 'cards'; // 'cards' or 'table'
+let viewMode = 'cards';
 let currentTheme = localStorage.getItem('tecba_theme') || 'light';
 
-// Apply theme on load
 if(currentTheme === 'dark'){
   document.documentElement.setAttribute('data-theme', 'dark');
 }
 
-// Persistencia mediante localStorage
 let favorites = new Set(JSON.parse(localStorage.getItem('tecba_favorites') || '[]'));
 
 function saveFavorites() {
@@ -1740,7 +1677,6 @@ function areaCounts(areaName){
   return counts;
 }
 
-// URL Params Synchronization
 function updateURLParams(){
   const params = new URLSearchParams();
   if(currentArea !== 'TODAS') params.set('area', currentArea);
@@ -1999,7 +1935,6 @@ function toggleEstado(estado){
   render();
 }
 
-// Mobile sidebar drawer logic
 const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -2017,7 +1952,6 @@ function closeMobileSidebar() {
 hamburgerBtn.addEventListener('click', toggleMobileSidebar);
 sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
-// Theme Toggle
 function toggleTheme(){
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
   if(currentTheme === 'dark'){
@@ -2061,7 +1995,6 @@ document.getElementById('statsRow').addEventListener('click', (e)=>{
   toggleEstado(card.dataset.estado);
 });
 
-// Event delegation for favorites (cards and table)
 document.getElementById('contentContainer').addEventListener('click', (e)=>{
   const btn = e.target.closest('.fav-btn');
   if(!btn) return;
@@ -2103,7 +2036,6 @@ document.getElementById('hubiaBtn').addEventListener('click', (e)=>{
   render();
 });
 
-// View mode toggle (Cards vs Table)
 function updateViewModeButton(){
   const btn = document.getElementById('viewModeBtn');
   if(viewMode === 'table'){
