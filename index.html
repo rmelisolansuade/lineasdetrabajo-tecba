@@ -506,6 +506,7 @@
     </select>
     <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
     <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
+    <button id="downloadCsvBtn" class="secondary-action" title="Descargar datos en formato CSV para Excel">⬇️ Descargar Excel</button>
     <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
     <button id="printBtn" title="Exportar / imprimir esta vista">🖨️ Imprimir</button>
   </div>
@@ -536,7 +537,6 @@ function parseEstado(etiquetasArr) {
   return 'no_iniciado';
 }
 
-// NUEVO ORDEN DE ESTADOS SOLICITADO
 const STATUS_META = {
   en_curso:        { label:'En curso',              color:'#2F80ED', order:0 },
   no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:1 },
@@ -997,28 +997,77 @@ function showToast(msg){
   setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
 }
 
+// NUEVA FUNCIÓN: Descargar CSV
+document.getElementById('downloadCsvBtn').addEventListener('click', ()=>{
+  const items = getFilteredAndSortedItems();
+  if(items.length === 0){
+    alert('No hay datos para descargar.');
+    return;
+  }
+  
+  let csvContent = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
+  
+  items.forEach(i => {
+    let area = `"${i.area.replace(/"/g, '""')}"`;
+    let titulo = `"${i.titulo.replace(/"/g, '""')}"`;
+    let estadoStr = `"${(STATUS_META[i.estado] || {label:i.estado}).label}"`;
+    let ia = i.ia ? '"Sí"' : '"No"';
+    let internas = `"${(i.internas || []).join(', ')}"`;
+    let desc = `"${(i.descripcion || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+    
+    csvContent += `${area},${titulo},${estadoStr},${ia},${internas},${desc}\n`;
+  });
+  
+  const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
+  link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+// NUEVA VERSIÓN: Copiar Reporte para WhatsApp
 document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   const items = getFilteredAndSortedItems();
   if(items.length === 0){
     alert('No hay líneas de trabajo visibles para copiar.');
     return;
   }
-  let report = `📋 *Reporte de Líneas de Trabajo - TECBA (GCBA)*\n`;
-  report += `• Filtro / Área: ${currentArea}\n`;
-  report += `• Total ítems: ${items.length}\n\n`;
+  
+  // Limpiar emojis del título para el reporte
+  let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+  let report = `📋 *Reporte de Líneas de Trabajo con ${titleArea}*\n\n`;
 
   items.forEach((i, idx)=>{
     const meta = STATUS_META[i.estado] || {label:i.estado};
+    
     report += `${idx + 1}. *${i.titulo}* [${meta.label}]\n`;
-    if(currentArea === 'TODAS') report += `   Área: ${i.area}\n`;
-    if(i.descripcion) {
-      const firstLine = i.descripcion.split('\n')[0];
-      report += `   ↳ ${firstLine}\n`;
+    
+    let desc = (i.descripcion || "").trim();
+    // Separar donde dice "Status:" ignorando mayúsculas o minúsculas
+    let parts = desc.split(/Status\s*:/i);
+    
+    let detalle = parts[0].replace(/\n/g, ' ').trim();
+    let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, ' ').trim() : "";
+
+    if(detalle) {
+      report += `   ↳ ${detalle}\n`;
     }
+    if(status) {
+      report += `   *Status:* ${status}\n`;
+    }
+    if(currentArea === 'TODAS') {
+      report += `   🏢 *Área:* ${i.area}\n`;
+    }
+    
+    report += `\n`;
   });
 
-  navigator.clipboard.writeText(report).then(()=>{
-    showToast('✨ ¡Reporte resumido copiado al portapapeles!');
+  navigator.clipboard.writeText(report.trim()).then(()=>{
+    showToast('✨ ¡Reporte copiado con formato ejecutivo!');
   }).catch(()=>{
     alert('No se pudo copiar al portapapeles.');
   });
@@ -1049,30 +1098,24 @@ async function cargarDatosDeGoogle() {
         datosAgrupados[area] = { area: area, items: [] };
       }
       
-      // Separar las etiquetas por punto y coma (;)
       let etiquetasBrutas = fila["Etiquetas"] ? String(fila["Etiquetas"]).split(';').map(s => s.trim()).filter(s => s !== "") : [];
-      
-      // 1. Detectar si alguna etiqueta es "Hub IA"
       let esIA = etiquetasBrutas.some(e => e.toLowerCase().includes('hub ia'));
-      
-      // 2. Extraer áreas internas: nos quedamos con las etiquetas que NO son IA y NO son estados
       let internas = etiquetasBrutas.filter(e => {
         let el = e.toLowerCase();
-        if (el.includes('hub ia')) return false; // Descartar IA
-        // Descartar los estados conocidos
+        if (el.includes('hub ia')) return false;
         if (el.includes('completado') || el.includes('en curso') || 
             el.includes('pausado') || el.includes('cancelado') || 
             el.includes('no iniciado')) {
           return false;
         }
-        return true; // Lo que sobra, es un área interna
+        return true; 
       });
       
       datosAgrupados[area].items.push({
         titulo: fila["Titulo"] || "",
         ia: esIA,
         internas: internas,
-        etiquetas: etiquetasBrutas, // Dejamos todas para que la función parseEstado también haga lo suyo
+        etiquetas: etiquetasBrutas,
         descripcion: fila["Descripcion"] || ""
       });
     });
@@ -1081,14 +1124,11 @@ async function cargarDatosDeGoogle() {
 
     // ORDENAR LAS ÁREAS ALFABÉTICAMENTE (Ignorando emojis e íconos en el nombre)
     RAW_DATA.sort((a, b) => {
-      // Expresión regular que saca todo lo que NO sea una letra, número o espacio
-      // Esto hace que "🔴 Salud" se compare exactamente como si fuera "Salud"
       const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
       const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
       return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
     });
     
-    // Asignar el estado computado a cada ítem leyendo las etiquetas
     DATA = RAW_DATA.map(areaObj => ({
       area: areaObj.area,
       items: areaObj.items.map(i => ({
@@ -1099,22 +1139,18 @@ async function cargarDatosDeGoogle() {
 
     ALL = flatten();
 
-    // --- LIMPIADOR AUTOMÁTICO DE FAVORITOS FANTASMAS ---
     const clavesValidas = new Set(ALL.map(getItemKey));
     let favsModificados = false;
     favorites.forEach(k => {
       if(!clavesValidas.has(k)){
-        favorites.delete(k); // Si ya no existe en el Excel, se borra de favoritos
+        favorites.delete(k); 
         favsModificados = true;
       }
     });
     if(favsModificados) saveFavorites();
-    // ---------------------------------------------------
     
-    // Generar colores únicos por área
     DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
     
-    // Inicializar la interfaz
     populateInternaFilter();
     readURLParams();
     render();
