@@ -536,7 +536,7 @@ function parseEstado(etiquetasArr) {
   return 'no_iniciado';
 }
 
-// NUEVO ORDEN SOLICITADO
+// NUEVO ORDEN DE ESTADOS SOLICITADO
 const STATUS_META = {
   en_curso:        { label:'En curso',              color:'#2F80ED', order:0 },
   no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:1 },
@@ -1079,8 +1079,14 @@ async function cargarDatosDeGoogle() {
     
     RAW_DATA = Object.values(datosAgrupados);
 
-    // ORDENAR LAS ÁREAS ALFABÉTICAMENTE
-    RAW_DATA.sort((a, b) => a.area.localeCompare(b.area, 'es'));
+    // ORDENAR LAS ÁREAS ALFABÉTICAMENTE (Ignorando emojis e íconos en el nombre)
+    RAW_DATA.sort((a, b) => {
+      // Expresión regular que saca todo lo que NO sea una letra, número o espacio
+      // Esto hace que "🔴 Salud" se compare exactamente como si fuera "Salud"
+      const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+      const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+      return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
+    });
     
     // Asignar el estado computado a cada ítem leyendo las etiquetas
     DATA = RAW_DATA.map(areaObj => ({
