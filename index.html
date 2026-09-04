@@ -536,13 +536,14 @@ function parseEstado(etiquetasArr) {
   return 'no_iniciado';
 }
 
+// NUEVO ORDEN SOLICITADO
 const STATUS_META = {
-  completado:      { label:'Completado',            color:'#219653', order:0 },
-  en_curso:        { label:'En curso',              color:'#2F80ED', order:1 },
+  en_curso:        { label:'En curso',              color:'#2F80ED', order:0 },
+  no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:1 },
   pausado_area:    { label:'Pausado por el área',  color:'#F2994A', order:2 },
   pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', order:3 },
-  cancelado:       { label:'Cancelado',            color:'#EB5757', order:4 },
-  no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:5 },
+  completado:      { label:'Completado',            color:'#219653', order:4 },
+  cancelado:       { label:'Cancelado',            color:'#EB5757', order:5 },
 };
 const STATUS_KEYS = Object.keys(STATUS_META).sort((a,b)=>STATUS_META[a].order-STATUS_META[b].order);
 
@@ -952,7 +953,6 @@ function populateInternaFilter(){
   const set = new Set();
   ALL.forEach(i=>(i.internas||[]).forEach(a=>set.add(a)));
   const sel = document.getElementById('internaFilter');
-  // Limpiar opciones previas (excepto la por defecto)
   sel.innerHTML = '<option value="">Todas las áreas internas</option>';
   Array.from(set).sort().forEach(a=>{
     const opt = document.createElement('option');
@@ -1078,6 +1078,9 @@ async function cargarDatosDeGoogle() {
     });
     
     RAW_DATA = Object.values(datosAgrupados);
+
+    // ORDENAR LAS ÁREAS ALFABÉTICAMENTE
+    RAW_DATA.sort((a, b) => a.area.localeCompare(b.area, 'es'));
     
     // Asignar el estado computado a cada ítem leyendo las etiquetas
     DATA = RAW_DATA.map(areaObj => ({
@@ -1089,6 +1092,18 @@ async function cargarDatosDeGoogle() {
     }));
 
     ALL = flatten();
+
+    // --- LIMPIADOR AUTOMÁTICO DE FAVORITOS FANTASMAS ---
+    const clavesValidas = new Set(ALL.map(getItemKey));
+    let favsModificados = false;
+    favorites.forEach(k => {
+      if(!clavesValidas.has(k)){
+        favorites.delete(k); // Si ya no existe en el Excel, se borra de favoritos
+        favsModificados = true;
+      }
+    });
+    if(favsModificados) saveFavorites();
+    // ---------------------------------------------------
     
     // Generar colores únicos por área
     DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
