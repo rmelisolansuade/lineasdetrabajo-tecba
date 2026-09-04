@@ -294,6 +294,37 @@
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   .toolbar button.secondary-action:hover { background: var(--border); }
 
+  /* DROPDOWN MENU PARA DESCARGAS */
+  .dropdown { position: relative; display: inline-flex; }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    background-color: var(--card);
+    min-width: 220px;
+    box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
+    z-index: 2000;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .dropdown-content a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s ease;
+  }
+  .dropdown-content a:hover {
+    background-color: var(--bg);
+    color: var(--teal);
+  }
+  .dropdown.show .dropdown-content { display: block; }
+
   /* CARDS VIEW */
   .cards{ display:grid; grid-template-columns:1fr; gap:14px; }
   .proj-card{
@@ -426,28 +457,6 @@
     
     /* Mostrar contenedor secreto */
     #printTemplate { display: block !important; width: 100%; max-width: 100%; padding: 0; }
-
-    /* Estilos copiados milimétricamente del Word */
-    .pt-header-sec { font-size: 11px; text-transform: uppercase; color: #555; font-weight: bold; margin-bottom: 2px; }
-    .pt-title { font-size: 20px; font-weight: bold; margin: 0 0 2px 0; color: #000; }
-    .pt-subtitle { font-size: 12px; color: #555; margin-bottom: 20px; }
-    .pt-meta { font-size: 10px; font-weight: bold; display: flex; align-items: center; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 25px; }
-
-    .pt-section { margin-bottom: 25px; page-break-inside: avoid; }
-    .pt-section-title { font-size: 13px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 8px; text-transform: uppercase; }
-    .pt-intro { font-size: 11px; line-height: 1.4; color: #333; margin-bottom: 10px; }
-
-    .pt-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
-    .pt-table th { text-align: left; border-bottom: 1px solid #000; padding: 4px; }
-    .pt-table td { padding: 6px 4px; border-bottom: 1px solid #ddd; vertical-align: top; }
-
-    .pt-highlight-block { margin-top: 10px; font-size: 11px; line-height: 1.4; }
-    .pt-highlight-title { font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 2px; }
-
-    .pt-metrics-row { display: flex; gap: 40px; margin-bottom: 15px; }
-    .pt-metric { text-align: left; }
-    .pt-metric-val { font-size: 16px; font-weight: bold; display: block; }
-    .pt-metric-lbl { font-size: 9px; text-transform: uppercase; color: #555; }
   }
   
   @media screen {
@@ -478,11 +487,11 @@
 </head>
 <body>
 
-<!-- Molde oculto que solo se renderizará al imprimir -->
+<!-- Molde oculto que solo se renderizará al imprimir/exportar -->
 <div id="printTemplate"></div>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
-<div class="toast" id="toastNotification">✨ ¡Copiado al portapapeles con éxito!</div>
+<div class="toast" id="toastNotification">✨ Acción completada</div>
 
 <div class="mobile-top-bar">
   <div class="m-title">
@@ -536,9 +545,18 @@
     </select>
     <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
     <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
-    <button id="downloadCsvBtn" class="secondary-action" title="Descargar datos en formato CSV para Excel">⬇️ Descargar Excel</button>
-    <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
-    <button id="printBtn" title="Generar Informe Ejecutivo">🖨️ Imprimir</button>
+    <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar a WhatsApp</button>
+    
+    <!-- NUEVO MENÚ DE DESCARGAS -->
+    <div class="dropdown" id="downloadDropdown">
+      <button id="downloadBtn" class="secondary-action" title="Opciones de descarga">⬇️ Descargar ▼</button>
+      <div class="dropdown-content" id="downloadMenu">
+        <a href="#" id="dlWord">📄 Formato Word</a>
+        <a href="#" id="dlPdf">🖨️ Formato PDF / Imprimir</a>
+        <a href="#" id="dlExcel">📊 Formato Excel (CSV)</a>
+      </div>
+    </div>
+
   </div>
 
   <div class="stats-row" id="statsRow"></div>
@@ -1014,36 +1032,13 @@ function showToast(msg){
   setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
 }
 
-// Descargar CSV
-document.getElementById('downloadCsvBtn').addEventListener('click', ()=>{
-  const items = getFilteredAndSortedItems();
-  if(items.length === 0){
-    alert('No hay datos para descargar.');
-    return;
-  }
-  
-  let csvContent = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
-  
-  items.forEach(i => {
-    let area = `"${i.area.replace(/"/g, '""')}"`;
-    let titulo = `"${i.titulo.replace(/"/g, '""')}"`;
-    let estadoStr = `"${(STATUS_META[i.estado] || {label:i.estado}).label}"`;
-    let ia = i.ia ? '"Sí"' : '"No"';
-    let internas = `"${(i.internas || []).join(', ')}"`;
-    let desc = `"${(i.descripcion || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
-    
-    csvContent += `${area},${titulo},${estadoStr},${ia},${internas},${desc}\n`;
-  });
-  
-  const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
-  link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+// LOGICA DEL DROPDOWN DE DESCARGA
+document.getElementById('downloadBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  document.getElementById('downloadDropdown').classList.toggle('show');
+});
+window.addEventListener('click', ()=>{
+  document.getElementById('downloadDropdown').classList.remove('show');
 });
 
 // Copiar Reporte para WhatsApp
@@ -1055,7 +1050,7 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   }
   
   let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-  let report = `📋 *Reporte de Líneas de Trabajo con ${titleArea}*\n\n`;
+  let report = `📋 *Líneas de trabajo con ${titleArea}*\n\n`;
 
   items.forEach((i, idx)=>{
     const meta = STATUS_META[i.estado] || {label:i.estado};
@@ -1082,139 +1077,169 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 
   navigator.clipboard.writeText(report.trim()).then(()=>{
-    showToast('✨ ¡Reporte copiado con formato ejecutivo!');
+    showToast('✨ ¡Reporte copiado para WhatsApp!');
   }).catch(()=>{
     alert('No se pudo copiar al portapapeles.');
   });
 });
 
-// --- GENERADOR DEL TEMPLATE DE IMPRESIÓN (BRIEF EJECUTIVO EXACTO) ---
-function construirTemplateImpresion() {
+// --- GENERADOR DEL HTML LIMPIO (Para Word y PDF) ---
+function getReportHTML() {
   const items = getFilteredAndSortedItems();
   const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
   
-  // Limpieza del nombre para el encabezado
-  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim().toUpperCase();
-  
-  // Cálculos dinámicos para la Sección 2
-  let total = items.length;
-  let enCurso = items.filter(i => i.estado === 'en_curso').length;
-  let frenados = items.filter(i => ['pausado_area', 'pausado_tecba', 'cancelado'].includes(i.estado)).length;
+  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
 
+  // NOTA: Se usan estilos inline (style="...") para que Word los interprete perfectamente.
   let html = `
-    <div class="pt-header-sec">SECRETARÍA / ÁREA TECBA: ${tituloArea}</div>
-    <h1 class="pt-title">Nombre del Informe Ejecutivo</h1>
-    <div class="pt-subtitle">Subtítulo · Tema específico</div>
-    
-    <div class="pt-meta">■ ACTUALIZADO · ${fecha}</div>
+    <div style="font-family: Arial, sans-serif; color: #000; padding: 20px;">
+      <h1 style="font-size: 24px; font-weight: bold; margin: 0 0 5px 0; color: #000;">Líneas de trabajo con ${tituloArea}</h1>
+      <div style="font-size: 11px; font-weight: bold; margin-bottom: 25px; border-bottom: 2px solid #000; padding-bottom: 5px; color: #000;">■ ACTUALIZADO · ${fecha}</div>
 
-    <!-- Sección 1 (Estructura Fija de la plantilla Word) -->
-    <div class="pt-section">
-        <div class="pt-section-title">1. Título de la Primera Sección</div>
-        <div class="pt-intro">Introducción o contexto de esta sección. Describir el estado actual, el pedido recibido o el objetivo de este bloque del informe.</div>
-        <table class="pt-table">
-            <thead>
-                <tr>
-                    <th style="width:25%">Categoría</th>
-                    <th style="width:60%">Descripción</th>
-                    <th style="width:15%">Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Ítem A</td><td>Descripción del ítem, la persona involucrada o la decisión tomada.</td><td>Completado ✅</td></tr>
-                <tr><td>Ítem B</td><td>Descripción del ítem o acción en curso. Incluir actores clave.</td><td>En curso</td></tr>
-                <tr><td>Ítem C</td><td>Descripción del ítem pendiente. Indicar fecha de resolución.</td><td>Alerta 🚨</td></tr>
-            </tbody>
-        </table>
-        <div class="pt-highlight-block">
-            <span class="pt-highlight-title">A GESTIONAR</span>
-            Describir el punto de acción pendiente. Indicar quién es responsable y cuál es el próximo paso concreto.
-        </div>
-    </div>
-
-    <!-- Sección 2 (Estructura Fija con Números Dinámicos) -->
-    <div class="pt-section">
-        <div class="pt-section-title">2. Segunda Sección — Datos & Presupuesto</div>
-        <div class="pt-intro">Texto introductorio. Describir el contexto financiero, los montos involucrados o los indicadores clave de esta sección.</div>
-        <div class="pt-metrics-row">
-            <div class="pt-metric"><span class="pt-metric-val">${total}</span><span class="pt-metric-lbl">PROYECTOS ACTIVOS</span></div>
-            <div class="pt-metric"><span class="pt-metric-val">${enCurso}</span><span class="pt-metric-lbl">EN CURSO ESTIMADO</span></div>
-            <div class="pt-metric"><span class="pt-metric-val">${frenados}</span><span class="pt-metric-lbl">ALERTAS A CUBRIR</span></div>
-        </div>
-        <div class="pt-highlight-block">
-            <span class="pt-highlight-title">PUNTO DE ATENCIÓN</span>
-            Nota informativa. Destacar restricciones técnicas, normativas o presupuestarias que afectan el avance del proyecto.
-        </div>
-        <div class="pt-highlight-block">
-            <span class="pt-highlight-title">SUGERENCIA</span>
-            Describir la recomendación del equipo. Incluir el razonamiento y el impacto esperado de seguir esta línea de acción.
-        </div>
-    </div>
-
-    <!-- Sección 3 (100% Automática con datos del Excel) -->
-    <div class="pt-section">
-        <div class="pt-section-title">3. Tercera Sección — Proyectos & Avances</div>
-        <div class="pt-intro">Descripción general de los proyectos o iniciativas en curso. Indicar estado, hitos alcanzados y próximos pasos para cada uno.</div>
-        <table class="pt-table">
-            <thead>
-                <tr>
-                    <th style="width:25%">Proyecto</th>
-                    <th style="width:60%">Descripción & Avances</th>
-                    <th style="width:15%">Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${items.map(i => {
-                    const meta = STATUS_META[i.estado] || {label:i.estado};
-                    let desc = (i.descripcion || "").trim();
-                    let parts = desc.split(/Status\s*:/i);
-                    let detalle = parts[0].trim().replace(/\n/g, '<br>');
-                    let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
-                    
-                    let descHTML = detalle;
-                    if(status) {
-                        descHTML += `<br><br><strong>A gestionar / Status:</strong> ${status}`;
-                    }
-
-                    return `
-                        <tr>
-                            <td><strong>${escapeHtml(i.titulo)}</strong></td>
-                            <td>${descHTML}</td>
-                            <td>${meta.label}</td>
-                        </tr>
-                    `;
-                }).join('')}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Sección 4 (Estructura Fija de la plantilla Word) -->
-    <div class="pt-section">
-        <div class="pt-section-title">4. Cronograma & Próximos Pasos</div>
-        <table class="pt-table">
-            <tbody>
-                <tr><td style="width:90px; font-weight:bold;">DD/MM</td><td>Hito o acción — Descripción de lo que ocurrió o se completó en esta fecha.</td></tr>
-                <tr><td style="width:90px; font-weight:bold;">DD/MM</td><td>Hito o acción — Descripción del avance o decisión registrada en esta fecha.</td></tr>
-                <tr><td style="width:90px; font-weight:bold; color: #555;">→ Próximo</td><td><strong>Próximo paso</strong> — Describir la acción pendiente más importante o el desbloqueo necesario.</td></tr>
-            </tbody>
-        </table>
-    </div>
+      <h3 style="font-size: 14px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; text-transform: uppercase; color: #000;">Proyectos & Avances</h3>
+      
+      <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 30px; border: 1px solid #ccc;">
+        <thead>
+          <tr>
+            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 25%; color: #000; font-weight: bold;">Proyecto</th>
+            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 60%; color: #000; font-weight: bold;">Descripción & Avances</th>
+            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 15%; color: #000; font-weight: bold;">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
   `;
 
-  document.getElementById('printTemplate').innerHTML = html;
+  if(items.length === 0) {
+    html += `<tr><td colspan="3" style="padding: 10px; text-align: center;">No hay proyectos.</td></tr>`;
+  } else {
+    items.forEach(i => {
+      const meta = STATUS_META[i.estado] || {label:i.estado};
+      
+      let desc = (i.descripcion || "").trim();
+      let parts = desc.split(/Status\s*:/i);
+      let detalle = parts[0].trim().replace(/\n/g, '<br>');
+      let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
+      
+      let descHTML = detalle;
+      if(status) {
+        descHTML += `<br><br><strong>Status:</strong> ${status}`;
+      }
+
+      let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
+      if(i.ia) {
+        proyHTML += `<br><span style="font-size:11px; font-weight:bold; color:#6B48D6;">💡 Hub IA</span>`;
+      }
+      if(i.internas && i.internas.length > 0) {
+        proyHTML += `<br><span style="font-size:11px; color:#555;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
+      }
+
+      html += `
+        <tr>
+          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; color: #000;">${proyHTML}</td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; color: #000;">${descHTML}</td>
+          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; font-weight: bold; color: #000;">${meta.label} ${meta.label === 'Completado' ? '✅' : ''}</td>
+        </tr>
+      `;
+    });
+  }
+
+  html += `
+        </tbody>
+      </table>
+
+      <h3 style="font-size: 14px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; text-transform: uppercase; color: #000;">Resumen de Estado</h3>
+      <ul style="font-size: 13px; line-height: 1.8; list-style-type: none; padding-left: 0; margin-top: 0; color: #000;">
+        <li><strong>Total de proyectos:</strong> ${items.length}</li>
+  `;
+
+  // Conteo de los proyectos que actualmente se están viendo
+  const counts = {};
+  items.forEach(i => {
+    counts[i.estado] = (counts[i.estado] || 0) + 1;
+  });
+
+  STATUS_KEYS.forEach(k => {
+    if (counts[k] && counts[k] > 0) {
+      html += `<li><strong>${STATUS_META[k].label}:</strong> ${counts[k]}</li>`;
+    }
+  });
+
+  html += `
+      </ul>
+    </div>
+  `;
+  
+  return html;
 }
 
-// Disparador de impresión interceptado
-document.getElementById('printBtn').addEventListener('click', ()=>{
-  construirTemplateImpresion();
-  // Un pequeño retraso asegura que el HTML se pintó antes de abrir el diálogo de impresión
+// 1. DESCARGAR WORD
+document.getElementById('dlWord').addEventListener('click', (e)=>{
+  e.preventDefault();
+  const items = getFilteredAndSortedItems();
+  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
+  
+  // Envolvemos el HTML en la estructura XML/HTML que Microsoft Word entiende nativamente.
+  let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reporte TECBA</title></head><body>";
+  let postHtml = "</body></html>";
+  let htmlContext = preHtml + getReportHTML() + postHtml;
+  
+  let blob = new Blob(['\ufeff', htmlContext], { type: 'application/msword' });
+  let url = URL.createObjectURL(blob);
+  let link = document.createElement("a");
+  link.href = url;
+  
+  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
+  link.download = `Reporte_TECBA_${fileNameArea}.doc`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+// 2. DESCARGAR / IMPRIMIR PDF
+document.getElementById('dlPdf').addEventListener('click', (e)=>{
+  e.preventDefault();
+  const items = getFilteredAndSortedItems();
+  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
+  
+  document.getElementById('printTemplate').innerHTML = getReportHTML();
+  
   setTimeout(() => {
     try {
-      window.print();
+      window.print(); // Abre el diálogo nativo donde el usuario elige "Guardar como PDF"
     } catch(err) {
-      alert('El navegador bloqueó la impresión en esta vista previa.');
+      alert('El navegador bloqueó la impresión.');
     }
   }, 100);
+});
+
+// 3. DESCARGAR EXCEL (CSV)
+document.getElementById('dlExcel').addEventListener('click', (e)=>{
+  e.preventDefault();
+  const items = getFilteredAndSortedItems();
+  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
+  
+  let csvContent = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
+  
+  items.forEach(i => {
+    let area = `"${i.area.replace(/"/g, '""')}"`;
+    let titulo = `"${i.titulo.replace(/"/g, '""')}"`;
+    let estadoStr = `"${(STATUS_META[i.estado] || {label:i.estado}).label}"`;
+    let ia = i.ia ? '"Sí"' : '"No"';
+    let internas = `"${(i.internas || []).join(', ')}"`;
+    let desc = `"${(i.descripcion || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+    
+    csvContent += `${area},${titulo},${estadoStr},${ia},${internas},${desc}\n`;
+  });
+  
+  const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
+  link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 });
 
 // --- FUNCIÓN PARA BUSCAR LOS DATOS DE GOOGLE SHEETS EN VIVO ---
