@@ -414,19 +414,45 @@
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
-  @media print{
-    .sidebar, .toolbar, .mobile-top-bar{ display:none !important; }
-    .print-header{ display:block !important; margin-bottom:16px; }
-    body{display:block;}
-    .main{padding:10px; max-width:100%;}
-    .proj-card{ break-inside:avoid; box-shadow:none !important; }
-    .stat-card{ cursor:default; box-shadow:none !important; }
-    .topbar{margin-bottom:14px;}
-  }
-  .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
-  .print-header b{ color:var(--text); }
+  /* ========================================= */
+  /* NUEVO ESTILO DE IMPRESIÓN - BRIEF EJECUTIVO */
+  /* ========================================= */
+  @media print {
+    /* Ocultamos absolutamente toda la interfaz web normal */
+    .sidebar, .mobile-top-bar, .main, .sidebar-overlay, .toast { display: none !important; }
+    
+    /* Reseteamos el body para garantizar una hoja limpia y blanca */
+    body { background: #fff !important; color: #000 !important; display: block !important; font-family: 'Montserrat', sans-serif; margin: 0; padding: 0;}
+    
+    /* Mostramos únicamente nuestro contenedor secreto de impresión */
+    #printTemplate { display: block !important; width: 100%; max-width: 100%; padding: 20px; }
 
-  /* RESPONSIVE MEDIA QUERIES */
+    /* Estilos copiados del Documento Word Ejecutivo */
+    .print-header-top { font-size: 10px; text-transform: uppercase; color: #7f8c8d; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; }
+    .print-title { font-size: 22px; font-weight: 800; color: #153244; margin: 0 0 4px 0; line-height: 1.2; }
+    .print-subtitle { font-size: 13px; color: #6B7C82; font-weight: 500; margin-bottom: 24px; }
+    .print-meta { font-size: 10px; font-weight: 800; color: #153244; letter-spacing: 1px; border-bottom: 2px solid #153244; padding-bottom: 8px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;}
+    
+    .print-section-title { font-size: 14px; font-weight: 800; color: #153244; margin-top: 30px; margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid #E4E9EA; padding-bottom: 4px;}
+    
+    .print-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 24px; }
+    .print-table th { border-bottom: 2px solid #153244; text-align: left; padding: 8px 8px 8px 0; color: #153244; font-weight: 800; }
+    .print-table td { border-bottom: 1px solid #E4E9EA; padding: 12px 8px 12px 0; vertical-align: top; line-height: 1.5;}
+    .print-table tr { page-break-inside: avoid; }
+    
+    /* Cajas de resumen de métricas */
+    .print-summary-row { display: flex; gap: 16px; margin-bottom: 30px; page-break-inside: avoid;}
+    .print-summary-box { flex: 1; border-left: 4px solid var(--gold); padding-left: 12px; }
+    .print-summary-box .val { font-size: 22px; font-weight: 800; color: #153244; line-height: 1; margin-bottom: 4px;}
+    .print-summary-box .lbl { font-size: 9px; text-transform: uppercase; font-weight: 700; color: #6B7C82; letter-spacing: 0.5px;}
+  }
+  
+  /* En pantalla normal, el molde de impresión debe estar oculto */
+  @media screen {
+    #printTemplate { display: none !important; }
+  }
+
+  /* RESPONSIVE MEDIA QUERIES (Web Normal) */
   @media (max-width:900px){
     body{flex-direction:column;}
     .mobile-top-bar { display: flex; }
@@ -449,6 +475,9 @@
 </style>
 </head>
 <body>
+
+<!-- Molde oculto que solo se renderizará al imprimir -->
+<div id="printTemplate"></div>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="toast" id="toastNotification">✨ ¡Copiado al portapapeles con éxito!</div>
@@ -488,7 +517,6 @@
 </div>
 
 <div class="main">
-  <div class="print-header" id="printHeader"></div>
   <div class="topbar">
     <div class="topbar-header-row">
       <div>
@@ -837,24 +865,11 @@ function escapeHtml(str){
   return div.innerHTML;
 }
 
-function renderPrintHeader(){
-  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const filtrosAplicados = [];
-  if(selectedEstados.size > 0) filtrosAplicados.push(Array.from(selectedEstados).map(s=>STATUS_META[s]?.label).join(', '));
-  if(currentInterna) filtrosAplicados.push(currentInterna);
-  if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
-  if(weeklyDepotActive) filtrosAplicados.push('⭐ Novedades de la semana');
-  if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
-  const filtrosTxt = filtrosAplicados.length ? ` · Filtros: ${filtrosAplicados.join(', ')}` : '';
-  document.getElementById('printHeader').innerHTML = `TECBA — Líneas de trabajo con áreas del GCBA · <b>${fecha}</b>${filtrosTxt}`;
-}
-
 function render(){
   renderSidebar();
   renderHeader();
   renderStats();
   renderContent();
-  renderPrintHeader();
   updateURLParams();
 }
 
@@ -997,7 +1012,7 @@ function showToast(msg){
   setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
 }
 
-// NUEVA FUNCIÓN: Descargar CSV
+// Descargar CSV
 document.getElementById('downloadCsvBtn').addEventListener('click', ()=>{
   const items = getFilteredAndSortedItems();
   if(items.length === 0){
@@ -1029,7 +1044,7 @@ document.getElementById('downloadCsvBtn').addEventListener('click', ()=>{
   document.body.removeChild(link);
 });
 
-// NUEVA VERSIÓN: Copiar Reporte para WhatsApp
+// Copiar Reporte para WhatsApp
 document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   const items = getFilteredAndSortedItems();
   if(items.length === 0){
@@ -1037,7 +1052,6 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
     return;
   }
   
-  // Limpiar emojis del título para el reporte
   let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
   let report = `📋 *Reporte de Líneas de Trabajo con ${titleArea}*\n\n`;
 
@@ -1047,7 +1061,6 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
     report += `${idx + 1}. *${i.titulo}* [${meta.label}]\n`;
     
     let desc = (i.descripcion || "").trim();
-    // Separar donde dice "Status:" ignorando mayúsculas o minúsculas
     let parts = desc.split(/Status\s*:/i);
     
     let detalle = parts[0].replace(/\n/g, ' ').trim();
@@ -1073,12 +1086,99 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 });
 
-document.getElementById('printBtn').addEventListener('click', ()=>{
-  try{
-    window.print();
-  }catch(err){
-    alert('El navegador bloqueó la impresión en esta vista previa.');
+// --- GENERADOR DEL TEMPLATE DE IMPRESIÓN ---
+function construirTemplateImpresion() {
+  const items = getFilteredAndSortedItems();
+  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
+  
+  // Extraemos el nombre limpio del área para el encabezado
+  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim().toUpperCase();
+  let subTitulo = currentArea === 'TODAS' ? 'Resumen general de gestión' : 'Proyectos tecnológicos y estratégicos';
+  
+  // Calculamos las métricas para las cajas superiores
+  let total = items.length;
+  let enCurso = items.filter(i => i.estado === 'en_curso').length;
+  let completados = items.filter(i => i.estado === 'completado').length;
+  let frenados = items.filter(i => ['pausado_area', 'pausado_tecba', 'cancelado'].includes(i.estado)).length;
+
+  let html = `
+    <div class="print-header-top">SECRETARÍA TECBA / ${tituloArea}</div>
+    <h1 class="print-title">Reporte de Líneas de Trabajo</h1>
+    <div class="print-subtitle">${subTitulo}</div>
+    
+    <div class="print-meta">
+      <span>■ ACTUALIZADO · ${fecha}</span>
+    </div>
+
+    <div class="print-summary-row">
+      <div class="print-summary-box"><div class="val">${total}</div><div class="lbl">Total Proyectos</div></div>
+      <div class="print-summary-box" style="border-left-color: #2F80ED;"><div class="val">${enCurso}</div><div class="lbl">En Curso</div></div>
+      <div class="print-summary-box" style="border-left-color: #219653;"><div class="val">${completados}</div><div class="lbl">Completados</div></div>
+      <div class="print-summary-box" style="border-left-color: #8DE2D6;"><div class="val">${frenados}</div><div class="lbl">En Pausa / Otros</div></div>
+    </div>
+
+    <h2 class="print-section-title">1. Detalle de Proyectos & Avances</h2>
+    
+    <table class="print-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Categoría / Proyecto</th>
+          <th style="width:50%">Descripción & Avances</th>
+          <th style="width:20%">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  if(items.length === 0) {
+    html += `<tr><td colspan="3" style="text-align:center; padding: 20px;">No hay líneas de trabajo para los filtros aplicados.</td></tr>`;
+  } else {
+    items.forEach(i => {
+      const meta = STATUS_META[i.estado] || {label:i.estado};
+      
+      // Partir la descripción y el status como en el reporte de WhatsApp
+      let desc = (i.descripcion || "").trim();
+      let parts = desc.split(/Status\s*:/i);
+      let detalle = parts[0].trim().replace(/\n/g, '<br>');
+      let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
+      
+      let textoColumnaCentral = detalle;
+      if (status) {
+        textoColumnaCentral += `<br><br><strong>A gestionar / Status:</strong> ${status}`;
+      }
+
+      html += `
+        <tr>
+          <td>
+            <strong>${escapeHtml(i.titulo)}</strong>
+            ${currentArea === 'TODAS' ? `<br><span style="color:#6B7C82; font-size:9px;">${escapeHtml(i.area)}</span>` : ''}
+            ${i.ia ? '<br><span style="color:#6B48D6; font-size:10px; font-weight:bold;">💡 Hub IA</span>' : ''}
+          </td>
+          <td>${textoColumnaCentral}</td>
+          <td><strong>${meta.label}</strong> ${meta.label === 'Completado' ? '✅' : ''}</td>
+        </tr>
+      `;
+    });
   }
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  document.getElementById('printTemplate').innerHTML = html;
+}
+
+// Interceptar el botón de impresión para construir el template antes de imprimir
+document.getElementById('printBtn').addEventListener('click', ()=>{
+  construirTemplateImpresion();
+  setTimeout(() => {
+    try {
+      window.print();
+    } catch(err) {
+      alert('El navegador bloqueó la impresión en esta vista previa.');
+    }
+  }, 100);
 });
 
 // --- FUNCIÓN PARA BUSCAR LOS DATOS DE GOOGLE SHEETS EN VIVO ---
@@ -1122,7 +1222,6 @@ async function cargarDatosDeGoogle() {
     
     RAW_DATA = Object.values(datosAgrupados);
 
-    // ORDENAR LAS ÁREAS ALFABÉTICAMENTE (Ignorando emojis e íconos en el nombre)
     RAW_DATA.sort((a, b) => {
       const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
       const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
