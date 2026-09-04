@@ -414,40 +414,42 @@
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
-  /* ========================================= */
-  /* NUEVO ESTILO DE IMPRESIÓN - BRIEF EJECUTIVO */
-  /* ========================================= */
+  /* ======================================================== */
+  /* TEMPLATE BRIEF EJECUTIVO - ESTILOS EXACTOS DE IMPRESIÓN  */
+  /* ======================================================== */
   @media print {
-    /* Ocultamos absolutamente toda la interfaz web normal */
+    /* Ocultamos toda la app web normal */
     .sidebar, .mobile-top-bar, .main, .sidebar-overlay, .toast { display: none !important; }
     
-    /* Reseteamos el body para garantizar una hoja limpia y blanca */
-    body { background: #fff !important; color: #000 !important; display: block !important; font-family: 'Montserrat', sans-serif; margin: 0; padding: 0;}
+    /* Fondo blanco puro para impresión */
+    body { background: #fff !important; color: #000 !important; display: block !important; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
     
-    /* Mostramos únicamente nuestro contenedor secreto de impresión */
-    #printTemplate { display: block !important; width: 100%; max-width: 100%; padding: 20px; }
+    /* Mostrar contenedor secreto */
+    #printTemplate { display: block !important; width: 100%; max-width: 100%; padding: 0; }
 
-    /* Estilos copiados del Documento Word Ejecutivo */
-    .print-header-top { font-size: 10px; text-transform: uppercase; color: #7f8c8d; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; }
-    .print-title { font-size: 22px; font-weight: 800; color: #153244; margin: 0 0 4px 0; line-height: 1.2; }
-    .print-subtitle { font-size: 13px; color: #6B7C82; font-weight: 500; margin-bottom: 24px; }
-    .print-meta { font-size: 10px; font-weight: 800; color: #153244; letter-spacing: 1px; border-bottom: 2px solid #153244; padding-bottom: 8px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;}
-    
-    .print-section-title { font-size: 14px; font-weight: 800; color: #153244; margin-top: 30px; margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid #E4E9EA; padding-bottom: 4px;}
-    
-    .print-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 24px; }
-    .print-table th { border-bottom: 2px solid #153244; text-align: left; padding: 8px 8px 8px 0; color: #153244; font-weight: 800; }
-    .print-table td { border-bottom: 1px solid #E4E9EA; padding: 12px 8px 12px 0; vertical-align: top; line-height: 1.5;}
-    .print-table tr { page-break-inside: avoid; }
-    
-    /* Cajas de resumen de métricas */
-    .print-summary-row { display: flex; gap: 16px; margin-bottom: 30px; page-break-inside: avoid;}
-    .print-summary-box { flex: 1; border-left: 4px solid var(--gold); padding-left: 12px; }
-    .print-summary-box .val { font-size: 22px; font-weight: 800; color: #153244; line-height: 1; margin-bottom: 4px;}
-    .print-summary-box .lbl { font-size: 9px; text-transform: uppercase; font-weight: 700; color: #6B7C82; letter-spacing: 0.5px;}
+    /* Estilos copiados milimétricamente del Word */
+    .pt-header-sec { font-size: 11px; text-transform: uppercase; color: #555; font-weight: bold; margin-bottom: 2px; }
+    .pt-title { font-size: 20px; font-weight: bold; margin: 0 0 2px 0; color: #000; }
+    .pt-subtitle { font-size: 12px; color: #555; margin-bottom: 20px; }
+    .pt-meta { font-size: 10px; font-weight: bold; display: flex; align-items: center; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 25px; }
+
+    .pt-section { margin-bottom: 25px; page-break-inside: avoid; }
+    .pt-section-title { font-size: 13px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 2px; margin-bottom: 8px; text-transform: uppercase; }
+    .pt-intro { font-size: 11px; line-height: 1.4; color: #333; margin-bottom: 10px; }
+
+    .pt-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
+    .pt-table th { text-align: left; border-bottom: 1px solid #000; padding: 4px; }
+    .pt-table td { padding: 6px 4px; border-bottom: 1px solid #ddd; vertical-align: top; }
+
+    .pt-highlight-block { margin-top: 10px; font-size: 11px; line-height: 1.4; }
+    .pt-highlight-title { font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 2px; }
+
+    .pt-metrics-row { display: flex; gap: 40px; margin-bottom: 15px; }
+    .pt-metric { text-align: left; }
+    .pt-metric-val { font-size: 16px; font-weight: bold; display: block; }
+    .pt-metric-lbl { font-size: 9px; text-transform: uppercase; color: #555; }
   }
   
-  /* En pantalla normal, el molde de impresión debe estar oculto */
   @media screen {
     #printTemplate { display: none !important; }
   }
@@ -536,7 +538,7 @@
     <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
     <button id="downloadCsvBtn" class="secondary-action" title="Descargar datos en formato CSV para Excel">⬇️ Descargar Excel</button>
     <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
-    <button id="printBtn" title="Exportar / imprimir esta vista">🖨️ Imprimir</button>
+    <button id="printBtn" title="Generar Informe Ejecutivo">🖨️ Imprimir</button>
   </div>
 
   <div class="stats-row" id="statsRow"></div>
@@ -1086,92 +1088,126 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 });
 
-// --- GENERADOR DEL TEMPLATE DE IMPRESIÓN ---
+// --- GENERADOR DEL TEMPLATE DE IMPRESIÓN (BRIEF EJECUTIVO EXACTO) ---
 function construirTemplateImpresion() {
   const items = getFilteredAndSortedItems();
   const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
   
-  // Extraemos el nombre limpio del área para el encabezado
+  // Limpieza del nombre para el encabezado
   let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim().toUpperCase();
-  let subTitulo = currentArea === 'TODAS' ? 'Resumen general de gestión' : 'Proyectos tecnológicos y estratégicos';
   
-  // Calculamos las métricas para las cajas superiores
+  // Cálculos dinámicos para la Sección 2
   let total = items.length;
   let enCurso = items.filter(i => i.estado === 'en_curso').length;
-  let completados = items.filter(i => i.estado === 'completado').length;
   let frenados = items.filter(i => ['pausado_area', 'pausado_tecba', 'cancelado'].includes(i.estado)).length;
 
   let html = `
-    <div class="print-header-top">SECRETARÍA TECBA / ${tituloArea}</div>
-    <h1 class="print-title">Reporte de Líneas de Trabajo</h1>
-    <div class="print-subtitle">${subTitulo}</div>
+    <div class="pt-header-sec">SECRETARÍA / ÁREA TECBA: ${tituloArea}</div>
+    <h1 class="pt-title">Nombre del Informe Ejecutivo</h1>
+    <div class="pt-subtitle">Subtítulo · Tema específico</div>
     
-    <div class="print-meta">
-      <span>■ ACTUALIZADO · ${fecha}</span>
+    <div class="pt-meta">■ ACTUALIZADO · ${fecha}</div>
+
+    <!-- Sección 1 (Estructura Fija de la plantilla Word) -->
+    <div class="pt-section">
+        <div class="pt-section-title">1. Título de la Primera Sección</div>
+        <div class="pt-intro">Introducción o contexto de esta sección. Describir el estado actual, el pedido recibido o el objetivo de este bloque del informe.</div>
+        <table class="pt-table">
+            <thead>
+                <tr>
+                    <th style="width:25%">Categoría</th>
+                    <th style="width:60%">Descripción</th>
+                    <th style="width:15%">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Ítem A</td><td>Descripción del ítem, la persona involucrada o la decisión tomada.</td><td>Completado ✅</td></tr>
+                <tr><td>Ítem B</td><td>Descripción del ítem o acción en curso. Incluir actores clave.</td><td>En curso</td></tr>
+                <tr><td>Ítem C</td><td>Descripción del ítem pendiente. Indicar fecha de resolución.</td><td>Alerta 🚨</td></tr>
+            </tbody>
+        </table>
+        <div class="pt-highlight-block">
+            <span class="pt-highlight-title">A GESTIONAR</span>
+            Describir el punto de acción pendiente. Indicar quién es responsable y cuál es el próximo paso concreto.
+        </div>
     </div>
 
-    <div class="print-summary-row">
-      <div class="print-summary-box"><div class="val">${total}</div><div class="lbl">Total Proyectos</div></div>
-      <div class="print-summary-box" style="border-left-color: #2F80ED;"><div class="val">${enCurso}</div><div class="lbl">En Curso</div></div>
-      <div class="print-summary-box" style="border-left-color: #219653;"><div class="val">${completados}</div><div class="lbl">Completados</div></div>
-      <div class="print-summary-box" style="border-left-color: #8DE2D6;"><div class="val">${frenados}</div><div class="lbl">En Pausa / Otros</div></div>
+    <!-- Sección 2 (Estructura Fija con Números Dinámicos) -->
+    <div class="pt-section">
+        <div class="pt-section-title">2. Segunda Sección — Datos & Presupuesto</div>
+        <div class="pt-intro">Texto introductorio. Describir el contexto financiero, los montos involucrados o los indicadores clave de esta sección.</div>
+        <div class="pt-metrics-row">
+            <div class="pt-metric"><span class="pt-metric-val">${total}</span><span class="pt-metric-lbl">PROYECTOS ACTIVOS</span></div>
+            <div class="pt-metric"><span class="pt-metric-val">${enCurso}</span><span class="pt-metric-lbl">EN CURSO ESTIMADO</span></div>
+            <div class="pt-metric"><span class="pt-metric-val">${frenados}</span><span class="pt-metric-lbl">ALERTAS A CUBRIR</span></div>
+        </div>
+        <div class="pt-highlight-block">
+            <span class="pt-highlight-title">PUNTO DE ATENCIÓN</span>
+            Nota informativa. Destacar restricciones técnicas, normativas o presupuestarias que afectan el avance del proyecto.
+        </div>
+        <div class="pt-highlight-block">
+            <span class="pt-highlight-title">SUGERENCIA</span>
+            Describir la recomendación del equipo. Incluir el razonamiento y el impacto esperado de seguir esta línea de acción.
+        </div>
     </div>
 
-    <h2 class="print-section-title">1. Detalle de Proyectos & Avances</h2>
-    
-    <table class="print-table">
-      <thead>
-        <tr>
-          <th style="width:30%">Categoría / Proyecto</th>
-          <th style="width:50%">Descripción & Avances</th>
-          <th style="width:20%">Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+    <!-- Sección 3 (100% Automática con datos del Excel) -->
+    <div class="pt-section">
+        <div class="pt-section-title">3. Tercera Sección — Proyectos & Avances</div>
+        <div class="pt-intro">Descripción general de los proyectos o iniciativas en curso. Indicar estado, hitos alcanzados y próximos pasos para cada uno.</div>
+        <table class="pt-table">
+            <thead>
+                <tr>
+                    <th style="width:25%">Proyecto</th>
+                    <th style="width:60%">Descripción & Avances</th>
+                    <th style="width:15%">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${items.map(i => {
+                    const meta = STATUS_META[i.estado] || {label:i.estado};
+                    let desc = (i.descripcion || "").trim();
+                    let parts = desc.split(/Status\s*:/i);
+                    let detalle = parts[0].trim().replace(/\n/g, '<br>');
+                    let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
+                    
+                    let descHTML = detalle;
+                    if(status) {
+                        descHTML += `<br><br><strong>A gestionar / Status:</strong> ${status}`;
+                    }
 
-  if(items.length === 0) {
-    html += `<tr><td colspan="3" style="text-align:center; padding: 20px;">No hay líneas de trabajo para los filtros aplicados.</td></tr>`;
-  } else {
-    items.forEach(i => {
-      const meta = STATUS_META[i.estado] || {label:i.estado};
-      
-      // Partir la descripción y el status como en el reporte de WhatsApp
-      let desc = (i.descripcion || "").trim();
-      let parts = desc.split(/Status\s*:/i);
-      let detalle = parts[0].trim().replace(/\n/g, '<br>');
-      let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
-      
-      let textoColumnaCentral = detalle;
-      if (status) {
-        textoColumnaCentral += `<br><br><strong>A gestionar / Status:</strong> ${status}`;
-      }
+                    return `
+                        <tr>
+                            <td><strong>${escapeHtml(i.titulo)}</strong></td>
+                            <td>${descHTML}</td>
+                            <td>${meta.label}</td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        </table>
+    </div>
 
-      html += `
-        <tr>
-          <td>
-            <strong>${escapeHtml(i.titulo)}</strong>
-            ${currentArea === 'TODAS' ? `<br><span style="color:#6B7C82; font-size:9px;">${escapeHtml(i.area)}</span>` : ''}
-            ${i.ia ? '<br><span style="color:#6B48D6; font-size:10px; font-weight:bold;">💡 Hub IA</span>' : ''}
-          </td>
-          <td>${textoColumnaCentral}</td>
-          <td><strong>${meta.label}</strong> ${meta.label === 'Completado' ? '✅' : ''}</td>
-        </tr>
-      `;
-    });
-  }
-
-  html += `
-      </tbody>
-    </table>
+    <!-- Sección 4 (Estructura Fija de la plantilla Word) -->
+    <div class="pt-section">
+        <div class="pt-section-title">4. Cronograma & Próximos Pasos</div>
+        <table class="pt-table">
+            <tbody>
+                <tr><td style="width:90px; font-weight:bold;">DD/MM</td><td>Hito o acción — Descripción de lo que ocurrió o se completó en esta fecha.</td></tr>
+                <tr><td style="width:90px; font-weight:bold;">DD/MM</td><td>Hito o acción — Descripción del avance o decisión registrada en esta fecha.</td></tr>
+                <tr><td style="width:90px; font-weight:bold; color: #555;">→ Próximo</td><td><strong>Próximo paso</strong> — Describir la acción pendiente más importante o el desbloqueo necesario.</td></tr>
+            </tbody>
+        </table>
+    </div>
   `;
 
   document.getElementById('printTemplate').innerHTML = html;
 }
 
-// Interceptar el botón de impresión para construir el template antes de imprimir
+// Disparador de impresión interceptado
 document.getElementById('printBtn').addEventListener('click', ()=>{
   construirTemplateImpresion();
+  // Un pequeño retraso asegura que el HTML se pintó antes de abrir el diálogo de impresión
   setTimeout(() => {
     try {
       window.print();
