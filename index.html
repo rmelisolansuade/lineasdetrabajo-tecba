@@ -642,7 +642,7 @@ function saveFavorites() {
 }
 
 function getItemKey(item) {
-  return item.area + '::' + item.titulo;
+  return item.area.trim() + '::' + item.titulo.trim();
 }
 
 function flatten(){
@@ -662,7 +662,9 @@ function areaColor(name){
 }
 
 function baseFilteredItems(areaName){
-  let items = areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName);
+  // CORRECCIÓN: Si el depósito de novedades está activo, ignoramos el área seleccionada y buscamos en TODOS los proyectos
+  let items = weeklyDepotActive ? ALL.slice() : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName));
+  
   if(weeklyDepotActive){ items = items.filter(i=>favorites.has(getItemKey(i))); }
   if(currentInterna){ items = items.filter(i=>(i.internas||[]).includes(currentInterna)); }
   if(currentHubIA){ items = items.filter(i=>i.ia); }
