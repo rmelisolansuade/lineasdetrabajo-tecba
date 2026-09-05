@@ -70,19 +70,27 @@
   .export-badge { font-size: 11px; background: var(--card); border: 1px solid var(--border); padding: 5px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; }
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
-  .stat-card{ background:var(--card); border:1.5px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
+  .stat-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
   .stat-card:hover{border-color:var(--stat-color, var(--navy));}
   .stat-card .num{font-size:18px; font-weight:800; color:var(--stat-color, var(--navy)); line-height:1;}
   .stat-card .lbl{font-size:10.5px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
   .stat-card.active{box-shadow:inset 0 0 0 1.5px var(--stat-color, var(--navy)); background:var(--stat-tint, var(--bg));}
 
   .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:20px; }
-  .toolbar input[type="text"]{ flex:1; min-width:180px; padding:10px 14px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; outline:none; background:var(--card); color:var(--text); }
-  .toolbar select, .toolbar button{ padding:10px 12px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; background:var(--card); color:var(--text); outline:none; cursor:pointer; }
+  .toolbar input[type="text"]{ flex:1; min-width:180px; padding:10px 14px; border-radius:9px; border:1px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; outline:none; background:var(--card); color:var(--text); transition: border-color 0.2s ease; }
+  .toolbar input[type="text"]:focus { border-color: var(--muted); }
+  
+  .toolbar select, .toolbar button{ padding:10px 12px; border-radius:9px; border:1px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; background:var(--card); color:var(--text); outline:none; cursor:pointer; transition: all 0.2s ease; }
+  .toolbar select:hover, .toolbar button.secondary-action:hover { border-color: var(--muted); background: var(--bg); }
+  
   .toolbar button{ background:var(--navy); color:#fff; font-weight:700; border-color:var(--navy); display:flex; align-items:center; gap:6px; }
-  .toolbar button#hubiaBtn{background:var(--card); color:#6B48D6; border-color:#D9CCF5;}
-  .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff;}
-  .toolbar button.secondary-action { background: var(--card); color: var(--text); }
+  .toolbar button:hover{ opacity: 0.92; }
+  
+  .toolbar button#hubiaBtn{background:var(--card); color:#6B48D6; border-color:var(--border);}
+  .toolbar button#hubiaBtn:hover{border-color:#6B48D6; background:#F8F6FF;}
+  .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff; border-color:#6B48D6;}
+
+  .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   
   .reorder-controls { display: none; align-items: center; gap: 4px; }
   .reorder-controls.active { display: flex; }
@@ -90,16 +98,17 @@
   .reorder-btn:disabled { opacity: 0.3; cursor: default; }
 
   .dropdown { position: relative; display: inline-flex; }
-  .dropdown-content { display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.15); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+  .dropdown-content { display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.12); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
   .dropdown-content a { color: var(--text); padding: 12px 16px; text-decoration: none; display: block; font-size: 13px; font-weight: 600; }
   .dropdown-content a:hover { background-color: var(--bg); color: var(--teal); }
   .dropdown.show .dropdown-content { display: block; }
 
   .cards{ display:grid; grid-template-columns:1fr; gap:14px; }
-  .proj-card{ background:var(--card); border:1.5px solid var(--border); border-left:5px solid var(--card-color, var(--navy)); border-radius:12px; padding:18px 22px; transition:box-shadow .15s ease; }
+  .proj-card{ background:var(--card); border:1px solid var(--border); border-left:5px solid var(--card-color, var(--navy)); border-radius:12px; padding:18px 22px; transition:box-shadow .15s ease; }
   .proj-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
   .proj-title-area { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
-  .fav-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0; color: #ccc; }
+  .fav-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0; color: #ccc; transition: color 0.15s ease; }
+  .fav-btn:hover { color: var(--gold); }
   .fav-btn.is-fav { color: var(--gold); }
   .proj-title{font-size:15px; font-weight:700; color:var(--text); word-break: break-word;}
   .badges{display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
@@ -110,7 +119,7 @@
   .proj-area-tag{font-size:10.5px; font-weight:700; color:var(--tag-color, var(--muted)); background:var(--tag-bg, var(--bg)); border:1px solid var(--tag-border, var(--border)); padding:3px 9px; border-radius:20px;}
   .proj-desc{font-size:13px; line-height:1.6; color:var(--muted); white-space: pre-line; word-break: break-word;}
 
-  .table-container { width: 100%; overflow-x: auto; background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; }
+  .table-container { width: 100%; overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
   .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
   .matrix-table th, .matrix-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
   .matrix-table th { background: var(--bg); font-weight: 700; white-space: nowrap; }
@@ -304,7 +313,7 @@ function readURLParams(){
   if(params.has('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
   if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
   if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
-  if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
+  if(params.has('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
 }
 
 function stackSegments(c){
@@ -475,7 +484,6 @@ const toggleTheme = () => {
 document.getElementById('themeToggleBtn').onclick = toggleTheme;
 document.getElementById('themeToggleMobile').onclick = toggleTheme;
 
-// CORRECCIÓN: Al tocar "Novedades de la semana", aseguramos que se cierre el menú mobile y se quite el overlay gris
 document.getElementById('weeklyDepot').onclick = (e) => {
   if(e.target.closest('#clearDepotBtn')) return;
   weeklyDepotActive = !weeklyDepotActive;
@@ -580,11 +588,13 @@ async function cargarDatosDeGoogle() {
       return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
     });
 
+    DATA = RAW_DATA.app(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     DATA = RAW_DATA.map(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     ALL = flatten();
     
     const clavesValidas = new Set(ALL.map(getItemKey));
     favorites = favorites.filter(k => clavesValidas.has(k)); saveFavorites();
+    DATA.foreach((a,i) => AREA_HUES[a.area] = Math.round((i*137.508)%360));
     DATA.forEach((a,i) => AREA_HUES[a.area] = Math.round((i*137.508)%360));
     
     const setInt = new Set(); ALL.forEach(i => (i.internas || []).forEach(a => setInt.add(a)));
