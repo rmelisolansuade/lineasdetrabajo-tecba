@@ -8,202 +8,51 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#153244;
-    --navy-light:#1e455c;
-    --teal:#8DE2D6;
-    --gold:#FFCC00;
-    --bg:#F5F7F7;
-    --card:#FFFFFF;
-    --text:#16242B;
-    --muted:#6B7C82;
-    --border:#E4E9EA;
-    --sidebar-bg:#153244;
-    --sidebar-text:#fff;
-    --input-bg:rgba(255,255,255,0.08);
-    --input-border:rgba(255,255,255,0.18);
+    --navy:#153244; --navy-light:#1e455c; --teal:#8DE2D6; --gold:#FFCC00;
+    --bg:#F5F7F7; --card:#FFFFFF; --text:#16242B; --muted:#6B7C82;
+    --border:#E4E9EA; --sidebar-bg:#153244; --sidebar-text:#fff;
+    --input-bg:rgba(255,255,255,0.08); --input-border:rgba(255,255,255,0.18);
   }
-
   [data-theme="dark"]{
-    --navy:#0d1b24;
-    --navy-light:#152936;
-    --teal:#5bc0be;
-    --gold:#f39c12;
-    --bg:#0f171e;
-    --card:#18222c;
-    --text:#e2e8f0;
-    --muted:#94a3b8;
-    --border:#2b3743;
-    --sidebar-bg:#091016;
-    --sidebar-text:#e2e8f0;
-    --input-bg:rgba(255,255,255,0.05);
-    --input-border:rgba(255,255,255,0.15);
+    --navy:#0d1b24; --navy-light:#152936; --teal:#5bc0be; --gold:#f39c12;
+    --bg:#0f171e; --card:#18222c; --text:#e2e8f0; --muted:#94a3b8;
+    --border:#2b3743; --sidebar-bg:#091016; --sidebar-text:#e2e8f0;
+    --input-bg:rgba(255,255,255,0.05); --input-border:rgba(255,255,255,0.15);
   }
-
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{
-    font-family:'Montserrat',sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    display:flex;
-    min-height:100vh;
-    overflow-x:hidden;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
+  body{font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; overflow-x:hidden; transition: background 0.3s ease, color 0.3s ease;}
   ::selection{background:var(--teal); color:var(--navy);}
 
-  /* MOBILE TOP BAR */
-  .mobile-top-bar {
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 12px 18px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  .mobile-top-bar .m-title {
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1.2;
-  }
-  .mobile-top-bar .m-title span {
-    display: block;
-    font-size: 10.5px;
-    color: var(--teal);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .hamburger-btn, .theme-toggle-mobile {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1001;
-  }
+  .mobile-top-bar {display: none; align-items: center; justify-content: space-between; background: var(--sidebar-bg); color: var(--sidebar-text); padding: 12px 18px; position: sticky; top: 0; z-index: 1000; width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.15);}
+  .mobile-top-bar .m-title {font-size: 15px; font-weight: 800; line-height: 1.2;}
+  .mobile-top-bar .m-title span {display: block; font-size: 10.5px; color: var(--teal); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;}
+  .hamburger-btn, .theme-toggle-mobile {background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 16px; padding: 6px 10px; border-radius: 8px; cursor: pointer;}
+  .sidebar-overlay {display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1001;}
   .sidebar-overlay.open { display: block; }
 
-  /* SIDEBAR */
-  .sidebar{
-    width:300px;
-    min-width:300px;
-    background:var(--sidebar-bg);
-    color:var(--sidebar-text);
-    height:100vh;
-    position:sticky;
-    top:0;
-    display:flex;
-    flex-direction:column;
-    padding:24px 0 0 0;
-    z-index: 1002;
-    transition: transform 0.3s ease, background 0.3s ease;
-  }
-  .brand{
-    padding:0 24px 18px 24px;
-    border-bottom:1px solid rgba(255,255,255,0.12);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .brand h1{
-    font-size:18px;
-    font-weight:800;
-    margin:0;
-    line-height:1.25;
-  }
-  .theme-toggle-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--sidebar-text);
-    font-size: 15px;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease;
-    flex-shrink: 0;
-  }
-  .theme-toggle-btn:hover { background: rgba(255,255,255,0.15); }
-
+  .sidebar{width:300px; min-width:300px; background:var(--sidebar-bg); color:var(--sidebar-text); height:100vh; position:sticky; top:0; display:flex; flex-direction:column; padding:24px 0 0 0; z-index: 1002; transition: transform 0.3s ease;}
+  .brand{padding:0 24px 18px 24px; border-bottom:1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center;}
+  .brand h1{font-size:18px; font-weight:800; margin:0; line-height:1.25;}
+  .theme-toggle-btn {background: var(--input-bg); border: 1px solid var(--input-border); color: var(--sidebar-text); font-size: 15px; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+  
   .search-wrap{ padding:16px 24px 6px 24px; }
-  .search-wrap input{
-    width:100%;
-    padding:10px 14px;
-    border-radius:9px;
-    border:1px solid var(--input-border);
-    background:var(--input-bg);
-    color:var(--sidebar-text);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    outline:none;
-  }
-  .search-wrap input::placeholder{color:rgba(255,255,255,0.5);}
-  .search-wrap input:focus{border-color:var(--teal); background:rgba(255,255,255,0.13);}
-
-  /* DEPÓSITO NOVEDADES DE LA SEMANA */
-  .weekly-depot{
-    margin: 12px 20px;
-    background: var(--input-bg);
-    border: 1px dashed var(--teal);
-    border-radius: 10px;
-    padding: 12px 14px;
-    cursor: pointer;
-    transition: background .15s ease;
-  }
+  .search-wrap input{width:100%; padding:10px 14px; border-radius:9px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--sidebar-text); font-family:'Montserrat',sans-serif; font-size:13px; outline:none;}
+  
+  .weekly-depot{margin: 12px 20px; background: var(--input-bg); border: 1px dashed var(--teal); border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: background .15s ease;}
   .weekly-depot:hover{ background: rgba(255,255,255,0.1); }
   .weekly-depot.active{ background: rgba(141,226,214,0.15); border-style: solid; border-color: var(--teal); }
   .depot-header{ display: flex; justify-content: space-between; align-items: center; }
   .depot-title{ font-size: 12.5px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
   .depot-actions { display: flex; align-items: center; gap: 8px; }
   .depot-count{ background: var(--teal); color: var(--navy); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
-  .depot-clear-btn {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    color: var(--sidebar-text);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 7px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
+  .depot-clear-btn { background: rgba(255,255,255,0.15); border: none; color: var(--sidebar-text); font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 6px; cursor: pointer; }
   .depot-clear-btn:hover { background: rgba(235, 87, 87, 0.8); }
 
   .area-list{ flex:1; overflow-y:auto; padding:4px 12px 24px 12px; }
-  .area-list::-webkit-scrollbar{width:6px;}
-  .area-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15); border-radius:3px;}
-
-  .area-item{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding:10px 12px 10px 10px;
-    border-left:3px solid transparent;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:2px;
-    transition:background .15s ease, border-color .15s ease;
-  }
+  .area-item{ display:flex; flex-direction:column; gap:6px; padding:10px 12px 10px 10px; border-left:3px solid transparent; border-radius:8px; cursor:pointer; margin-bottom:2px; }
   .area-item:hover{background:rgba(255,255,255,0.07);}
   .area-item.active{background:rgba(255,255,255,0.09); border-left-color:var(--dot-color, var(--teal));}
-  .area-item.active .area-name{color:var(--sidebar-text);}
   .area-row{display:flex; justify-content:space-between; align-items:center;}
   .area-name-wrap{display:flex; align-items:center; gap:8px; min-width:0;}
   .area-dot{width:9px; height:9px; border-radius:50%; flex-shrink:0; background:var(--dot-color);}
@@ -213,7 +62,6 @@
   .stack-bar span{height:100%;}
   .all-item{border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:8px; padding-bottom:14px;}
 
-  /* MAIN */
   .main{ flex:1; padding:32px 40px 60px 40px; max-width:1260px; width:100%; }
   .topbar{ display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
   .topbar-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
@@ -222,311 +70,73 @@
   .export-badge { font-size: 11px; background: var(--card); border: 1px solid var(--border); padding: 5px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; }
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
-  .stat-card{
-    background:var(--card);
-    border:1.5px solid var(--border);
-    border-radius:10px;
-    padding:8px 16px;
-    cursor:pointer;
-    user-select:none;
-    transition:all .15s ease;
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    white-space:nowrap;
-  }
+  .stat-card{ background:var(--card); border:1.5px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
   .stat-card:hover{border-color:var(--stat-color, var(--navy));}
   .stat-card .num{font-size:18px; font-weight:800; color:var(--stat-color, var(--navy)); line-height:1;}
-  .stat-card .lbl{font-size:10.5px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;}
+  .stat-card .lbl{font-size:10.5px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
   .stat-card.active{box-shadow:inset 0 0 0 1.5px var(--stat-color, var(--navy)); background:var(--stat-tint, var(--bg));}
 
-  .toolbar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-bottom:20px;
-  }
-  .toolbar input[type="text"]{
-    flex:1;
-    min-width:180px;
-    padding:10px 14px;
-    border-radius:9px;
-    border:1.5px solid var(--border);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    outline:none;
-    background:var(--card);
-    color:var(--text);
-  }
-  .toolbar input[type="text"]:focus{border-color:var(--teal);}
-  .toolbar select{
-    padding:10px 12px;
-    border-radius:9px;
-    border:1.5px solid var(--border);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    background:var(--card);
-    color:var(--text);
-    outline:none;
-    cursor:pointer;
-    max-width:230px;
-  }
-  .toolbar button{
-    padding:10px 15px;
-    border-radius:9px;
-    border:1.5px solid var(--navy);
-    background:var(--navy);
-    color:#fff;
-    font-family:'Montserrat',sans-serif;
-    font-size:12.5px;
-    font-weight:700;
-    cursor:pointer;
-    white-space:nowrap;
-    transition:opacity .15s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .toolbar button:hover{opacity:0.85;}
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:20px; }
+  .toolbar input[type="text"]{ flex:1; min-width:180px; padding:10px 14px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; outline:none; background:var(--card); color:var(--text); }
+  .toolbar select, .toolbar button{ padding:10px 12px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; background:var(--card); color:var(--text); outline:none; cursor:pointer; }
+  .toolbar button{ background:var(--navy); color:#fff; font-weight:700; border-color:var(--navy); display:flex; align-items:center; gap:6px; }
   .toolbar button#hubiaBtn{background:var(--card); color:#6B48D6; border-color:#D9CCF5;}
-  .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff; border-color:#6B48D6;}
-  .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
-  .toolbar button.secondary-action:hover { background: var(--border); }
-
-  /* CONTROLES DE ORDEN EN MODO NOVEDADES */
-  .reorder-controls {
-    display: none;
-    align-items: center;
-    gap: 4px;
-    margin-left: auto;
-  }
+  .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff;}
+  .toolbar button.secondary-action { background: var(--card); color: var(--text); }
+  
+  .reorder-controls { display: none; align-items: center; gap: 4px; margin-left: auto; }
   .reorder-controls.active { display: flex; }
-  .reorder-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 11px;
-    font-weight: 700;
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .reorder-btn:hover { background: var(--border); }
+  .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); font-size: 11px; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .reorder-btn:disabled { opacity: 0.3; cursor: default; }
 
-  /* DROPDOWN MENU PARA DESCARGAS */
   .dropdown { position: relative; display: inline-flex; }
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: auto;
-    margin-top: 6px;
-    background-color: var(--card);
-    min-width: 220px;
-    box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
-    z-index: 2000;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .dropdown-content a {
-    color: var(--text);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.15s ease;
-  }
-  .dropdown-content a:hover {
-    background-color: var(--bg);
-    color: var(--teal);
-  }
+  .dropdown-content { display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.15); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+  .dropdown-content a { color: var(--text); padding: 12px 16px; text-decoration: none; display: block; font-size: 13px; font-weight: 600; }
+  .dropdown-content a:hover { background-color: var(--bg); color: var(--teal); }
   .dropdown.show .dropdown-content { display: block; }
 
-  /* CARDS VIEW */
   .cards{ display:grid; grid-template-columns:1fr; gap:14px; }
-  .proj-card{
-    background:var(--card);
-    border:1.5px solid var(--border);
-    border-left:5px solid var(--card-color, var(--navy));
-    border-radius:12px;
-    padding:18px 22px;
-    transition:box-shadow .15s ease, transform .15s ease;
-  }
-  .proj-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-1px);}
-
+  .proj-card{ background:var(--card); border:1.5px solid var(--border); border-left:5px solid var(--card-color, var(--navy)); border-radius:12px; padding:18px 22px; transition:box-shadow .15s ease; }
   .proj-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
   .proj-title-area { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
-  .fav-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 0;
-    line-height: 1;
-    transition: transform 0.1s ease;
-    color: #ccc;
-    flex-shrink: 0;
-  }
-  .fav-btn:hover { transform: scale(1.2); }
+  .fav-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0; color: #ccc; }
   .fav-btn.is-fav { color: var(--gold); }
-  
-  .proj-title{font-size:15px; font-weight:700; color:var(--text); line-height:1.3; word-break: break-word;}
-  .badges{display:flex; gap:6px; flex-shrink:0; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
-  .badge{
-    font-size:10.5px;
-    font-weight:700;
-    padding:4px 11px;
-    border-radius:20px;
-    white-space:nowrap;
-    color:#fff;
-    background:var(--badge-color, var(--navy));
-  }
+  .proj-title{font-size:15px; font-weight:700; color:var(--text); word-break: break-word;}
+  .badges{display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
+  .badge{font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:20px; white-space:nowrap; color:#fff;}
   .badge.hubia{background:#EFEAFB; color:#6B48D6;}
   .tags-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
-  .internal-tag{
-    font-size:10px; font-weight:700; color:var(--muted);
-    background:var(--bg); border:1px solid var(--border);
-    padding:3px 9px; border-radius:20px; display:inline-block;
-  }
-  .proj-area-tag{
-    font-size:10.5px; font-weight:700;
-    color:var(--tag-color, var(--muted));
-    background:var(--tag-bg, var(--bg));
-    border:1px solid var(--tag-border, var(--border));
-    padding:3px 9px; border-radius:20px; display:inline-block;
-  }
+  .internal-tag{font-size:10px; font-weight:700; color:var(--muted); background:var(--bg); border:1px solid var(--border); padding:3px 9px; border-radius:20px;}
+  .proj-area-tag{font-size:10.5px; font-weight:700; color:var(--tag-color, var(--muted)); background:var(--tag-bg, var(--bg)); border:1px solid var(--tag-border, var(--border)); padding:3px 9px; border-radius:20px;}
   .proj-desc{font-size:13px; line-height:1.6; color:var(--muted); white-space: pre-line; word-break: break-word;}
 
-  /* TABLE VIEW */
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  }
-  .matrix-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 13px;
-  }
-  .matrix-table th {
-    background: var(--bg);
-    color: var(--text);
-    font-weight: 700;
-    padding: 12px 16px;
-    border-bottom: 2px solid var(--border);
-    white-space: nowrap;
-  }
-  .matrix-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    vertical-align: top;
-  }
-  .matrix-table tr:last-child td { border-bottom: none; }
-  .matrix-table tr:hover td { background: rgba(0,0,0,0.015); }
-  .table-desc {
-    font-size: 12px;
-    color: var(--muted);
-    max-width: 450px;
-    line-height: 1.4;
-    white-space: pre-line;
-  }
+  .table-container { width: 100%; overflow-x: auto; background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; }
+  .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  .matrix-table th, .matrix-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .matrix-table th { background: var(--bg); font-weight: 700; white-space: nowrap; }
+  .table-desc { font-size: 12px; color: var(--muted); max-width: 450px; line-height: 1.4; white-space: pre-line; }
 
   .empty-state{ text-align:center; padding:60px 20px; color:var(--muted); }
   .empty-state .big{font-size:40px; margin-bottom:10px;}
 
-  /* TOAST NOTIFICATION */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--navy);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
-  }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; pointer-events: none;}
   .toast.show { opacity: 1; transform: translateY(0); }
 
-  /* ======================================================== */
-  /* IMPRESIÓN (PDF): FOTO FIEL DEL TABLERO                   */
-  /* ======================================================== */
   @media print {
-    * {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-
-    .sidebar, .toolbar, .mobile-top-bar, .toast, .sidebar-overlay { 
-      display: none !important; 
-    }
-    
-    .print-header { 
-      display: block !important; 
-      margin-bottom: 20px; 
-      font-size: 12px; 
-    }
-    
+    .sidebar, .toolbar, .mobile-top-bar, .toast, .sidebar-overlay { display: none !important; }
+    .print-header { display: block !important; margin-bottom: 20px; font-size: 12px; }
     body { display: block !important; }
-    .main { 
-      padding: 0 !important; 
-      margin: 0 !important; 
-      max-width: 100% !important; 
-      width: 100% !important; 
-    }
-    
-    .proj-card { 
-      page-break-inside: avoid; 
-      break-inside: avoid; 
-    }
+    .main { padding: 0 !important; max-width: 100% !important; }
+    .proj-card { page-break-inside: avoid; }
   }
-  
   .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
-  .print-header b{ color:var(--text); }
 
-  /* RESPONSIVE MEDIA QUERIES (Web Normal) */
   @media (max-width:900px){
     body{flex-direction:column;}
     .mobile-top-bar { display: flex; }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -320px;
-      height: 100vh;
-      width: 290px;
-      transition: left 0.3s ease;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.3);
-    }
+    .sidebar { position: fixed; top: 0; left: -320px; height: 100vh; width: 290px; transition: left 0.3s ease; }
     .sidebar.open { left: 0; }
     .main { padding: 22px 16px 50px 16px; }
-    .topbar h2 { font-size: 22px; }
-    .stats-row { gap: 6px; }
-    .stat-card { padding: 6px 12px; }
-    .stat-card .num { font-size: 16px; }
   }
 </style>
 </head>
@@ -536,36 +146,28 @@
 <div class="toast" id="toastNotification">✨ Acción completada</div>
 
 <div class="mobile-top-bar">
-  <div class="m-title">
-    <span>TECBA · GCBA</span>
-    Líneas de trabajo
-  </div>
+  <div class="m-title"><span>TECBA · GCBA</span> Líneas de trabajo</div>
   <div style="display:flex; gap:8px; align-items:center;">
-    <button class="theme-toggle-mobile" id="themeToggleMobile" title="Cambiar tema claro/oscuro">🌙</button>
-    <button class="hamburger-btn" id="hamburgerBtn" title="Abrir menú de áreas">☰ Menú</button>
+    <button class="theme-toggle-mobile" id="themeToggleMobile">🌙</button>
+    <button class="hamburger-btn" id="hamburgerBtn">☰ Menú</button>
   </div>
 </div>
 
 <div class="sidebar" id="sidebar">
   <div class="brand">
     <h1>Líneas de trabajo<br>con áreas del GCBA</h1>
-    <button class="theme-toggle-btn" id="themeToggleBtn" title="Cambiar tema claro/oscuro">🌙</button>
+    <button class="theme-toggle-btn" id="themeToggleBtn">🌙</button>
   </div>
-  
-  <!-- DEPÓSITO NOVEDADES DE LA SEMANA -->
-  <div class="weekly-depot" id="weeklyDepot" title="Filtrar proyectos favoritos guardados">
+  <div class="weekly-depot" id="weeklyDepot">
     <div class="depot-header">
       <span class="depot-title">⭐ Novedades de la semana</span>
       <div class="depot-actions">
         <span class="depot-count" id="depotCount">0</span>
-        <button class="depot-clear-btn" id="clearDepotBtn" title="Borrar todos los favoritos">Limpiar</button>
+        <button class="depot-clear-btn" id="clearDepotBtn">Limpiar</button>
       </div>
     </div>
   </div>
-
-  <div class="search-wrap">
-    <input type="text" id="searchArea" placeholder="Buscar área...">
-  </div>
+  <div class="search-wrap"><input type="text" id="searchArea" placeholder="Buscar área..."></div>
   <div class="area-list" id="areaList"></div>
 </div>
 
@@ -578,58 +180,52 @@
         <div class="sub" id="areaSub"></div>
       </div>
       <div style="display:flex; align-items:center; gap:12px;">
-        <div class="reorder-controls" id="reorderControls">
-          <span style="font-size:11.5px; font-weight:700; color:var(--muted);">Orden agenda:</span>
-        </div>
-        <div class="export-badge" id="exportDateBadge">📅 Datos actualizados en tiempo real</div>
+        <div class="reorder-controls" id="reorderControls"><span style="font-size:11.5px; font-weight:700; color:var(--muted);">Orden agenda:</span></div>
+        <div class="export-badge">📅 Datos actualizados en tiempo real</div>
       </div>
     </div>
   </div>
 
   <div class="toolbar">
     <input type="text" id="textSearch" placeholder="🔎 Buscar por título o descripción...">
-    <select id="internaFilter">
-      <option value="">Todas las áreas internas</option>
-    </select>
-    <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
-    <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
-    
-    <button id="copyReportBtn" class="secondary-action" title="Copiar reporte ejecutivo">📋 Copiar reporte</button>
-    
-    <!-- MENÚ DE DESCARGAS -->
+    <select id="internaFilter"><option value="">Todas las áreas internas</option></select>
+    <button id="hubiaBtn">💡 Hub IA</button>
+    <button id="viewModeBtn" class="secondary-action">📊 Vista Tabla</button>
+    <button id="copyReportBtn" class="secondary-action">📋 Copiar reporte</button>
     <div class="dropdown" id="downloadDropdown">
-      <button id="downloadBtn" class="secondary-action" title="Opciones de descarga">⬇️ Descargar ▼</button>
-      <div class="dropdown-content" id="downloadMenu">
+      <button id="downloadBtn" class="secondary-action">⬇️ Descargar ▼</button>
+      <div class="dropdown-content">
         <a href="#" id="dlWord">📄 Formato Word (Tabla)</a>
         <a href="#" id="dlPdf">🖨️ Formato PDF / Imprimir</a>
         <a href="#" id="dlExcel">📊 Formato Excel (CSV)</a>
       </div>
     </div>
-
   </div>
 
   <div class="stats-row" id="statsRow"></div>
-
   <div id="contentContainer"></div>
 </div>
 
 <script>
-// --- CONEXIÓN CON GOOGLE SHEETS ---
 const URL_GOOGLE_SHEET = 'https://script.google.com/macros/s/AKfycbzTURQo7rbLlt4RAtmiyx8VcVbZzXPN1Oa2G5BpOq-qyjQ1FTid8VOCe1hOgjsmiimL/exec';
 
-// Variables globales dinámicas
-let RAW_DATA = [];
-let DATA = [];
-let ALL = [];
-let AREA_HUES = {};
+let RAW_DATA = [], DATA = [], ALL = [], AREA_HUES = {};
+let currentArea = 'TODAS', selectedEstados = new Set(), searchTerm = '', textSearchTerm = '';
+let currentInterna = '', currentHubIA = false, weeklyDepotActive = false, viewMode = 'cards';
+let currentTheme = localStorage.getItem('tecba_theme') || 'light';
+if(currentTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+let favorites = JSON.parse(localStorage.getItem('tecba_favorites_array') || '[]');
+if(!Array.isArray(favorites)) favorites = [];
+const saveFavorites = () => localStorage.setItem('tecba_favorites_array', JSON.stringify(favorites));
+const getItemKey = item => `${item.area.trim()}::${item.titulo.trim()}`;
 
 function parseEstado(etiquetasArr) {
-  const etqStr = (etiquetasArr || []).join(';').toLowerCase();
-  if (etqStr.includes('cancelado')) return 'cancelado';
-  if (etqStr.includes('pausado por el área') || etqStr.includes('pausado por el area')) return 'pausado_area';
-  if (etqStr.includes('en curso')) return 'en_curso';
-  if (etqStr.includes('completado')) return 'completado';
-  if (etqStr.includes('no iniciado')) return 'no_iniciado';
+  const etq = (etiquetasArr || []).join(';').toLowerCase();
+  if (etq.includes('cancelado')) return 'cancelado';
+  if (etq.includes('pausado')) return 'pausado_area';
+  if (etq.includes('en curso')) return 'en_curso';
+  if (etq.includes('completado')) return 'completado';
   return 'no_iniciado';
 }
 
@@ -642,76 +238,47 @@ const STATUS_META = {
   cancelado:       { label:'Cancelado',            color:'#EB5757', order:5 },
 };
 const STATUS_KEYS = Object.keys(STATUS_META).sort((a,b)=>STATUS_META[a].order-STATUS_META[b].order);
-
-function hexToRgba(hex, a){
+const hexToRgba = (hex, a) => {
   const h = hex.replace('#','');
-  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
-  return `rgba(${r},${g},${b},${a})`;
-}
+  return `rgba(${parseInt(h.substring(0,2),16)},${parseInt(h.substring(2,4),16)},${parseInt(h.substring(4,6),16)},${a})`;
+};
 
-// State variables
-let currentArea = 'TODAS';
-let selectedEstados = new Set();
-let searchTerm = '';
-let textSearchTerm = '';
-let currentInterna = '';
-let currentHubIA = false;
-let weeklyDepotActive = false;
-let viewMode = 'cards';
-let currentTheme = localStorage.getItem('tecba_theme') || 'light';
-
-if(currentTheme === 'dark'){
-  document.documentElement.setAttribute('data-theme', 'dark');
-}
-
-// Array ordenado para los favoritos personalizados
-let favorites = JSON.parse(localStorage.getItem('tecba_favorites_array') || '[]');
-if(!Array.isArray(favorites)) favorites = [];
-
-function saveFavorites() {
-  localStorage.setItem('tecba_favorites_array', JSON.stringify(favorites));
-}
-
-function getItemKey(item) {
-  return item.area.trim() + '::' + item.titulo.trim();
-}
-
-function flatten(){
-  let list = [];
-  DATA.forEach(a=>{ a.items.forEach(i=>{ list.push({area:a.area, ...i}); }); });
-  return list;
-}
+const flatten = () => { let list = []; DATA.forEach(a => a.items.forEach(i => list.push({area:a.area, ...i}))); return list; };
 
 function areaColor(name){
   const h = AREA_HUES[name] ?? 205;
-  return {
-    dot: `hsl(${h},68%,62%)`,
-    tagBg: `hsl(${h},70%,95%)`,
-    tagColor: `hsl(${h},55%,30%)`,
-    tagBorder: `hsl(${h},55%,80%)`,
-  };
+  return { dot: `hsl(${h},68%,62%)`, tagBg: `hsl(${h},70%,95%)`, tagColor: `hsl(${h},55%,30%)`, tagBorder: `hsl(${h},55%,80%)` };
 }
 
 function baseFilteredItems(areaName){
-  let items = weeklyDepotActive ? ALL.slice() : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName));
-  
-  if(weeklyDepotActive){ 
-    // Filtrar conservando exactamente el orden personalizado del array favorites
-    items = favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean);
-  }
-  if(currentInterna){ items = items.filter(i=>(i.internas||[]).includes(currentInterna)); }
-  if(currentHubIA){ items = items.filter(i=>i.ia); }
+  let items = weeklyDepotActive ? ALL.slice() : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i => i.area === areaName));
+  if(weeklyDepotActive) items = favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean);
+  if(currentInterna) items = items.filter(i => (i.internas || []).includes(currentInterna));
+  if(currentHubIA) items = items.filter(i => i.ia);
   if(textSearchTerm.trim()){
     const q = textSearchTerm.trim().toLowerCase();
-    items = items.filter(i=> i.titulo.toLowerCase().includes(q) || (i.descripcion||'').toLowerCase().includes(q));
+    items = items.filter(i => i.titulo.toLowerCase().includes(q) || (i.descripcion || '').toLowerCase().includes(q));
   }
   return items;
+}
+
+function areaCountsForSidebar(areaName){
+  let items = areaName==='TODAS' ? ALL.slice() : ALL.filter(i => i.area === areaName);
+  if(currentInterna) items = items.filter(i => (i.internas || []).includes(currentInterna));
+  if(currentHubIA) items = items.filter(i => i.ia);
+  if(textSearchTerm.trim()){
+    const q = textSearchTerm.trim().toLowerCase();
+    items = items.filter(i => i.titulo.toLowerCase().includes(q) || (i.descripcion || '').toLowerCase().includes(q));
+  }
+  const counts = { total: items.length };
+  STATUS_KEYS.forEach(k => counts[k] = items.filter(i => i.estado === k).length);
+  return counts;
 }
 
 function areaCounts(areaName){
   const items = baseFilteredItems(areaName);
   const counts = { total: items.length };
-  STATUS_KEYS.forEach(k=>{ counts[k] = items.filter(i=>i.estado===k).length; });
+  STATUS_KEYS.forEach(k => counts[k] = items.filter(i => i.estado === k).length);
   return counts;
 }
 
@@ -725,197 +292,120 @@ function updateURLParams(){
   if(textSearchTerm.trim()) params.set('q', textSearchTerm.trim());
   if(viewMode !== 'cards') params.set('view', viewMode);
   if(currentTheme === 'dark') params.set('theme', 'dark');
-
-  const newQuery = params.toString();
-  const newURL = window.location.pathname + (newQuery ? '?' + newQuery : '');
-  window.history.replaceState({}, '', newURL);
+  window.history.replaceState({}, '', window.location.pathname + (params.toString() ? '?' + params.toString() : ''));
 }
 
 function readURLParams(){
   const params = new URLSearchParams(window.location.search);
   if(params.has('area')) currentArea = params.get('area');
-  if(params.has('estados')){
-    selectedEstados = new Set(params.get('estados').split(',').filter(s=>STATUS_META[s]));
-  }
+  if(params.has('estados')) selectedEstados = new Set(params.get('estados').split(',').filter(s => STATUS_META[s]));
   if(params.get('favoritos') === 'true') weeklyDepotActive = true;
-  if(params.has('interna')) {
-    currentInterna = params.get('interna');
-    document.getElementById('internaFilter').value = currentInterna;
-  }
-  if(params.has('hubia') === 'true'){
-    currentHubIA = true;
-    document.getElementById('hubiaBtn').classList.add('active');
-  }
-  if(params.has('q')){
-    textSearchTerm = params.get('q');
-    document.getElementById('textSearch').value = textSearchTerm;
-  }
-  if(params.has('view')){
-    viewMode = params.get('view');
-    updateViewModeButton();
-  }
-  if(params.get('theme') === 'dark'){
-    currentTheme = 'dark';
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
+  if(params.has('interna')) { currentInterna = params.get('interna'); document.getElementById('internaFilter').value = currentInterna; }
+  if(params.get('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
+  if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
+  if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
+  if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
+}
+
+function stackSegments(c){
+  if(c.total === 0) return '';
+  return STATUS_KEYS.map(k => c[k] ? `<span style="width:${(c[k]/c.total*100).toFixed(1)}%; background:${STATUS_META[k].color}"></span>` : '').join('');
 }
 
 function renderSidebar(){
   document.getElementById('depotCount').textContent = favorites.length;
   document.getElementById('weeklyDepot').classList.toggle('active', weeklyDepotActive);
-
   const list = document.getElementById('areaList');
   list.innerHTML = '';
   const term = searchTerm.trim().toLowerCase();
 
-  const allC = areaCounts('TODAS');
-  const allDiv = document.createElement('div');
-  allDiv.className = 'area-item all-item' + ((currentArea==='TODAS' && !weeklyDepotActive) ? ' active' : '');
-  allDiv.innerHTML = `
-    <div class="area-row"><span class="area-name-wrap"><span class="area-name">🗂 Todas las áreas</span></span><span class="area-count">${allC.total}</span></div>
-    <div class="stack-bar">${stackSegments(allC)}</div>
-  `;
-  allDiv.onclick = ()=>{ currentArea='TODAS'; weeklyDepotActive=false; render(); closeMobileSidebar(); };
-  list.appendChild(allDiv);
+  const allC = areaCountsForSidebar('TODAS');
+  list.appendChild(createAreaElement('🗂 Todas las áreas', allC, currentArea === 'TODAS' && !weeklyDepotActive, () => { currentArea='TODAS'; weeklyDepotActive=false; render(); closeMobileSidebar(); }));
 
-  DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a=>{
-    const c = areaCounts(a.area);
+  DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a => {
+    const c = areaCountsForSidebar(a.area);
     const col = areaColor(a.area);
-    const div = document.createElement('div');
-    div.className = 'area-item' + ((currentArea===a.area && !weeklyDepotActive) ? ' active' : '');
-    div.style.setProperty('--dot-color', col.dot);
-    div.innerHTML = `
-      <div class="area-row">
-        <span class="area-name-wrap"><span class="area-dot" style="background:${col.dot}"></span><span class="area-name">${a.area}</span></span>
-        <span class="area-count">${c.total}</span>
-      </div>
-      <div class="stack-bar">${stackSegments(c)}</div>
-    `;
-    div.onclick = ()=>{ currentArea=a.area; weeklyDepotActive=false; render(); closeMobileSidebar(); };
-    list.appendChild(div);
+    const el = createAreaElement(a.area, c, currentArea === a.area && !weeklyDepotActive, () => { currentArea=a.area; weeklyDepotActive=false; render(); closeMobileSidebar(); }, col.dot);
+    list.appendChild(el);
   });
 }
 
-function stackSegments(c){
-  if(c.total===0) return '';
-  return STATUS_KEYS.map(k=>{
-    const v = c[k];
-    if(!v) return '';
-    const pct = (v/c.total*100).toFixed(1);
-    return `<span style="width:${pct}%; background:${STATUS_META[k].color}"></span>`;
-  }).join('');
+function createAreaElement(name, c, active, onClick, dotColor = null){
+  const div = document.createElement('div');
+  div.className = 'area-item' + (name.includes('Todas') ? ' all-item' : '') + (active ? ' active' : '');
+  if(dotColor) div.style.setProperty('--dot-color', dotColor);
+  div.innerHTML = `
+    <div class="area-row">
+      <span class="area-name-wrap">${dotColor ? `<span class="area-dot" style="background:${dotColor}"></span>` : ''}<span class="area-name">${name}</span></span>
+      <span class="area-count">${c.total}</span>
+    </div>
+    <div class="stack-bar">${stackSegments(c)}</div>
+  `;
+  div.onclick = onClick;
+  return div;
 }
 
 function renderStats(){
   const c = areaCounts(currentArea);
   const row = document.getElementById('statsRow');
-  let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:${'#153244'}; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
-  STATUS_KEYS.forEach(k=>{
-    if(c[k]===0 && selectedEstados.size===0) return;
+  let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:#153244; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
+  STATUS_KEYS.forEach(k => {
+    if(c[k] === 0 && selectedEstados.size === 0) return;
     const meta = STATUS_META[k];
-    const active = selectedEstados.has(k);
-    html += `<div class="stat-card ${active?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
+    html += `<div class="stat-card ${selectedEstados.has(k)?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
   });
   row.innerHTML = html;
 }
 
 function renderHeader(){
-  let title = currentArea==='TODAS' ? 'Todas las áreas' : currentArea;
-  if(weeklyDepotActive) title = '⭐ Novedades de la semana';
-  document.getElementById('areaTitle').textContent = title;
+  document.getElementById('areaTitle').textContent = weeklyDepotActive ? '⭐ Novedades de la semana' : (currentArea === 'TODAS' ? 'Todas las áreas' : currentArea);
   const c = areaCounts(currentArea);
   document.getElementById('areaSub').textContent = `${c.total} línea${c.total===1?'':'s'} de trabajo`;
 }
 
 function getFilteredAndSortedItems(){
   let items = baseFilteredItems(currentArea);
-  if(selectedEstados.size > 0){ 
-    items = items.filter(i => selectedEstados.has(i.estado)); 
-  }
-  // Si no estamos en novedades de la semana, ordenamos por estado por defecto
-  if(!weeklyDepotActive){
-    items.sort((a,b)=> (STATUS_META[a.estado]?.order ?? 99) - (STATUS_META[b.estado]?.order ?? 99));
-  }
+  if(selectedEstados.size > 0) items = items.filter(i => selectedEstados.has(i.estado));
+  if(!weeklyDepotActive) items.sort((a,b) => (STATUS_META[a.estado]?.order ?? 99) - (STATUS_META[b.estado]?.order ?? 99));
   return items;
 }
 
 function renderContent(){
   const items = getFilteredAndSortedItems();
   const container = document.getElementById('contentContainer');
+  document.getElementById('reorderControls').classList.toggle('active', weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA);
 
-  // Mostrar u ocultar controles de reordenamiento de la agenda semanal
-  const reorderControls = document.getElementById('reorderControls');
-  if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
-    reorderControls.classList.add('active');
-  } else {
-    reorderControls.classList.remove('active');
-  }
-
-  if(items.length===0){
-    container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`;
-    return;
-  }
-
-  if(viewMode === 'table'){
-    renderTableView(items, container);
-  } else {
-    renderCardsView(items, container);
-  }
+  if(items.length === 0){ container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`; return; }
+  viewMode === 'table' ? renderTableView(items, container) : renderCardsView(items, container);
 }
 
-function formatDescription(desc) {
-  if (!desc) return '';
-  const escaped = desc
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-  
-  const formatted = escaped.replace(/(Status\s*:\s*)(.*)/gi, '<strong>$1</strong> <em>$2</em>');
-  return formatted.replace(/\n/g, '<br>');
-}
+const formatDescription = desc => (desc || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/(Status\s*:\s*)(.*)/gi, '<strong>$1</strong> <em>$2</em>').replace(/\n/g, '<br>');
+const escapeHtml = str => { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; };
 
 function renderCardsView(items, container){
   container.className = 'cards';
   container.innerHTML = items.map((i, idx) => {
-    const key = getItemKey(i);
-    const isFav = favorites.includes(key);
-    const col = areaColor(i.area);
-    const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
-    const internas = i.internas || [];
-    
-    // Controles de flechitas si estamos en Novedades de la semana puro
-    let cardReorderHtml = '';
-    if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
-      cardReorderHtml = `
-        <div style="display:flex; gap:4px; margin-left:10px;">
-          <button class="reorder-btn" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''} title="Subir">▲</button>
-          <button class="reorder-btn" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''} title="Bajar">▼</button>
-        </div>
-      `;
-    }
+    const key = getItemKey(i), isFav = favorites.includes(key), col = areaColor(i.area), meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
+    const showReorder = weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA;
+    const internasHtml = (i.internas || []).map(a => `<span class="internal-tag">${escapeHtml(a)}</span>`).join('');
+    const showAreaTag = currentArea === 'TODAS' || weeklyDepotActive;
 
-    const tagsRow = ((currentArea==='TODAS' || weeklyDepotActive) || internas.length>0) ? `
-      <div class="tags-row">
-        ${(currentArea==='TODAS' || weeklyDepotActive) ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}
-        ${internas.map(a=>`<span class="internal-tag">${escapeHtml(a)}</span>`).join('')}
-      </div>` : '';
     return `
     <div class="proj-card" style="--card-color:${meta.color}">
       <div class="proj-head">
         <div class="proj-title-area">
-          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="Quitar de novedades">${isFav ? '★' : '☆'}</button>
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button>
           <div class="proj-title">${escapeHtml(i.titulo)}</div>
         </div>
         <div class="badges">
           ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
-          <span class="badge" style="--badge-color:${meta.color}">${meta.label}</span>
-          ${cardReorderHtml}
+          <span class="badge" style="background:${meta.color}">${meta.label}</span>
+          ${showReorder ? `<div style="display:flex; gap:4px; margin-left:10px;"><button class="reorder-btn" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
         </div>
       </div>
-      ${tagsRow}
+      ${(showAreaTag || internasHtml) ? `<div class="tags-row">${showAreaTag ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}${internasHtml}</div>` : ''}
       <div class="proj-desc">${formatDescription(i.descripcion)}</div>
-    </div>
-  `;
+    </div>`;
   }).join('');
 }
 
@@ -924,473 +414,174 @@ function renderTableView(items, container){
   container.innerHTML = `
     <div class="table-container">
       <table class="matrix-table">
-        <thead>
-          <tr>
-            <th style="width:40px;">⭐</th>
-            <th>Proyecto / Línea</th>
-            <th>Área</th>
-            <th>Estado</th>
-            <th>Áreas internas</th>
-            <th>Descripción / Status</th>
-          </tr>
-        </thead>
+        <thead><tr><th style="width:40px;">⭐</th><th>Proyecto / Línea</th><th>Área</th><th>Estado</th><th>Áreas internas</th><th>Descripción / Status</th></tr></thead>
         <tbody>
           ${items.map((i, idx) => {
-            const key = getItemKey(i);
-            const isFav = favorites.includes(key);
-            const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
-            const internas = (i.internas || []).join(', ');
-            
-            let tableReorderHtml = '';
-            if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
-              tableReorderHtml = ` <span style="display:inline-flex; gap:2px; margin-left:6px;"><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>`;
-            }
-
+            const key = getItemKey(i), isFav = favorites.includes(key), meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
+            const showReorder = weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA;
             return `
               <tr>
                 <td><button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button></td>
-                <td><strong>${escapeHtml(i.titulo)}</strong>${tableReorderHtml}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
-                <td><span style="font-weight:600; color:var(--text);">${escapeHtml(i.area)}</span></td>
+                <td><strong>${escapeHtml(i.titulo)}</strong>${showReorder ? ` <span style="display:inline-flex; gap:2px;"><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>` : ''}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
+                <td><span style="font-weight:600;">${escapeHtml(i.area)}</span></td>
                 <td><span class="badge" style="background:${meta.color}">${meta.label}</span></td>
-                <td><span style="font-size:11px; color:var(--muted);">${escapeHtml(internas || '—')}</span></td>
+                <td><span style="font-size:11px; color:var(--muted);">${escapeHtml((i.internas || []).join(', ') || '—')}</span></td>
                 <td><div class="table-desc">${formatDescription(i.descripcion)}</div></td>
-              </tr>
-            `;
+              </tr>`;
           }).join('')}
         </tbody>
       </table>
-    </div>
-  `;
+    </div>`;
 }
 
-// Función global para reordenar los favoritos
 window.moveItem = function(key, direction){
   const idx = favorites.indexOf(key);
   if(idx < 0) return;
-  if(direction === 'up' && idx > 0){
-    const temp = favorites[idx];
-    favorites[idx] = favorites[idx-1];
-    favorites[idx-1] = temp;
-  } else if(direction === 'down' && idx < favorites.length - 1){
-    const temp = favorites[idx];
-    favorites[idx] = favorites[idx+1];
-    favorites[idx+1] = temp;
-  }
-  saveFavorites();
-  render();
+  if(direction === 'up' && idx > 0){ const temp = favorites[idx]; favorites[idx] = favorites[idx-1]; favorites[idx-1] = temp; }
+  else if(direction === 'down' && idx < favorites.length - 1){ const temp = favorites[idx]; favorites[idx] = favorites[idx+1]; favorites[idx+1] = temp; }
+  saveFavorites(); render();
 };
-
-function escapeHtml(str){
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
 
 function renderPrintHeader(){
   const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const filtrosAplicados = [];
-  if(selectedEstados.size > 0) filtrosAplicados.push(Array.from(selectedEstados).map(s=>STATUS_META[s]?.label).join(', '));
-  if(currentInterna) filtrosAplicados.push(currentInterna);
-  if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
-  if(weeklyDepotActive) filtrosAplicados.push('⭐ Novedades de la semana');
-  if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
-  
-  const filtrosTxt = filtrosAplicados.length ? ` · Filtros aplicados: ${filtrosAplicados.join(', ')}` : '';
-  let tituloArea = weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'Todas las áreas' : currentArea);
-  
-  document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${tituloArea}</strong><br>Actualizado: ${fecha}${filtrosTxt}`;
+  const filtros = [];
+  if(selectedEstados.size > 0) filtros.push(Array.from(selectedEstados).map(s => STATUS_META[s]?.label).join(', '));
+  if(currentInterna) filtros.push(currentInterna);
+  if(currentHubIA) filtros.push('💡 Hub IA');
+  if(textSearchTerm.trim()) filtros.push(`"${textSearchTerm.trim()}"`);
+  document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'Todas las áreas' : currentArea)}</strong><br>Actualizado: ${fecha}${filtros.length ? ' · Filtros: ' + filtros.join(', ') : ''}`;
 }
 
-function render(){
-  renderSidebar();
-  renderHeader();
-  renderStats();
-  renderContent();
-  renderPrintHeader();
-  updateURLParams();
-}
+const render = () => { renderSidebar(); renderHeader(); renderStats(); renderContent(); renderPrintHeader(); updateURLParams(); };
 
-function toggleEstado(estado){
-  if(estado === 'todos'){
-    selectedEstados.clear();
-  } else {
-    if(selectedEstados.has(estado)){
-      selectedEstados.delete(estado);
-    } else {
-      selectedEstados.add(estado);
-    }
-  }
-  render();
-}
+// Event Listeners principales
+const toggleMobileSidebar = () => { sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('open'); };
+document.getElementById('hamburgerBtn').onclick = toggleMobileSidebar;
+document.getElementById('sidebarOverlay').onclick = toggleMobileSidebar;
 
-const sidebar = document.getElementById('sidebar');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-
-function toggleMobileSidebar() {
-  sidebar.classList.toggle('open');
-  sidebarOverlay.classList.toggle('open');
-}
-
-function closeMobileSidebar() {
-  sidebar.classList.remove('open');
-  sidebarOverlay.classList.remove('open');
-}
-
-hamburgerBtn.addEventListener('click', toggleMobileSidebar);
-sidebarOverlay.addEventListener('click', closeMobileSidebar);
-
-function toggleTheme(){
+const toggleTheme = () => {
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-  if(currentTheme === 'dark'){
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'dark' : '');
   localStorage.setItem('tecba_theme', currentTheme);
   updateURLParams();
-}
+};
+document.getElementById('themeToggleBtn').onclick = toggleTheme;
+document.getElementById('themeToggleMobile').onclick = toggleTheme;
 
-document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
-document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
-
-document.getElementById('weeklyDepot').addEventListener('click', (e)=>{
+document.getElementById('weeklyDepot').onclick = (e) => {
   if(e.target.closest('#clearDepotBtn')) return;
   weeklyDepotActive = !weeklyDepotActive;
-  render();
-  closeMobileSidebar();
-});
+  render(); toggleMobileSidebar();
+};
 
-document.getElementById('clearDepotBtn').addEventListener('click', (e)=>{
+document.getElementById('clearDepotBtn').onclick = (e) => {
   e.stopPropagation();
-  if(favorites.length === 0) return;
-  if(confirm('¿Estás segura de que querés borrar todos los proyectos de "Novedades de la semana"?')){
-    favorites = [];
-    saveFavorites();
-    weeklyDepotActive = false;
-    render();
-  }
-});
+  if(favorites.length && confirm('¿Estás segura de borrar todos los favoritos?')){ favorites = []; saveFavorites(); weeklyDepotActive = false; render(); }
+};
 
-document.getElementById('searchArea').addEventListener('input', (e)=>{
-  searchTerm = e.target.value;
-  renderSidebar();
-});
+document.getElementById('searchArea').oninput = e => { searchTerm = e.target.value; renderSidebar(); };
+document.getElementById('statsRow').onclick = e => { const card = e.target.closest('.stat-card'); if(card) { const st = card.dataset.estado; st === 'todos' ? selectedEstados.clear() : (selectedEstados.has(st) ? selectedEstados.delete(st) : selectedEstados.add(st)); render(); } };
 
-document.getElementById('statsRow').addEventListener('click', (e)=>{
-  const card = e.target.closest('.stat-card');
-  if(!card) return;
-  toggleEstado(card.dataset.estado);
-});
-
-document.getElementById('contentContainer').addEventListener('click', (e)=>{
+document.getElementById('contentContainer').onclick = e => {
   const btn = e.target.closest('.fav-btn');
   if(!btn) return;
-  const key = btn.dataset.key;
-  const idx = favorites.indexOf(key);
-  if(idx >= 0){
-    favorites.splice(idx, 1);
-  } else {
-    favorites.push(key);
-  }
-  saveFavorites();
-  render();
-});
+  const key = btn.dataset.key, idx = favorites.indexOf(key);
+  idx >= 0 ? favorites.splice(idx, 1) : favorites.push(key);
+  saveFavorites(); render();
+};
 
-document.getElementById('textSearch').addEventListener('input', (e)=>{
-  textSearchTerm = e.target.value;
-  render();
-});
-
-function populateInternaFilter(){
-  const set = new Set();
-  ALL.forEach(i=>(i.internas||[]).forEach(a=>set.add(a)));
-  const sel = document.getElementById('internaFilter');
-  sel.innerHTML = '<option value="">Todas las áreas internas</option>';
-  Array.from(set).sort().forEach(a=>{
-    const opt = document.createElement('option');
-    opt.value = a;
-    opt.textContent = a;
-    sel.appendChild(opt);
-  });
-}
-
-document.getElementById('internaFilter').addEventListener('change', (e)=>{
-  currentInterna = e.target.value;
-  render();
-});
-
-document.getElementById('hubiaBtn').addEventListener('click', (e)=>{
-  currentHubIA = !currentHubIA;
-  e.target.classList.toggle('active', currentHubIA);
-  render();
-});
+document.getElementById('textSearch').oninput = e => { textSearchTerm = e.target.value; render(); };
+document.getElementById('internaFilter').onchange = e => { currentInterna = e.target.value; render(); };
+document.getElementById('hubiaBtn').onclick = e => { currentHubIA = !currentHubIA; e.target.classList.toggle('active', currentHubIA); render(); };
 
 function updateViewModeButton(){
   const btn = document.getElementById('viewModeBtn');
-  if(viewMode === 'table'){
-    btn.innerHTML = '📇 Vista Tarjetas';
-    btn.title = 'Cambiar a vista de tarjetas';
-  } else {
-    btn.innerHTML = '📊 Vista Tabla';
-    btn.title = 'Cambiar a vista de tabla compacta';
-  }
+  btn.innerHTML = viewMode === 'table' ? '📇 Vista Tarjetas' : '📊 Vista Tabla';
 }
+document.getElementById('viewModeBtn').onclick = () => { viewMode = viewMode === 'cards' ? 'table' : 'cards'; updateViewModeButton(); render(); };
 
-document.getElementById('viewModeBtn').addEventListener('click', ()=>{
-  viewMode = viewMode === 'cards' ? 'table' : 'cards';
-  updateViewModeButton();
-  render();
-});
+const showToast = msg => {
+  const t = document.getElementById('toastNotification');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+};
 
-function showToast(msg){
-  const toast = document.getElementById('toastNotification');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
-}
+document.getElementById('downloadBtn').onclick = e => { e.stopPropagation(); document.getElementById('downloadDropdown').classList.toggle('show'); };
+window.onclick = () => document.getElementById('downloadDropdown').classList.remove('show');
 
-// LOGICA DEL DROPDOWN DE DESCARGA
-document.getElementById('downloadBtn').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  document.getElementById('downloadDropdown').classList.toggle('show');
-});
-window.addEventListener('click', ()=>{
-  document.getElementById('downloadDropdown').classList.remove('show');
-});
-
-// Copiar Reporte
-document.getElementById('copyReportBtn').addEventListener('click', ()=>{
+document.getElementById('copyReportBtn').onclick = () => {
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){
-    alert('No hay líneas de trabajo visibles para copiar.');
-    return;
-  }
-  
-  let titleArea = weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim());
+  if(!items.length) { alert('No hay líneas visibles.'); return; }
+  let titleArea = weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea);
   let report = `📋 *Líneas de trabajo con ${titleArea}*\n\n`;
-
-  items.forEach((i, idx)=>{
+  items.forEach((i, idx) => {
     const meta = STATUS_META[i.estado] || {label:i.estado};
-    
     report += `${idx + 1}. *${i.titulo}* [${meta.label}]\n`;
-    
-    let desc = (i.descripcion || "").trim();
-    let parts = desc.split(/Status\s*:/i);
-    
-    let detalle = parts[0].replace(/\n/g, ' ').trim();
-    let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, ' ').trim() : "";
-
-    if(detalle) {
-      report += `   ↳ ${detalle}\n`;
-    }
-    if(status) {
-      report += `   *Status:* ${status}\n`;
-    }
-    if(currentArea === 'TODAS' && !weeklyDepotActive) {
-      report += `   🏢 *Área:* ${i.area}\n`;
-    }
-    if(weeklyDepotActive) {
-      report += `   🏢 *Área:* ${i.area}\n`;
-    }
-    
+    let parts = (i.descripcion || "").split(/Status\s*:/i);
+    if(parts[0].trim()) report += `   ↳ ${parts[0].replace(/\n/g, ' ').trim()}\n`;
+    if(parts.length > 1) report += `   *Status:* ${parts.slice(1).join("Status:").replace(/\n/g, ' ').trim()}\n`;
+    if(currentArea === 'TODAS' || weeklyDepotActive) report += `   🏢 *Área:* ${i.area}\n`;
     report += `\n`;
   });
+  navigator.clipboard.writeText(report.trim()).then(() => showToast('✨ ¡Reporte copiado!'));
+};
 
-  navigator.clipboard.writeText(report.trim()).then(()=>{
-    showToast('✨ ¡Reporte copiado con éxito!');
-  }).catch(()=>{
-    alert('No se pudo copiar al portapapeles.');
-  });
-});
-
-// 1. DESCARGAR WORD
-document.getElementById('dlWord').addEventListener('click', (e)=>{
+// Exportar Word, PDF, CSV
+document.getElementById('dlWord').onclick = e => {
   e.preventDefault();
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
-  
-  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  let tituloArea = weeklyDepotActive ? 'NOVEDADES DE LA SEMANA' : (currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim());
-
-  let html = `
-    <div style="font-family: Arial, sans-serif;">
-      <h1 style="color: #153244;">Líneas de trabajo con ${tituloArea}</h1>
-      <p style="color: #6B7C82; border-bottom: 2px solid #153244; padding-bottom: 10px;"><strong>ACTUALIZADO:</strong> ${fecha}</p>
-      
-      <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; border-color: #E4E9EA;">
-        <thead>
-          <tr>
-            <th style="background-color: #f5f7f7; width: 25%; text-align: left; color: #153244;">Proyecto</th>
-            <th style="background-color: #f5f7f7; width: 60%; text-align: left; color: #153244;">Descripción & Status</th>
-            <th style="background-color: #f5f7f7; width: 15%; text-align: left; color: #153244;">Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-  `;
-
+  if(!items.length) return;
+  let html = `<div style="font-family: Arial;"><h1>Reporte TECBA</h1><table border="1" cellpadding="8" style="border-collapse:collapse; width:100%;"><tr><th>Proyecto</th><th>Descripción</th><th>Estado</th></tr>`;
   items.forEach(i => {
     const meta = STATUS_META[i.estado] || {label:i.estado};
-    
-    let desc = (i.descripcion || "").trim();
-    let parts = desc.split(/Status\s*:/i);
-    let detalle = parts[0].replace(/\n/g, '<br>');
-    let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, '<br>') : "";
-
-    let descHTML = detalle;
-    if(status) {
-      descHTML += `<br><br><strong>Status:</strong> ${status}`;
-    }
-
-    let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
-    if(weeklyDepotActive || currentArea === 'TODAS') {
-      proyHTML += `<br><span style="color:#6B7C82; font-size:11px;">🏢 Área: ${escapeHtml(i.area)}</span>`;
-    }
-    if(i.ia) {
-      proyHTML += `<br><span style="color:#6B48D6; font-size:11px;"><strong>💡 Hub IA</strong></span>`;
-    }
-    if(i.internas && i.internas.length > 0) {
-      proyHTML += `<br><span style="color:#6B7C82; font-size:11px;">📎 TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
-    }
-
-    html += `
-      <tr>
-        <td valign="top" style="color: #16242B;">${proyHTML}</td>
-        <td valign="top" style="color: #16242B;">${descHTML}</td>
-        <td valign="top" style="color: #16242B;"><strong>${meta.label}</strong></td>
-      </tr>
-    `;
+    html += `<tr><td><strong>${escapeHtml(i.titulo)}</strong><br>${escapeHtml(i.area)}</td><td>${formatDescription(i.descripcion)}</td><td>${meta.label}</td></tr>`;
   });
+  html += `</table></div>`;
+  const blob = new Blob(['\ufeff', `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body>${html}</body></html>`], { type: 'application/msword' });
+  const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `Reporte.doc`; link.click();
+};
 
-  html += `</tbody></table></div>`;
-  
-  let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reporte TECBA</title></head><body>";
-  let postHtml = "</body></html>";
-  
-  let blob = new Blob(['\ufeff', preHtml + html + postHtml], { type: 'application/msword' });
-  let url = URL.createObjectURL(blob);
-  let link = document.createElement("a");
-  link.href = url;
-  
-  let fileNameArea = weeklyDepotActive ? 'Novedades_Semana' : (currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, ''));
-  link.download = `Reporte_TECBA_${fileNameArea}.doc`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
+document.getElementById('dlPdf').onclick = e => { e.preventDefault(); window.print(); };
 
-// 2. IMPRIMIR PDF
-document.getElementById('dlPdf').addEventListener('click', (e)=>{
-  e.preventDefault();
-  try {
-    window.print();
-  } catch(err) {
-    alert('El navegador bloqueó la impresión.');
-  }
-});
-
-// 3. EXCEL
-document.getElementById('dlExcel').addEventListener('click', (e)=>{
+document.getElementById('dlExcel').onclick = e => {
   e.preventDefault();
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
-  
-  let csvContent = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
-  
-  items.forEach(i => {
-    let area = `"${i.area.replace(/"/g, '""')}"`;
-    let titulo = `"${i.titulo.replace(/"/g, '""')}"`;
-    let estadoStr = `"${(STATUS_META[i.estado] || {label:i.estado}).label}"`;
-    let ia = i.ia ? '"Sí"' : '"No"';
-    let internas = `"${(i.internas || []).join(', ')}"`;
-    let desc = `"${(i.descripcion || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
-    
-    csvContent += `${area},${titulo},${estadoStr},${ia},${internas},${desc}\n`;
-  });
-  
-  const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
-  let link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  let fileNameArea = weeklyDepotActive ? 'Novedades_Semana' : (currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, ''));
-  link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-});
+  if(!items.length) return;
+  let csv = "Área,Proyecto,Estado,Descripción\n";
+  items.forEach(i => { csv += `"${i.area}","${i.titulo}","${(STATUS_META[i.estado] || {}).label || ''}","${(i.descripcion || '').replace(/"/g, '""').replace(/\n/g, ' ')}"\n`; });
+  const blob = new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `Reporte.csv`; link.click();
+};
 
-// --- GOOGLE SHEETS ---
 async function cargarDatosDeGoogle() {
   const container = document.getElementById('contentContainer');
   container.innerHTML = '<div class="empty-state"><div class="big" style="animation: pulse 1s infinite;">⏳</div>Cargando datos en vivo...</div>';
-  
   try {
-    const respuesta = await fetch(URL_GOOGLE_SHEET);
-    const json = await respuesta.json();
-    
-    let datosAgrupados = {};
-    
+    const res = await fetch(URL_GOOGLE_SHEET), json = await res.json();
+    let agrupados = {};
     json.forEach(fila => {
       let area = fila["Area"] || "Sin Área";
-      if (!datosAgrupados[area]) {
-        datosAgrupados[area] = { area: area, items: [] };
-      }
-      
-      let etiquetasBrutas = fila["Etiquetas"] ? String(fila["Etiquetas"]).split(';').map(s => s.trim()).filter(s => s !== "") : [];
-      let esIA = etiquetasBrutas.some(e => e.toLowerCase().includes('hub ia'));
-      let internas = etiquetasBrutas.filter(e => {
-        let el = e.toLowerCase();
-        if (el.includes('hub ia')) return false;
-        if (el.includes('completado') || el.includes('en curso') || 
-            el.includes('pausado') || el.includes('cancelado') || 
-            el.includes('no iniciado')) {
-          return false;
-        }
-        return true; 
-      });
-      
-      datosAgrupados[area].items.push({
-        titulo: fila["Titulo"] || "",
-        ia: esIA,
-        internas: internas,
-        etiquetas: etiquetasBrutas,
-        descripcion: fila["Descripcion"] || ""
-      });
+      if(!agrupados[area]) agrupados[area] = { area, items: [] };
+      let etqs = fila["Etiquetas"] ? String(fila["Etiquetas"]).split(';').map(s => s.trim()).filter(Boolean) : [];
+      let esIA = etqs.some(e => e.toLowerCase().includes('hub ia'));
+      let internas = etqs.filter(e => !e.toLowerCase().includes('hub ia') && !/(completado|curso|pausado|cancelado|iniciado)/i.test(e));
+      agrupados[area].items.push({ titulo: fila["Titulo"] || "", ia: esIA, internas, etiquetas: etqs, descripcion: fila["Descripcion"] || "" });
     });
-    
-    RAW_DATA = Object.values(datosAgrupados);
-
-    RAW_DATA.sort((a, b) => {
-      const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-      const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-      return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
-    });
-    
-    DATA = RAW_DATA.map(areaObj => ({
-      area: areaObj.area,
-      items: areaObj.items.map(i => ({
-        ...i,
-        estado: parseEstado(i.etiquetas)
-      }))
-    }));
-
+    RAW_DATA = Object.values(agrupados).sort((a,b) => a.area.localeCompare(b.area, 'es', { sensitivity: 'base' }));
+    DATA = RAW_DATA.map(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     ALL = flatten();
-
+    
     const clavesValidas = new Set(ALL.map(getItemKey));
-    let favsFiltrados = favorites.filter(k => clavesValidas.has(k));
-    if(favsFiltrados.length !== favorites.length){
-      favorites = favsFiltrados;
-      saveFavorites();
-    }
+    favorites = favorites.filter(k => clavesValidas.has(k)); saveFavorites();
+    DATA.forEach((a,i) => AREA_HUES[a.area] = Math.round((i*137.508)%360));
     
-    DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
-    
-    populateInternaFilter();
-    readURLParams();
-    render();
+    const setInt = new Set(); ALL.forEach(i => (i.internas || []).forEach(a => setInt.add(a)));
+    const sel = document.getElementById('internaFilter');
+    Array.from(setInt).sort().forEach(a => { const opt = document.createElement('option'); opt.value = a; opt.textContent = a; sel.appendChild(opt); });
 
-  } catch (error) {
-    console.error("Error cargando Google Sheets:", error);
-    container.innerHTML = `<div class="empty-state"><div class="big">❌</div>Ocurrió un error al cargar los datos.<br><small style="opacity:0.6">Verifica que tu Excel tenga información y que la Web App esté accesible.</small></div>`;
+    readURLParams(); render();
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><div class="big">❌</div>Error al cargar los datos en vivo.</div>`;
   }
 }
 
