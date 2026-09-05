@@ -67,7 +67,6 @@
   .topbar-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
   .topbar h2{ font-size:26px; font-weight:800; margin:0 0 4px 0; color:var(--text); }
   .topbar .sub{ color:var(--muted); font-size:13px; font-weight:500; }
-  .export-badge { font-size: 11px; background: var(--card); border: 1px solid var(--border); padding: 5px 10px; border-radius: 8px; color: var(--muted); font-weight: 600; }
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
   .stat-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
@@ -92,7 +91,6 @@
 
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   
-  /* MEJORA: Flechitas de orden ultra finas y elegantes para Jefatura */
   .reorder-controls { display: none; align-items: center; gap: 4px; }
   .reorder-controls.active { display: flex; }
   .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); font-size: 10px; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
@@ -191,8 +189,7 @@
         <div class="sub" id="areaSub"></div>
       </div>
       <div style="display:flex; align-items:center; gap:12px;">
-        <div class="reorder-controls" id="reorderControls"><span style="font-size:11.5px; font-weight:700; color:var(--muted);">Orden agenda:</span></div>
-        <div class="export-badge">📅 Datos actualizados en tiempo real</div>
+        <div class="reorder-controls" id="reorderControls"></div>
       </div>
     </div>
   </div>
@@ -405,13 +402,13 @@ function renderCardsView(items, container){
     <div class="proj-card" style="--card-color:${meta.color}">
       <div class="proj-head">
         <div class="proj-title-area">
-          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button>
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de destacados' : 'Destacar para Jefatura'}">${isFav ? '★' : '☆'}</button>
           <div class="proj-title">${escapeHtml(i.titulo)}</div>
         </div>
         <div class="badges">
           ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
           <span class="badge" style="background:${meta.color}">${meta.label}</span>
-          ${showReorder ? `<div style="display:flex; gap:3px; margin-left:8px;"><button class="reorder-btn" title="Subir" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" title="Bajar" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
+          ${showReorder ? `<div style="display:flex; gap:3px; margin-left:8px;"><button class="reorder-btn" title="Subir prioridad" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" title="Bajar prioridad" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
         </div>
       </div>
       ${(showAreaTag || internasHtml) ? `<div class="tags-row">${showAreaTag ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}${internasHtml}</div>` : ''}
