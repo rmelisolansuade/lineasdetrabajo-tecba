@@ -65,10 +65,6 @@
   .main{ flex:1; padding:32px 40px 60px 40px; max-width:1260px; width:100%; }
   .topbar{ display:flex; flex-direction:column; gap:4px; margin-bottom:20px; }
   .topbar h2{ font-size:26px; font-weight:800; margin:0; color:var(--text); }
-  
-  /* Contenedor estético y amigable para ordenar prioridades en Novedades */
-  .reorder-hint { display: none; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 16px; }
-  .reorder-hint.active { display: inline-flex; }
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
   .stat-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
@@ -93,7 +89,6 @@
 
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   
-  /* Botones de orden integrados con estilo de píldora sutil */
   .reorder-group { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: 8px; }
   .reorder-btn { background: transparent; border: none; color: var(--muted); font-size: 11px; width: 22px; height: 22px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
   .reorder-btn:hover:not(:disabled) { background: var(--card); color: var(--text); }
@@ -186,10 +181,6 @@
   <div class="print-header" id="printHeader"></div>
   <div class="topbar">
     <h2 id="areaTitle">Todas las áreas</h2>
-  </div>
-
-  <div class="reorder-hint" id="reorderHint">
-    ↕️ Estás en la vista ejecutiva. Podés usar los controles de la derecha de cada tarjeta para ajustar el orden de prioridad para la reunión.
   </div>
 
   <div class="toolbar">
@@ -377,7 +368,6 @@ function getFilteredAndSortedItems(){
 function renderContent(){
   const items = getFilteredAndSortedItems();
   const container = document.getElementById('contentContainer');
-  document.getElementById('reorderHint').classList.toggle('active', weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA);
 
   if(items.length === 0){ container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`; return; }
   viewMode === 'table' ? renderTableView(items, container) : renderCardsView(items, container);
