@@ -304,7 +304,7 @@ function readURLParams(){
   if(params.has('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
   if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
   if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
-  if(params.has('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
+  if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
 }
 
 function stackSegments(c){
@@ -320,6 +320,7 @@ function renderSidebar(){
   const term = searchTerm.trim().toLowerCase();
 
   const allC = areaCountsForSidebar('TODAS');
+  // CORRECCIÓN: Si Novedades de la semana está activo, ninguna área individual se marca como "active" (evita el falso seleccionado)
   list.appendChild(createAreaElement('🗂 Todas las áreas', allC, currentArea === 'TODAS' && !weeklyDepotActive, () => { currentArea='TODAS'; weeklyDepotActive=false; render(); closeMobileSidebar(); }));
 
   DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a => {
@@ -350,7 +351,7 @@ function renderStats(){
   const row = document.getElementById('statsRow');
   let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:#153244; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
   STATUS_KEYS.forEach(k => {
-    if(c[k] === 0) return; // Oculta automáticamente los estados en 0
+    if(c[k] === 0) return;
     const meta = STATUS_META[k];
     html += `<div class="stat-card ${selectedEstados.has(k)?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
   });
@@ -434,7 +435,6 @@ function renderTableView(items, container){
     </div>`;
 }
 
-// Función para mover elementos en el array de favoritos personalizado
 window.moveItem = function(key, direction){
   const idx = favorites.indexOf(key);
   if(idx < 0) return;
@@ -568,7 +568,6 @@ async function cargarDatosDeGoogle() {
       agrupados[area].items.push({ titulo: fila["Titulo"] || "", ia: esIA, internas, etiquetas: etqs, descripcion: fila["Descripcion"] || "" });
     });
     
-    // Orden alfabético estricto respetando acentos
     RAW_DATA = Object.values(agrupados).sort((a,b) => {
       const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
       const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
