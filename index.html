@@ -300,7 +300,8 @@
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0; /* CORRECCIÓN: Se alinea a la derecha para no salirse de pantalla */
+    left: auto;
     margin-top: 6px;
     background-color: var(--card);
     min-width: 220px;
@@ -446,22 +447,27 @@
   .toast.show { opacity: 1; transform: translateY(0); }
 
   /* ======================================================== */
-  /* TEMPLATE BRIEF EJECUTIVO - ESTILOS EXACTOS DE IMPRESIÓN  */
+  /* IMPRESIÓN (PDF): DISEÑO ORIGINAL DEL TABLERO             */
   /* ======================================================== */
-  @media print {
-    /* Ocultamos toda la app web normal */
-    .sidebar, .mobile-top-bar, .main, .sidebar-overlay, .toast { display: none !important; }
+  @media print{
+    /* Ocultamos lo que no sirve para el papel */
+    .sidebar, .toolbar, .mobile-top-bar, .toast { display:none !important; }
     
-    /* Fondo blanco puro para impresión */
-    body { background: #fff !important; color: #000 !important; display: block !important; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+    /* Mostramos el encabezado de impresión (Fecha y Filtros) */
+    .print-header{ display:block !important; margin-bottom:16px; }
     
-    /* Mostrar contenedor secreto */
-    #printTemplate { display: block !important; width: 100%; max-width: 100%; padding: 0; }
+    /* Forzamos fondo blanco y colores sólidos para que imprima lindo */
+    body{display:block; background: #fff !important; color: #000 !important;}
+    .main{padding:10px; max-width:100%;}
+    
+    /* Ajustes para que las tarjetas no se corten entre páginas */
+    .proj-card{ break-inside:avoid; box-shadow:none !important; border-color: #ccc; }
+    .stat-card{ cursor:default; box-shadow:none !important; }
+    .topbar{margin-bottom:14px;}
   }
   
-  @media screen {
-    #printTemplate { display: none !important; }
-  }
+  .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
+  .print-header b{ color:var(--text); }
 
   /* RESPONSIVE MEDIA QUERIES (Web Normal) */
   @media (max-width:900px){
@@ -486,9 +492,6 @@
 </style>
 </head>
 <body>
-
-<!-- Molde oculto que solo se renderizará al imprimir/exportar -->
-<div id="printTemplate"></div>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="toast" id="toastNotification">✨ Acción completada</div>
@@ -528,6 +531,7 @@
 </div>
 
 <div class="main">
+  <div class="print-header" id="printHeader"></div>
   <div class="topbar">
     <div class="topbar-header-row">
       <div>
@@ -545,13 +549,15 @@
     </select>
     <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
     <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
-    <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar a WhatsApp</button>
     
-    <!-- NUEVO MENÚ DE DESCARGAS -->
+    <!-- BOTÓN CORREGIDO -->
+    <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
+    
+    <!-- MENÚ DE DESCARGAS (Alineado a la derecha) -->
     <div class="dropdown" id="downloadDropdown">
       <button id="downloadBtn" class="secondary-action" title="Opciones de descarga">⬇️ Descargar ▼</button>
       <div class="dropdown-content" id="downloadMenu">
-        <a href="#" id="dlWord">📄 Formato Word</a>
+        <a href="#" id="dlWord">📄 Formato Word (Tabla)</a>
         <a href="#" id="dlPdf">🖨️ Formato PDF / Imprimir</a>
         <a href="#" id="dlExcel">📊 Formato Excel (CSV)</a>
       </div>
@@ -885,11 +891,24 @@ function escapeHtml(str){
   return div.innerHTML;
 }
 
+function renderPrintHeader(){
+  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
+  const filtrosAplicados = [];
+  if(selectedEstados.size > 0) filtrosAplicados.push(Array.from(selectedEstados).map(s=>STATUS_META[s]?.label).join(', '));
+  if(currentInterna) filtrosAplicados.push(currentInterna);
+  if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
+  if(weeklyDepotActive) filtrosAplicados.push('⭐ Novedades de la semana');
+  if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
+  const filtrosTxt = filtrosAplicados.length ? ` · Filtros: ${filtrosAplicados.join(', ')}` : '';
+  document.getElementById('printHeader').innerHTML = `TECBA — Líneas de trabajo con áreas del GCBA · <b>${fecha}</b>${filtrosTxt}`;
+}
+
 function render(){
   renderSidebar();
   renderHeader();
   renderStats();
   renderContent();
+  renderPrintHeader();
   updateURLParams();
 }
 
@@ -1041,7 +1060,7 @@ window.addEventListener('click', ()=>{
   document.getElementById('downloadDropdown').classList.remove('show');
 });
 
-// Copiar Reporte para WhatsApp
+// Copiar Reporte
 document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   const items = getFilteredAndSortedItems();
   if(items.length === 0){
@@ -1077,113 +1096,55 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 
   navigator.clipboard.writeText(report.trim()).then(()=>{
-    showToast('✨ ¡Reporte copiado para WhatsApp!');
+    showToast('✨ ¡Reporte copiado con éxito!');
   }).catch(()=>{
     alert('No se pudo copiar al portapapeles.');
   });
 });
 
-// --- GENERADOR DEL HTML LIMPIO (Para Word y PDF) ---
-function getReportHTML() {
-  const items = getFilteredAndSortedItems();
-  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  
-  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-
-  // NOTA: Se usan estilos inline (style="...") para que Word los interprete perfectamente.
-  let html = `
-    <div style="font-family: Arial, sans-serif; color: #000; padding: 20px;">
-      <h1 style="font-size: 24px; font-weight: bold; margin: 0 0 5px 0; color: #000;">Líneas de trabajo con ${tituloArea}</h1>
-      <div style="font-size: 11px; font-weight: bold; margin-bottom: 25px; border-bottom: 2px solid #000; padding-bottom: 5px; color: #000;">■ ACTUALIZADO · ${fecha}</div>
-
-      <h3 style="font-size: 14px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; text-transform: uppercase; color: #000;">Proyectos & Avances</h3>
-      
-      <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 30px; border: 1px solid #ccc;">
-        <thead>
-          <tr>
-            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 25%; color: #000; font-weight: bold;">Proyecto</th>
-            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 60%; color: #000; font-weight: bold;">Descripción & Avances</th>
-            <th style="text-align: left; border-bottom: 2px solid #000; padding: 8px; width: 15%; color: #000; font-weight: bold;">Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-  `;
-
-  if(items.length === 0) {
-    html += `<tr><td colspan="3" style="padding: 10px; text-align: center;">No hay proyectos.</td></tr>`;
-  } else {
-    items.forEach(i => {
-      const meta = STATUS_META[i.estado] || {label:i.estado};
-      
-      let desc = (i.descripcion || "").trim();
-      let parts = desc.split(/Status\s*:/i);
-      let detalle = parts[0].trim().replace(/\n/g, '<br>');
-      let status = parts.length > 1 ? parts.slice(1).join("Status:").trim().replace(/\n/g, '<br>') : "";
-      
-      let descHTML = detalle;
-      if(status) {
-        descHTML += `<br><br><strong>Status:</strong> ${status}`;
-      }
-
-      let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
-      if(i.ia) {
-        proyHTML += `<br><span style="font-size:11px; font-weight:bold; color:#6B48D6;">💡 Hub IA</span>`;
-      }
-      if(i.internas && i.internas.length > 0) {
-        proyHTML += `<br><span style="font-size:11px; color:#555;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
-      }
-
-      html += `
-        <tr>
-          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; color: #000;">${proyHTML}</td>
-          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; color: #000;">${descHTML}</td>
-          <td style="padding: 10px 8px; border-bottom: 1px solid #ccc; vertical-align: top; font-weight: bold; color: #000;">${meta.label} ${meta.label === 'Completado' ? '✅' : ''}</td>
-        </tr>
-      `;
-    });
-  }
-
-  html += `
-        </tbody>
-      </table>
-
-      <h3 style="font-size: 14px; font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 4px; margin-bottom: 15px; text-transform: uppercase; color: #000;">Resumen de Estado</h3>
-      <ul style="font-size: 13px; line-height: 1.8; list-style-type: none; padding-left: 0; margin-top: 0; color: #000;">
-        <li><strong>Total de proyectos:</strong> ${items.length}</li>
-  `;
-
-  // Conteo de los proyectos que actualmente se están viendo
-  const counts = {};
-  items.forEach(i => {
-    counts[i.estado] = (counts[i.estado] || 0) + 1;
-  });
-
-  STATUS_KEYS.forEach(k => {
-    if (counts[k] && counts[k] > 0) {
-      html += `<li><strong>${STATUS_META[k].label}:</strong> ${counts[k]}</li>`;
-    }
-  });
-
-  html += `
-      </ul>
-    </div>
-  `;
-  
-  return html;
-}
-
-// 1. DESCARGAR WORD
+// 1. DESCARGAR WORD (Tabla Simple)
 document.getElementById('dlWord').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
   if(items.length === 0){ alert('No hay datos para exportar.'); return; }
   
-  // Envolvemos el HTML en la estructura XML/HTML que Microsoft Word entiende nativamente.
+  const fecha = new Date().toLocaleDateString('es-AR');
+  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+
+  // Armamos una tabla HTML súper básica porque Word no entiende CSS moderno
+  let html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h1>Líneas de trabajo con ${tituloArea}</h1>
+      <p>Actualizado: ${fecha}</p>
+      <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr>
+            <th style="background-color: #f2f2f2;">Proyecto</th>
+            <th style="background-color: #f2f2f2;">Descripción & Status</th>
+            <th style="background-color: #f2f2f2;">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  items.forEach(i => {
+    const meta = STATUS_META[i.estado] || {label:i.estado};
+    let desc = (i.descripcion || "").replace(/\n/g, '<br>');
+    html += `
+      <tr>
+        <td><strong>${escapeHtml(i.titulo)}</strong></td>
+        <td>${desc}</td>
+        <td>${meta.label}</td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table></div>`;
+  
   let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reporte TECBA</title></head><body>";
   let postHtml = "</body></html>";
-  let htmlContext = preHtml + getReportHTML() + postHtml;
   
-  let blob = new Blob(['\ufeff', htmlContext], { type: 'application/msword' });
+  let blob = new Blob(['\ufeff', preHtml + html + postHtml], { type: 'application/msword' });
   let url = URL.createObjectURL(blob);
   let link = document.createElement("a");
   link.href = url;
@@ -1195,21 +1156,14 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
   document.body.removeChild(link);
 });
 
-// 2. DESCARGAR / IMPRIMIR PDF
+// 2. DESCARGAR / IMPRIMIR PDF (Diseño original del tablero)
 document.getElementById('dlPdf').addEventListener('click', (e)=>{
   e.preventDefault();
-  const items = getFilteredAndSortedItems();
-  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
-  
-  document.getElementById('printTemplate').innerHTML = getReportHTML();
-  
-  setTimeout(() => {
-    try {
-      window.print(); // Abre el diálogo nativo donde el usuario elige "Guardar como PDF"
-    } catch(err) {
-      alert('El navegador bloqueó la impresión.');
-    }
-  }, 100);
+  try {
+    window.print();
+  } catch(err) {
+    alert('El navegador bloqueó la impresión.');
+  }
 });
 
 // 3. DESCARGAR EXCEL (CSV)
