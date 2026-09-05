@@ -294,6 +294,31 @@
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   .toolbar button.secondary-action:hover { background: var(--border); }
 
+  /* CONTROLES DE ORDEN EN MODO NOVEDADES */
+  .reorder-controls {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .reorder-controls.active { display: flex; }
+  .reorder-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reorder-btn:hover { background: var(--border); }
+  .reorder-btn:disabled { opacity: 0.3; cursor: default; }
+
   /* DROPDOWN MENU PARA DESCARGAS */
   .dropdown { position: relative; display: inline-flex; }
   .dropdown-content {
@@ -552,7 +577,12 @@
         <h2 id="areaTitle">Todas las áreas</h2>
         <div class="sub" id="areaSub"></div>
       </div>
-      <div class="export-badge" id="exportDateBadge">📅 Datos actualizados en tiempo real</div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="reorder-controls" id="reorderControls">
+          <span style="font-size:11.5px; font-weight:700; color:var(--muted);">Orden agenda:</span>
+        </div>
+        <div class="export-badge" id="exportDateBadge">📅 Datos actualizados en tiempo real</div>
+      </div>
     </div>
   </div>
 
@@ -593,7 +623,6 @@ let DATA = [];
 let ALL = [];
 let AREA_HUES = {};
 
-// Función robusta para deducir el estado estrictamente de la cadena de etiquetas
 function parseEstado(etiquetasArr) {
   const etqStr = (etiquetasArr || []).join(';').toLowerCase();
   if (etqStr.includes('cancelado')) return 'cancelado';
@@ -635,10 +664,12 @@ if(currentTheme === 'dark'){
   document.documentElement.setAttribute('data-theme', 'dark');
 }
 
-let favorites = new Set(JSON.parse(localStorage.getItem('tecba_favorites') || '[]'));
+// Array ordenado para los favoritos personalizados
+let favorites = JSON.parse(localStorage.getItem('tecba_favorites_array') || '[]');
+if(!Array.isArray(favorites)) favorites = [];
 
 function saveFavorites() {
-  localStorage.setItem('tecba_favorites', JSON.stringify(Array.from(favorites)));
+  localStorage.setItem('tecba_favorites_array', JSON.stringify(favorites));
 }
 
 function getItemKey(item) {
@@ -662,10 +693,12 @@ function areaColor(name){
 }
 
 function baseFilteredItems(areaName){
-  // CORRECCIÓN: Si el depósito de novedades está activo, ignoramos el área seleccionada y buscamos en TODOS los proyectos
   let items = weeklyDepotActive ? ALL.slice() : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName));
   
-  if(weeklyDepotActive){ items = items.filter(i=>favorites.has(getItemKey(i))); }
+  if(weeklyDepotActive){ 
+    // Filtrar conservando exactamente el orden personalizado del array favorites
+    items = favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean);
+  }
   if(currentInterna){ items = items.filter(i=>(i.internas||[]).includes(currentInterna)); }
   if(currentHubIA){ items = items.filter(i=>i.ia); }
   if(textSearchTerm.trim()){
@@ -728,7 +761,7 @@ function readURLParams(){
 }
 
 function renderSidebar(){
-  document.getElementById('depotCount').textContent = favorites.size;
+  document.getElementById('depotCount').textContent = favorites.length;
   document.getElementById('weeklyDepot').classList.toggle('active', weeklyDepotActive);
 
   const list = document.getElementById('areaList');
@@ -788,7 +821,7 @@ function renderStats(){
 
 function renderHeader(){
   let title = currentArea==='TODAS' ? 'Todas las áreas' : currentArea;
-  if(weeklyDepotActive) title = '⭐ Novedades de la semana (Favoritos)';
+  if(weeklyDepotActive) title = '⭐ Novedades de la semana';
   document.getElementById('areaTitle').textContent = title;
   const c = areaCounts(currentArea);
   document.getElementById('areaSub').textContent = `${c.total} línea${c.total===1?'':'s'} de trabajo`;
@@ -799,13 +832,24 @@ function getFilteredAndSortedItems(){
   if(selectedEstados.size > 0){ 
     items = items.filter(i => selectedEstados.has(i.estado)); 
   }
-  items.sort((a,b)=> (STATUS_META[a.estado]?.order ?? 99) - (STATUS_META[b.estado]?.order ?? 99));
+  // Si no estamos en novedades de la semana, ordenamos por estado por defecto
+  if(!weeklyDepotActive){
+    items.sort((a,b)=> (STATUS_META[a.estado]?.order ?? 99) - (STATUS_META[b.estado]?.order ?? 99));
+  }
   return items;
 }
 
 function renderContent(){
   const items = getFilteredAndSortedItems();
   const container = document.getElementById('contentContainer');
+
+  // Mostrar u ocultar controles de reordenamiento de la agenda semanal
+  const reorderControls = document.getElementById('reorderControls');
+  if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
+    reorderControls.classList.add('active');
+  } else {
+    reorderControls.classList.remove('active');
+  }
 
   if(items.length===0){
     container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`;
@@ -832,12 +876,24 @@ function formatDescription(desc) {
 
 function renderCardsView(items, container){
   container.className = 'cards';
-  container.innerHTML = items.map(i => {
+  container.innerHTML = items.map((i, idx) => {
     const key = getItemKey(i);
-    const isFav = favorites.has(key);
+    const isFav = favorites.includes(key);
     const col = areaColor(i.area);
     const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
     const internas = i.internas || [];
+    
+    // Controles de flechitas si estamos en Novedades de la semana puro
+    let cardReorderHtml = '';
+    if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
+      cardReorderHtml = `
+        <div style="display:flex; gap:4px; margin-left:10px;">
+          <button class="reorder-btn" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''} title="Subir">▲</button>
+          <button class="reorder-btn" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''} title="Bajar">▼</button>
+        </div>
+      `;
+    }
+
     const tagsRow = ((currentArea==='TODAS' || weeklyDepotActive) || internas.length>0) ? `
       <div class="tags-row">
         ${(currentArea==='TODAS' || weeklyDepotActive) ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}
@@ -847,12 +903,13 @@ function renderCardsView(items, container){
     <div class="proj-card" style="--card-color:${meta.color}">
       <div class="proj-head">
         <div class="proj-title-area">
-          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de novedades de la semana' : 'Marcar como favorito'}">${isFav ? '★' : '☆'}</button>
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="Quitar de novedades">${isFav ? '★' : '☆'}</button>
           <div class="proj-title">${escapeHtml(i.titulo)}</div>
         </div>
         <div class="badges">
           ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
           <span class="badge" style="--badge-color:${meta.color}">${meta.label}</span>
+          ${cardReorderHtml}
         </div>
       </div>
       ${tagsRow}
@@ -871,23 +928,29 @@ function renderTableView(items, container){
           <tr>
             <th style="width:40px;">⭐</th>
             <th>Proyecto / Línea</th>
-            ${currentArea==='TODAS' ? '<th>Área</th>' : ''}
+            <th>Área</th>
             <th>Estado</th>
             <th>Áreas internas</th>
             <th>Descripción / Status</th>
           </tr>
         </thead>
         <tbody>
-          ${items.map(i => {
+          ${items.map((i, idx) => {
             const key = getItemKey(i);
-            const isFav = favorites.has(key);
+            const isFav = favorites.includes(key);
             const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
             const internas = (i.internas || []).join(', ');
+            
+            let tableReorderHtml = '';
+            if(weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA){
+              tableReorderHtml = ` <span style="display:inline-flex; gap:2px; margin-left:6px;"><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>`;
+            }
+
             return `
               <tr>
                 <td><button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button></td>
-                <td><strong>${escapeHtml(i.titulo)}</strong>${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
-                ${currentArea==='TODAS' ? `<td><span style="font-weight:600; color:var(--text);">${escapeHtml(i.area)}</span></td>` : ''}
+                <td><strong>${escapeHtml(i.titulo)}</strong>${tableReorderHtml}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
+                <td><span style="font-weight:600; color:var(--text);">${escapeHtml(i.area)}</span></td>
                 <td><span class="badge" style="background:${meta.color}">${meta.label}</span></td>
                 <td><span style="font-size:11px; color:var(--muted);">${escapeHtml(internas || '—')}</span></td>
                 <td><div class="table-desc">${formatDescription(i.descripcion)}</div></td>
@@ -899,6 +962,23 @@ function renderTableView(items, container){
     </div>
   `;
 }
+
+// Función global para reordenar los favoritos
+window.moveItem = function(key, direction){
+  const idx = favorites.indexOf(key);
+  if(idx < 0) return;
+  if(direction === 'up' && idx > 0){
+    const temp = favorites[idx];
+    favorites[idx] = favorites[idx-1];
+    favorites[idx-1] = temp;
+  } else if(direction === 'down' && idx < favorites.length - 1){
+    const temp = favorites[idx];
+    favorites[idx] = favorites[idx+1];
+    favorites[idx+1] = temp;
+  }
+  saveFavorites();
+  render();
+};
 
 function escapeHtml(str){
   const div = document.createElement('div');
@@ -916,7 +996,7 @@ function renderPrintHeader(){
   if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
   
   const filtrosTxt = filtrosAplicados.length ? ` · Filtros aplicados: ${filtrosAplicados.join(', ')}` : '';
-  let tituloArea = currentArea === 'TODAS' ? 'Todas las áreas' : currentArea;
+  let tituloArea = weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'Todas las áreas' : currentArea);
   
   document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${tituloArea}</strong><br>Actualizado: ${fecha}${filtrosTxt}`;
 }
@@ -983,9 +1063,9 @@ document.getElementById('weeklyDepot').addEventListener('click', (e)=>{
 
 document.getElementById('clearDepotBtn').addEventListener('click', (e)=>{
   e.stopPropagation();
-  if(favorites.size === 0) return;
+  if(favorites.length === 0) return;
   if(confirm('¿Estás segura de que querés borrar todos los proyectos de "Novedades de la semana"?')){
-    favorites.clear();
+    favorites = [];
     saveFavorites();
     weeklyDepotActive = false;
     render();
@@ -1007,10 +1087,11 @@ document.getElementById('contentContainer').addEventListener('click', (e)=>{
   const btn = e.target.closest('.fav-btn');
   if(!btn) return;
   const key = btn.dataset.key;
-  if(favorites.has(key)){
-    favorites.delete(key);
+  const idx = favorites.indexOf(key);
+  if(idx >= 0){
+    favorites.splice(idx, 1);
   } else {
-    favorites.add(key);
+    favorites.push(key);
   }
   saveFavorites();
   render();
@@ -1086,7 +1167,7 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
     return;
   }
   
-  let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+  let titleArea = weeklyDepotActive ? 'Novedades de la semana' : (currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim());
   let report = `📋 *Líneas de trabajo con ${titleArea}*\n\n`;
 
   items.forEach((i, idx)=>{
@@ -1106,7 +1187,10 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
     if(status) {
       report += `   *Status:* ${status}\n`;
     }
-    if(currentArea === 'TODAS') {
+    if(currentArea === 'TODAS' && !weeklyDepotActive) {
+      report += `   🏢 *Área:* ${i.area}\n`;
+    }
+    if(weeklyDepotActive) {
       report += `   🏢 *Área:* ${i.area}\n`;
     }
     
@@ -1120,14 +1204,14 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 });
 
-// 1. DESCARGAR WORD (Añadido Hub IA y Áreas internas)
+// 1. DESCARGAR WORD
 document.getElementById('dlWord').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
   if(items.length === 0){ alert('No hay datos para exportar.'); return; }
   
   const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+  let tituloArea = weeklyDepotActive ? 'NOVEDADES DE LA SEMANA' : (currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim());
 
   let html = `
     <div style="font-family: Arial, sans-serif;">
@@ -1148,7 +1232,6 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
   items.forEach(i => {
     const meta = STATUS_META[i.estado] || {label:i.estado};
     
-    // Separamos el Status al igual que en WhatsApp
     let desc = (i.descripcion || "").trim();
     let parts = desc.split(/Status\s*:/i);
     let detalle = parts[0].replace(/\n/g, '<br>');
@@ -1159,21 +1242,22 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
       descHTML += `<br><br><strong>Status:</strong> ${status}`;
     }
 
-    // Armamos el bloque del título con las etiquetas
     let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
-    
+    if(weeklyDepotActive || currentArea === 'TODAS') {
+      proyHTML += `<br><span style="color:#6B7C82; font-size:11px;">🏢 Área: ${escapeHtml(i.area)}</span>`;
+    }
     if(i.ia) {
-      proyHTML += `<br><br><span style="color:#6B48D6; font-size:12px;"><strong>💡 Hub IA</strong></span>`;
+      proyHTML += `<br><span style="color:#6B48D6; font-size:11px;"><strong>💡 Hub IA</strong></span>`;
     }
     if(i.internas && i.internas.length > 0) {
-      proyHTML += `<br><span style="color:#6B7C82; font-size:12px;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
+      proyHTML += `<br><span style="color:#6B7C82; font-size:11px;">📎 TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
     }
 
     html += `
       <tr>
         <td valign="top" style="color: #16242B;">${proyHTML}</td>
         <td valign="top" style="color: #16242B;">${descHTML}</td>
-        <td valign="top" style="color: #16242B;"><strong>${meta.label}</strong> ${meta.label === 'Completado' ? '✅' : ''}</td>
+        <td valign="top" style="color: #16242B;"><strong>${meta.label}</strong></td>
       </tr>
     `;
   });
@@ -1188,14 +1272,14 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
   let link = document.createElement("a");
   link.href = url;
   
-  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
+  let fileNameArea = weeklyDepotActive ? 'Novedades_Semana' : (currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, ''));
   link.download = `Reporte_TECBA_${fileNameArea}.doc`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 
-// 2. DESCARGAR / IMPRIMIR PDF
+// 2. IMPRIMIR PDF
 document.getElementById('dlPdf').addEventListener('click', (e)=>{
   e.preventDefault();
   try {
@@ -1205,7 +1289,7 @@ document.getElementById('dlPdf').addEventListener('click', (e)=>{
   }
 });
 
-// 3. DESCARGAR EXCEL (CSV)
+// 3. EXCEL
 document.getElementById('dlExcel').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
@@ -1225,17 +1309,16 @@ document.getElementById('dlExcel').addEventListener('click', (e)=>{
   });
   
   const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  let fileNameArea = weeklyDepotActive ? 'Novedades_Semana' : (currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, ''));
   link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 
-// --- FUNCIÓN PARA BUSCAR LOS DATOS DE GOOGLE SHEETS EN VIVO ---
+// --- GOOGLE SHEETS ---
 async function cargarDatosDeGoogle() {
   const container = document.getElementById('contentContainer');
   container.innerHTML = '<div class="empty-state"><div class="big" style="animation: pulse 1s infinite;">⏳</div>Cargando datos en vivo...</div>';
@@ -1293,14 +1376,11 @@ async function cargarDatosDeGoogle() {
     ALL = flatten();
 
     const clavesValidas = new Set(ALL.map(getItemKey));
-    let favsModificados = false;
-    favorites.forEach(k => {
-      if(!clavesValidas.has(k)){
-        favorites.delete(k); 
-        favsModificados = true;
-      }
-    });
-    if(favsModificados) saveFavorites();
+    let favsFiltrados = favorites.filter(k => clavesValidas.has(k));
+    if(favsFiltrados.length !== favorites.length){
+      favorites = favsFiltrados;
+      saveFavorites();
+    }
     
     DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
     
@@ -1314,7 +1394,6 @@ async function cargarDatosDeGoogle() {
   }
 }
 
-// Iniciar la descarga de datos al cargar la página
 cargarDatosDeGoogle();
 </script>
 </body>
