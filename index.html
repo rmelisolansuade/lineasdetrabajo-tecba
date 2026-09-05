@@ -447,36 +447,42 @@
   .toast.show { opacity: 1; transform: translateY(0); }
 
   /* ======================================================== */
-  /* IMPRESIÓN (PDF): DISEÑO ORIGINAL DEL TABLERO A TODO COLOR */
+  /* IMPRESIÓN (PDF): LITERALMENTE UNA FOTO DE LA WEB         */
   /* ======================================================== */
-  @media print{
-    /* Forzamos a todos los navegadores a imprimir fondos y colores */
+  @media print {
+    /* Forzamos a TODOS los navegadores a imprimir fondos y colores tal cual */
     * {
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
       color-adjust: exact !important;
     }
-    /* Ocultamos lo que no sirve para el papel */
-    .sidebar, .toolbar, .mobile-top-bar, .toast { display:none !important; }
-    
-    /* Mostramos el encabezado de impresión (Fecha y Filtros) */
-    .print-header{ display:block !important; margin-bottom:16px; font-size:12px; }
-    
-    /* Mantenemos el fondo de la app para que las tarjetas resalten */
-    body{ display:block; background: var(--bg) !important; color: var(--text) !important; }
-    .main{ padding:10px 0; max-width:100%; }
-    
-    /* Ajustes para que las tarjetas no se corten entre páginas */
-    .proj-card{ 
-      break-inside: avoid; 
-      page-break-inside: avoid; 
-      box-shadow: none !important; 
-      border: 1px solid #ddd !important;
-      margin-bottom: 15px;
+
+    /* Solo ocultamos la barra lateral, el menú superior del celular y los controles */
+    .sidebar, .toolbar, .mobile-top-bar, .toast, .sidebar-overlay { 
+      display: none !important; 
     }
     
-    .stat-card{ cursor:default; box-shadow:none !important; border: 1px solid #ccc !important;}
-    .topbar{margin-bottom:14px;}
+    /* Mostramos el encabezado extra de impresión (Fecha y Filtros) */
+    .print-header { 
+      display: block !important; 
+      margin-bottom: 20px; 
+      font-size: 12px; 
+    }
+    
+    /* Hacemos que el contenedor principal ocupe todo el ancho de la hoja */
+    body { display: block !important; }
+    .main { 
+      padding: 0 !important; 
+      margin: 0 !important; 
+      max-width: 100% !important; 
+      width: 100% !important; 
+    }
+    
+    /* Evitamos que una tarjeta quede cortada a la mitad por el salto de página */
+    .proj-card { 
+      page-break-inside: avoid; 
+      break-inside: avoid; 
+    }
   }
   
   .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
