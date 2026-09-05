@@ -92,10 +92,12 @@
 
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   
+  /* MEJORA: Flechitas de orden ultra finas y elegantes para Jefatura */
   .reorder-controls { display: none; align-items: center; gap: 4px; }
   .reorder-controls.active { display: flex; }
-  .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); font-size: 11px; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-  .reorder-btn:disabled { opacity: 0.3; cursor: default; }
+  .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); font-size: 10px; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+  .reorder-btn:hover:not(:disabled) { background: var(--bg); color: var(--text); border-color: var(--muted); }
+  .reorder-btn:disabled { opacity: 0.25; cursor: default; }
 
   .dropdown { position: relative; display: inline-flex; }
   .dropdown-content { display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.12); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
@@ -313,7 +315,7 @@ function readURLParams(){
   if(params.has('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
   if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
   if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
-  if(params.has('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
+  if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
 }
 
 function stackSegments(c){
@@ -409,7 +411,7 @@ function renderCardsView(items, container){
         <div class="badges">
           ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
           <span class="badge" style="background:${meta.color}">${meta.label}</span>
-          ${showReorder ? `<div style="display:flex; gap:4px; margin-left:10px;"><button class="reorder-btn" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
+          ${showReorder ? `<div style="display:flex; gap:3px; margin-left:8px;"><button class="reorder-btn" title="Subir" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" title="Bajar" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
         </div>
       </div>
       ${(showAreaTag || internasHtml) ? `<div class="tags-row">${showAreaTag ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}${internasHtml}</div>` : ''}
@@ -431,7 +433,7 @@ function renderTableView(items, container){
             return `
               <tr>
                 <td><button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button></td>
-                <td><strong>${escapeHtml(i.titulo)}</strong>${showReorder ? ` <span style="display:inline-flex; gap:2px;"><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:20px; height:20px; font-size:9px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>` : ''}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
+                <td><strong>${escapeHtml(i.titulo)}</strong>${showReorder ? ` <span style="display:inline-flex; gap:2px; margin-left:4px;"><button class="reorder-btn" style="width:18px; height:18px; font-size:8px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:18px; height:18px; font-size:8px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>` : ''}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
                 <td><span style="font-weight:600;">${escapeHtml(i.area)}</span></td>
                 <td><span class="badge" style="background:${meta.color}">${meta.label}</span></td>
                 <td><span style="font-size:11px; color:var(--muted);">${escapeHtml((i.internas || []).join(', ') || '—')}</span></td>
@@ -588,13 +590,11 @@ async function cargarDatosDeGoogle() {
       return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
     });
 
-    DATA = RAW_DATA.app(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     DATA = RAW_DATA.map(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     ALL = flatten();
     
     const clavesValidas = new Set(ALL.map(getItemKey));
     favorites = favorites.filter(k => clavesValidas.has(k)); saveFavorites();
-    DATA.foreach((a,i) => AREA_HUES[a.area] = Math.round((i*137.508)%360));
     DATA.forEach((a,i) => AREA_HUES[a.area] = Math.round((i*137.508)%360));
     
     const setInt = new Set(); ALL.forEach(i => (i.internas || []).forEach(a => setInt.add(a)));
