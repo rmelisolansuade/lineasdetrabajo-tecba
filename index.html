@@ -84,7 +84,7 @@
   .toolbar button#hubiaBtn.active{background:#6B48D6; color:#fff;}
   .toolbar button.secondary-action { background: var(--card); color: var(--text); }
   
-  .reorder-controls { display: none; align-items: center; gap: 4px; margin-left: auto; }
+  .reorder-controls { display: none; align-items: center; gap: 4px; }
   .reorder-controls.active { display: flex; }
   .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); font-size: 11px; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .reorder-btn:disabled { opacity: 0.3; cursor: default; }
@@ -252,8 +252,7 @@ function areaColor(name){
 }
 
 function baseFilteredItems(areaName){
-  let items = weeklyDepotActive ? ALL.slice() : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i => i.area === areaName));
-  if(weeklyDepotActive) items = favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean);
+  let items = weeklyDepotActive ? favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean) : (areaName==='TODAS' ? ALL.slice() : ALL.filter(i => i.area === areaName));
   if(currentInterna) items = items.filter(i => (i.internas || []).includes(currentInterna));
   if(currentHubIA) items = items.filter(i => i.ia);
   if(textSearchTerm.trim()){
@@ -351,7 +350,7 @@ function renderStats(){
   const row = document.getElementById('statsRow');
   let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:#153244; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
   STATUS_KEYS.forEach(k => {
-    if(c[k] === 0) return; // Oculta automáticamente los estados que estén en 0
+    if(c[k] === 0) return; // Oculta automáticamente los estados en 0
     const meta = STATUS_META[k];
     html += `<div class="stat-card ${selectedEstados.has(k)?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
   });
@@ -435,6 +434,7 @@ function renderTableView(items, container){
     </div>`;
 }
 
+// Función para mover elementos en el array de favoritos personalizado
 window.moveItem = function(key, direction){
   const idx = favorites.indexOf(key);
   if(idx < 0) return;
@@ -568,7 +568,7 @@ async function cargarDatosDeGoogle() {
       agrupados[area].items.push({ titulo: fila["Titulo"] || "", ia: esIA, internas, etiquetas: etqs, descripcion: fila["Descripcion"] || "" });
     });
     
-    // CORRECCIÓN: Orden alfabético estricto de las áreas con soporte de acentos
+    // Orden alfabético estricto respetando acentos
     RAW_DATA = Object.values(agrupados).sort((a,b) => {
       const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
       const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
