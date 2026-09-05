@@ -223,7 +223,8 @@ const getItemKey = item => `${item.area.trim()}::${item.titulo.trim()}`;
 function parseEstado(etiquetasArr) {
   const etq = (etiquetasArr || []).join(';').toLowerCase();
   if (etq.includes('cancelado')) return 'cancelado';
-  if (etq.includes('pausado')) return 'pausado_area';
+  if (etq.includes('pausado por el área') || etq.includes('pausado por el area')) return 'pausado_area';
+  if (etq.includes('pausado por tecba') || etq.includes('pausado por tec-ba')) return 'pausado_tecba';
   if (etq.includes('en curso')) return 'en_curso';
   if (etq.includes('completado')) return 'completado';
   return 'no_iniciado';
@@ -301,10 +302,10 @@ function readURLParams(){
   if(params.has('estados')) selectedEstados = new Set(params.get('estados').split(',').filter(s => STATUS_META[s]));
   if(params.get('favoritos') === 'true') weeklyDepotActive = true;
   if(params.has('interna')) { currentInterna = params.get('interna'); document.getElementById('internaFilter').value = currentInterna; }
-  if(params.get('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
+  if(params.has('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
   if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
   if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
-  if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
+  if(params.has('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
 }
 
 function stackSegments(c){
@@ -350,7 +351,7 @@ function renderStats(){
   const row = document.getElementById('statsRow');
   let html = `<div class="stat-card ${selectedEstados.size===0?'active':''}" data-estado="todos" style="--stat-color:#153244; --stat-tint:${hexToRgba('#153244',0.08)}"><div class="num">${c.total}</div><div class="lbl">Total líneas</div></div>`;
   STATUS_KEYS.forEach(k => {
-    if(c[k] === 0 && selectedEstados.size === 0) return;
+    if(c[k] === 0) return; // Oculta automáticamente los estados que estén en 0
     const meta = STATUS_META[k];
     html += `<div class="stat-card ${selectedEstados.has(k)?'active':''}" data-estado="${k}" style="--stat-color:${meta.color}; --stat-tint:${hexToRgba(meta.color,0.1)}"><div class="num">${c[k]}</div><div class="lbl">${meta.label}</div></div>`;
   });
@@ -454,8 +455,10 @@ function renderPrintHeader(){
 
 const render = () => { renderSidebar(); renderHeader(); renderStats(); renderContent(); renderPrintHeader(); updateURLParams(); };
 
-// Event Listeners principales
-const toggleMobileSidebar = () => { sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('open'); };
+const toggleMobileSidebar = () => { 
+  document.getElementById('sidebar').classList.toggle('open'); 
+  document.getElementById('sidebarOverlay').classList.toggle('open'); 
+};
 document.getElementById('hamburgerBtn').onclick = toggleMobileSidebar;
 document.getElementById('sidebarOverlay').onclick = toggleMobileSidebar;
 
@@ -500,12 +503,6 @@ function updateViewModeButton(){
 }
 document.getElementById('viewModeBtn').onclick = () => { viewMode = viewMode === 'cards' ? 'table' : 'cards'; updateViewModeButton(); render(); };
 
-const showToast = msg => {
-  const t = document.getElementById('toastNotification');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-};
-
 document.getElementById('downloadBtn').onclick = e => { e.stopPropagation(); document.getElementById('downloadDropdown').classList.toggle('show'); };
 window.onclick = () => document.getElementById('downloadDropdown').classList.remove('show');
 
@@ -523,10 +520,13 @@ document.getElementById('copyReportBtn').onclick = () => {
     if(currentArea === 'TODAS' || weeklyDepotActive) report += `   🏢 *Área:* ${i.area}\n`;
     report += `\n`;
   });
-  navigator.clipboard.writeText(report.trim()).then(() => showToast('✨ ¡Reporte copiado!'));
+  navigator.clipboard.writeText(report.trim()).then(() => {
+    const t = document.getElementById('toastNotification');
+    t.textContent = "✨ ¡Reporte copiado!"; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  });
 };
 
-// Exportar Word, PDF, CSV
 document.getElementById('dlWord').onclick = e => {
   e.preventDefault();
   const items = getFilteredAndSortedItems();
@@ -567,7 +567,14 @@ async function cargarDatosDeGoogle() {
       let internas = etqs.filter(e => !e.toLowerCase().includes('hub ia') && !/(completado|curso|pausado|cancelado|iniciado)/i.test(e));
       agrupados[area].items.push({ titulo: fila["Titulo"] || "", ia: esIA, internas, etiquetas: etqs, descripcion: fila["Descripcion"] || "" });
     });
-    RAW_DATA = Object.values(agrupados).sort((a,b) => a.area.localeCompare(b.area, 'es', { sensitivity: 'base' }));
+    
+    // CORRECCIÓN: Orden alfabético estricto de las áreas con soporte de acentos
+    RAW_DATA = Object.values(agrupados).sort((a,b) => {
+      const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+      const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+      return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
+    });
+
     DATA = RAW_DATA.map(a => ({ area: a.area, items: a.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) })) }));
     ALL = flatten();
     
