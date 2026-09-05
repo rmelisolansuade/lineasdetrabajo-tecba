@@ -300,7 +300,7 @@
     display: none;
     position: absolute;
     top: 100%;
-    right: 0; /* CORRECCIÓN: Se alinea a la derecha para no salirse de pantalla */
+    right: 0;
     left: auto;
     margin-top: 6px;
     background-color: var(--card);
@@ -447,22 +447,35 @@
   .toast.show { opacity: 1; transform: translateY(0); }
 
   /* ======================================================== */
-  /* IMPRESIÓN (PDF): DISEÑO ORIGINAL DEL TABLERO             */
+  /* IMPRESIÓN (PDF): DISEÑO ORIGINAL DEL TABLERO A TODO COLOR */
   /* ======================================================== */
   @media print{
+    /* Forzamos a todos los navegadores a imprimir fondos y colores */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
     /* Ocultamos lo que no sirve para el papel */
     .sidebar, .toolbar, .mobile-top-bar, .toast { display:none !important; }
     
     /* Mostramos el encabezado de impresión (Fecha y Filtros) */
-    .print-header{ display:block !important; margin-bottom:16px; }
+    .print-header{ display:block !important; margin-bottom:16px; font-size:12px; }
     
-    /* Forzamos fondo blanco y colores sólidos para que imprima lindo */
-    body{display:block; background: #fff !important; color: #000 !important;}
-    .main{padding:10px; max-width:100%;}
+    /* Mantenemos el fondo de la app para que las tarjetas resalten */
+    body{ display:block; background: var(--bg) !important; color: var(--text) !important; }
+    .main{ padding:10px 0; max-width:100%; }
     
     /* Ajustes para que las tarjetas no se corten entre páginas */
-    .proj-card{ break-inside:avoid; box-shadow:none !important; border-color: #ccc; }
-    .stat-card{ cursor:default; box-shadow:none !important; }
+    .proj-card{ 
+      break-inside: avoid; 
+      page-break-inside: avoid; 
+      box-shadow: none !important; 
+      border: 1px solid #ddd !important;
+      margin-bottom: 15px;
+    }
+    
+    .stat-card{ cursor:default; box-shadow:none !important; border: 1px solid #ccc !important;}
     .topbar{margin-bottom:14px;}
   }
   
@@ -550,10 +563,9 @@
     <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
     <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
     
-    <!-- BOTÓN CORREGIDO -->
     <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
     
-    <!-- MENÚ DE DESCARGAS (Alineado a la derecha) -->
+    <!-- MENÚ DE DESCARGAS -->
     <div class="dropdown" id="downloadDropdown">
       <button id="downloadBtn" class="secondary-action" title="Opciones de descarga">⬇️ Descargar ▼</button>
       <div class="dropdown-content" id="downloadMenu">
@@ -899,8 +911,11 @@ function renderPrintHeader(){
   if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
   if(weeklyDepotActive) filtrosAplicados.push('⭐ Novedades de la semana');
   if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
-  const filtrosTxt = filtrosAplicados.length ? ` · Filtros: ${filtrosAplicados.join(', ')}` : '';
-  document.getElementById('printHeader').innerHTML = `TECBA — Líneas de trabajo con áreas del GCBA · <b>${fecha}</b>${filtrosTxt}`;
+  
+  const filtrosTxt = filtrosAplicados.length ? ` · Filtros aplicados: ${filtrosAplicados.join(', ')}` : '';
+  let tituloArea = currentArea === 'TODAS' ? 'Todas las áreas' : currentArea;
+  
+  document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${tituloArea}</strong><br>Actualizado: ${fecha}${filtrosTxt}`;
 }
 
 function render(){
@@ -1102,26 +1117,26 @@ document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   });
 });
 
-// 1. DESCARGAR WORD (Tabla Simple)
+// 1. DESCARGAR WORD (Añadido Hub IA y Áreas internas)
 document.getElementById('dlWord').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
   if(items.length === 0){ alert('No hay datos para exportar.'); return; }
   
-  const fecha = new Date().toLocaleDateString('es-AR');
+  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
   let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
 
-  // Armamos una tabla HTML súper básica porque Word no entiende CSS moderno
   let html = `
     <div style="font-family: Arial, sans-serif;">
-      <h1>Líneas de trabajo con ${tituloArea}</h1>
-      <p>Actualizado: ${fecha}</p>
-      <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+      <h1 style="color: #153244;">Líneas de trabajo con ${tituloArea}</h1>
+      <p style="color: #6B7C82; border-bottom: 2px solid #153244; padding-bottom: 10px;"><strong>ACTUALIZADO:</strong> ${fecha}</p>
+      
+      <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; border-color: #E4E9EA;">
         <thead>
           <tr>
-            <th style="background-color: #f2f2f2;">Proyecto</th>
-            <th style="background-color: #f2f2f2;">Descripción & Status</th>
-            <th style="background-color: #f2f2f2;">Estado</th>
+            <th style="background-color: #f5f7f7; width: 25%; text-align: left; color: #153244;">Proyecto</th>
+            <th style="background-color: #f5f7f7; width: 60%; text-align: left; color: #153244;">Descripción & Status</th>
+            <th style="background-color: #f5f7f7; width: 15%; text-align: left; color: #153244;">Estado</th>
           </tr>
         </thead>
         <tbody>
@@ -1129,12 +1144,33 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
 
   items.forEach(i => {
     const meta = STATUS_META[i.estado] || {label:i.estado};
-    let desc = (i.descripcion || "").replace(/\n/g, '<br>');
+    
+    // Separamos el Status al igual que en WhatsApp
+    let desc = (i.descripcion || "").trim();
+    let parts = desc.split(/Status\s*:/i);
+    let detalle = parts[0].replace(/\n/g, '<br>');
+    let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, '<br>') : "";
+
+    let descHTML = detalle;
+    if(status) {
+      descHTML += `<br><br><strong>Status:</strong> ${status}`;
+    }
+
+    // Armamos el bloque del título con las etiquetas
+    let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
+    
+    if(i.ia) {
+      proyHTML += `<br><br><span style="color:#6B48D6; font-size:12px;"><strong>💡 Hub IA</strong></span>`;
+    }
+    if(i.internas && i.internas.length > 0) {
+      proyHTML += `<br><span style="color:#6B7C82; font-size:12px;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
+    }
+
     html += `
       <tr>
-        <td><strong>${escapeHtml(i.titulo)}</strong></td>
-        <td>${desc}</td>
-        <td>${meta.label}</td>
+        <td valign="top" style="color: #16242B;">${proyHTML}</td>
+        <td valign="top" style="color: #16242B;">${descHTML}</td>
+        <td valign="top" style="color: #16242B;"><strong>${meta.label}</strong> ${meta.label === 'Completado' ? '✅' : ''}</td>
       </tr>
     `;
   });
@@ -1156,7 +1192,7 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
   document.body.removeChild(link);
 });
 
-// 2. DESCARGAR / IMPRIMIR PDF (Diseño original del tablero)
+// 2. DESCARGAR / IMPRIMIR PDF
 document.getElementById('dlPdf').addEventListener('click', (e)=>{
   e.preventDefault();
   try {
