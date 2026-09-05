@@ -63,10 +63,12 @@
   .all-item{border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:8px; padding-bottom:14px;}
 
   .main{ flex:1; padding:32px 40px 60px 40px; max-width:1260px; width:100%; }
-  .topbar{ display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
-  .topbar-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-  .topbar h2{ font-size:26px; font-weight:800; margin:0 0 4px 0; color:var(--text); }
-  .topbar .sub{ color:var(--muted); font-size:13px; font-weight:500; }
+  .topbar{ display:flex; flex-direction:column; gap:4px; margin-bottom:20px; }
+  .topbar h2{ font-size:26px; font-weight:800; margin:0; color:var(--text); }
+  
+  /* Contenedor estético y amigable para ordenar prioridades en Novedades */
+  .reorder-hint { display: none; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); padding: 6px 12px; border-radius: 8px; font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 16px; }
+  .reorder-hint.active { display: inline-flex; }
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
   .stat-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; display:flex; align-items:baseline; gap:8px; white-space:nowrap; transition:all .15s ease;}
@@ -91,11 +93,11 @@
 
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   
-  .reorder-controls { display: none; align-items: center; gap: 4px; }
-  .reorder-controls.active { display: flex; }
-  .reorder-btn { background: var(--card); border: 1px solid var(--border); color: var(--muted); font-size: 10px; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
-  .reorder-btn:hover:not(:disabled) { background: var(--bg); color: var(--text); border-color: var(--muted); }
-  .reorder-btn:disabled { opacity: 0.25; cursor: default; }
+  /* Botones de orden integrados con estilo de píldora sutil */
+  .reorder-group { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-left: 8px; }
+  .reorder-btn { background: transparent; border: none; color: var(--muted); font-size: 11px; width: 22px; height: 22px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+  .reorder-btn:hover:not(:disabled) { background: var(--card); color: var(--text); }
+  .reorder-btn:disabled { opacity: 0.2; cursor: default; }
 
   .dropdown { position: relative; display: inline-flex; }
   .dropdown-content { display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.12); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
@@ -183,15 +185,11 @@
 <div class="main">
   <div class="print-header" id="printHeader"></div>
   <div class="topbar">
-    <div class="topbar-header-row">
-      <div>
-        <h2 id="areaTitle">Todas las áreas</h2>
-        <div class="sub" id="areaSub"></div>
-      </div>
-      <div style="display:flex; align-items:center; gap:12px;">
-        <div class="reorder-controls" id="reorderControls"></div>
-      </div>
-    </div>
+    <h2 id="areaTitle">Todas las áreas</h2>
+  </div>
+
+  <div class="reorder-hint" id="reorderHint">
+    ↕️ Estás en la vista ejecutiva. Podés usar los controles de la derecha de cada tarjeta para ajustar el orden de prioridad para la reunión.
   </div>
 
   <div class="toolbar">
@@ -309,7 +307,7 @@ function readURLParams(){
   if(params.has('estados')) selectedEstados = new Set(params.get('estados').split(',').filter(s => STATUS_META[s]));
   if(params.get('favoritos') === 'true') weeklyDepotActive = true;
   if(params.has('interna')) { currentInterna = params.get('interna'); document.getElementById('internaFilter').value = currentInterna; }
-  if(params.has('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
+  if(params.get('hubia') === 'true'){ currentHubIA = true; document.getElementById('hubiaBtn').classList.add('active'); }
   if(params.has('q')){ textSearchTerm = params.get('q'); document.getElementById('textSearch').value = textSearchTerm; }
   if(params.has('view')){ viewMode = params.get('view'); updateViewModeButton(); }
   if(params.get('theme') === 'dark'){ currentTheme = 'dark'; document.documentElement.setAttribute('data-theme', 'dark'); }
@@ -367,8 +365,6 @@ function renderStats(){
 
 function renderHeader(){
   document.getElementById('areaTitle').textContent = weeklyDepotActive ? '⭐ Novedades de la semana' : (currentArea === 'TODAS' ? 'Todas las áreas' : currentArea);
-  const c = areaCounts(currentArea);
-  document.getElementById('areaSub').textContent = `${c.total} línea${c.total===1?'':'s'} de trabajo`;
 }
 
 function getFilteredAndSortedItems(){
@@ -381,7 +377,7 @@ function getFilteredAndSortedItems(){
 function renderContent(){
   const items = getFilteredAndSortedItems();
   const container = document.getElementById('contentContainer');
-  document.getElementById('reorderControls').classList.toggle('active', weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA);
+  document.getElementById('reorderHint').classList.toggle('active', weeklyDepotActive && items.length > 1 && !selectedEstados.size && !textSearchTerm && !currentInterna && !currentHubIA);
 
   if(items.length === 0){ container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`; return; }
   viewMode === 'table' ? renderTableView(items, container) : renderCardsView(items, container);
@@ -402,13 +398,13 @@ function renderCardsView(items, container){
     <div class="proj-card" style="--card-color:${meta.color}">
       <div class="proj-head">
         <div class="proj-title-area">
-          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de destacados' : 'Destacar para Jefatura'}">${isFav ? '★' : '☆'}</button>
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de destacados' : 'Destacar'}">${isFav ? '★' : '☆'}</button>
           <div class="proj-title">${escapeHtml(i.titulo)}</div>
         </div>
         <div class="badges">
           ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
           <span class="badge" style="background:${meta.color}">${meta.label}</span>
-          ${showReorder ? `<div style="display:flex; gap:3px; margin-left:8px;"><button class="reorder-btn" title="Subir prioridad" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" title="Bajar prioridad" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
+          ${showReorder ? `<div class="reorder-group"><button class="reorder-btn" title="Mover arriba" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" title="Mover abajo" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></div>` : ''}
         </div>
       </div>
       ${(showAreaTag || internasHtml) ? `<div class="tags-row">${showAreaTag ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}${internasHtml}</div>` : ''}
@@ -430,7 +426,7 @@ function renderTableView(items, container){
             return `
               <tr>
                 <td><button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button></td>
-                <td><strong>${escapeHtml(i.titulo)}</strong>${showReorder ? ` <span style="display:inline-flex; gap:2px; margin-left:4px;"><button class="reorder-btn" style="width:18px; height:18px; font-size:8px;" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" style="width:18px; height:18px; font-size:8px;" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>` : ''}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
+                <td><strong>${escapeHtml(i.titulo)}</strong>${showReorder ? ` <span class="reorder-group" style="margin-left:6px;"><button class="reorder-btn" onclick="moveItem('${key}', 'up')" ${idx===0?'disabled':''}>▲</button><button class="reorder-btn" onclick="moveItem('${key}', 'down')" ${idx===items.length-1?'disabled':''}>▼</button></span>` : ''}${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
                 <td><span style="font-weight:600;">${escapeHtml(i.area)}</span></td>
                 <td><span class="badge" style="background:${meta.color}">${meta.label}</span></td>
                 <td><span style="font-size:11px; color:var(--muted);">${escapeHtml((i.internas || []).join(', ') || '—')}</span></td>
