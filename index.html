@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Líneas de trabajo · GCBA</title>
+<title>Líneas de trabajo · TECBA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -52,6 +52,39 @@
   }
   ::selection{background:var(--teal); color:var(--navy);}
 
+  /* MODO PRESENTACIÓN */
+  body.presentation-mode .sidebar,
+  body.presentation-mode .toolbar input[type="text"],
+  body.presentation-mode .toolbar select,
+  body.presentation-mode .toolbar button:not(#exitPresBtn),
+  body.presentation-mode .mobile-top-bar {
+    display: none !important;
+  }
+  body.presentation-mode .main {
+    max-width: 100% !important;
+    padding: 40px 80px !important;
+  }
+  body.presentation-mode .proj-card {
+    font-size: 16px !important;
+    padding: 24px 30px !important;
+    margin-bottom: 20px !important;
+  }
+  body.presentation-mode .proj-title { font-size: 20px !important; }
+  body.presentation-mode .proj-desc { font-size: 15px !important; }
+  
+  .pres-exit-btn {
+    display: none;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  body.presentation-mode .pres-exit-btn { display: inline-flex; align-items: center; gap: 6px; }
+
   /* MOBILE TOP BAR */
   .mobile-top-bar {
     display: none;
@@ -66,140 +99,52 @@
     width: 100%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
-  .mobile-top-bar .m-title {
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1.2;
-  }
+  .mobile-top-bar .m-title { font-size: 15px; font-weight: 800; line-height: 1.2; }
   .mobile-top-bar .m-title span {
-    display: block;
-    font-size: 10.5px;
-    color: var(--teal);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    display: block; font-size: 10.5px; color: var(--teal); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   }
   .hamburger-btn, .theme-toggle-mobile {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
-    font-size: 16px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    cursor: pointer;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 16px; padding: 6px 10px; border-radius: 8px; cursor: pointer;
   }
   .sidebar-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1001;
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1001;
   }
   .sidebar-overlay.open { display: block; }
 
   /* SIDEBAR */
   .sidebar{
-    width:300px;
-    min-width:300px;
-    background:var(--sidebar-bg);
-    color:var(--sidebar-text);
-    height:100vh;
-    position:sticky;
-    top:0;
-    display:flex;
-    flex-direction:column;
-    padding:24px 0 0 0;
-    z-index: 1002;
-    transition: transform 0.3s ease, background 0.3s ease;
+    width:300px; min-width:300px; background:var(--sidebar-bg); color:var(--sidebar-text); height:100vh; position:sticky; top:0; display:flex; flex-direction:column; padding:24px 0 0 0; z-index: 1002; transition: transform 0.3s ease, background 0.3s ease;
   }
   .brand{
-    padding:0 24px 18px 24px;
-    border-bottom:1px solid rgba(255,255,255,0.12);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding:0 24px 18px 24px; border-bottom:1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center;
   }
-  .brand h1{
-    font-size:18px;
-    font-weight:800;
-    margin:0;
-    line-height:1.25;
-  }
+  .brand h1{ font-size:18px; font-weight:800; margin:0; line-height:1.25; }
   .theme-toggle-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    color: var(--sidebar-text);
-    font-size: 15px;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease;
-    flex-shrink: 0;
+    background: var(--input-bg); border: 1px solid var(--input-border); color: var(--sidebar-text); font-size: 15px; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease; flex-shrink: 0;
   }
   .theme-toggle-btn:hover { background: rgba(255,255,255,0.15); }
 
   .search-wrap{ padding:16px 24px 6px 24px; }
   .search-wrap input{
-    width:100%;
-    padding:10px 14px;
-    border-radius:9px;
-    border:1px solid var(--input-border);
-    background:var(--input-bg);
-    color:var(--sidebar-text);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    outline:none;
+    width:100%; padding:10px 14px; border-radius:9px; border:1px solid var(--input-border); background:var(--input-bg); color:var(--sidebar-text); font-family:'Montserrat',sans-serif; font-size:13px; outline:none;
   }
   .search-wrap input::placeholder{color:rgba(255,255,255,0.5);}
   .search-wrap input:focus{border-color:var(--teal); background:rgba(255,255,255,0.13);}
 
-  /* DEPÓSITO NOVEDADES DE LA SEMANA */
-  .weekly-depot{
-    margin: 12px 20px;
-    background: var(--input-bg);
-    border: 1px dashed var(--teal);
-    border-radius: 10px;
-    padding: 12px 14px;
-    cursor: pointer;
-    transition: background .15s ease;
+  /* BOTÓN AGENDA DE LA SEMANA (MODAL) */
+  .agenda-trigger-wrap { padding: 12px 20px; }
+  .agenda-btn {
+    width: 100%; background: var(--teal); color: var(--navy); border: none; padding: 10px 14px; border-radius: 9px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: opacity 0.15s ease;
   }
-  .weekly-depot:hover{ background: rgba(255,255,255,0.1); }
-  .weekly-depot.active{ background: rgba(141,226,214,0.15); border-style: solid; border-color: var(--teal); }
-  .depot-header{ display: flex; justify-content: space-between; align-items: center; }
-  .depot-title{ font-size: 12.5px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
-  .depot-actions { display: flex; align-items: center; gap: 8px; }
-  .depot-count{ background: var(--teal); color: var(--navy); font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
-  .depot-clear-btn {
-    background: rgba(255,255,255,0.15);
-    border: none;
-    color: var(--sidebar-text);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 7px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-  .depot-clear-btn:hover { background: rgba(235, 87, 87, 0.8); }
+  .agenda-btn:hover { opacity: 0.9; }
+  .agenda-badge { background: var(--navy); color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 11px; }
 
   .area-list{ flex:1; overflow-y:auto; padding:4px 12px 24px 12px; }
   .area-list::-webkit-scrollbar{width:6px;}
   .area-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15); border-radius:3px;}
 
   .area-item{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding:10px 12px 10px 10px;
-    border-left:3px solid transparent;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:2px;
-    transition:background .15s ease, border-color .15s ease;
+    display:flex; flex-direction:column; gap:6px; padding:10px 12px 10px 10px; border-left:3px solid transparent; border-radius:8px; cursor:pointer; margin-bottom:2px; transition:background .15s ease, border-color .15s ease;
   }
   .area-item:hover{background:rgba(255,255,255,0.07);}
   .area-item.active{background:rgba(255,255,255,0.09); border-left-color:var(--dot-color, var(--teal));}
@@ -223,17 +168,7 @@
 
   .stats-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; }
   .stat-card{
-    background:var(--card);
-    border:1.5px solid var(--border);
-    border-radius:10px;
-    padding:8px 16px;
-    cursor:pointer;
-    user-select:none;
-    transition:all .15s ease;
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    white-space:nowrap;
+    background:var(--card); border:1.5px solid var(--border); border-radius:10px; padding:8px 16px; cursor:pointer; user-select:none; transition:all .15s ease; display:flex; align-items:baseline; gap:8px; white-space:nowrap;
   }
   .stat-card:hover{border-color:var(--stat-color, var(--navy));}
   .stat-card .num{font-size:18px; font-weight:800; color:var(--stat-color, var(--navy)); line-height:1;}
@@ -241,52 +176,17 @@
   .stat-card.active{box-shadow:inset 0 0 0 1.5px var(--stat-color, var(--navy)); background:var(--stat-tint, var(--bg));}
 
   .toolbar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-bottom:20px;
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;
   }
   .toolbar input[type="text"]{
-    flex:1;
-    min-width:180px;
-    padding:10px 14px;
-    border-radius:9px;
-    border:1.5px solid var(--border);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    outline:none;
-    background:var(--card);
-    color:var(--text);
+    flex:1; min-width:180px; padding:10px 14px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; outline:none; background:var(--card); color:var(--text);
   }
   .toolbar input[type="text"]:focus{border-color:var(--teal);}
   .toolbar select{
-    padding:10px 12px;
-    border-radius:9px;
-    border:1.5px solid var(--border);
-    font-family:'Montserrat',sans-serif;
-    font-size:13px;
-    background:var(--card);
-    color:var(--text);
-    outline:none;
-    cursor:pointer;
-    max-width:230px;
+    padding:10px 12px; border-radius:9px; border:1.5px solid var(--border); font-family:'Montserrat',sans-serif; font-size:13px; background:var(--card); color:var(--text); outline:none; cursor:pointer; max-width:230px;
   }
   .toolbar button{
-    padding:10px 15px;
-    border-radius:9px;
-    border:1.5px solid var(--navy);
-    background:var(--navy);
-    color:#fff;
-    font-family:'Montserrat',sans-serif;
-    font-size:12.5px;
-    font-weight:700;
-    cursor:pointer;
-    white-space:nowrap;
-    transition:opacity .15s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    padding:10px 15px; border-radius:9px; border:1.5px solid var(--navy); background:var(--navy); color:#fff; font-family:'Montserrat',sans-serif; font-size:12.5px; font-weight:700; cursor:pointer; white-space:nowrap; transition:opacity .15s ease; display: flex; align-items: center; gap: 6px;
   }
   .toolbar button:hover{opacity:0.85;}
   .toolbar button#hubiaBtn{background:var(--card); color:#6B48D6; border-color:#D9CCF5;}
@@ -294,212 +194,124 @@
   .toolbar button.secondary-action { background: var(--card); color: var(--text); border-color: var(--border); }
   .toolbar button.secondary-action:hover { background: var(--border); }
 
+  /* FILTROS ACTIVOS BAR */
+  .active-filters-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; font-size: 12px; color: var(--muted);
+  }
+  .filter-pill {
+    background: var(--card); border: 1px solid var(--border); padding: 4px 10px; border-radius: 15px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text);
+  }
+  .filter-pill button { background: none; border: none; cursor: pointer; font-size: 12px; color: var(--muted); padding: 0; }
+  .filter-pill button:hover { color: #EB5757; }
+  .clear-all-filters { background: none; border: none; color: #2F80ED; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0; }
+
   /* DROPDOWN MENU PARA DESCARGAS */
   .dropdown { position: relative; display: inline-flex; }
   .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: auto;
-    margin-top: 6px;
-    background-color: var(--card);
-    min-width: 220px;
-    box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
-    z-index: 2000;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    overflow: hidden;
+    display: none; position: absolute; top: 100%; right: 0; left: auto; margin-top: 6px; background-color: var(--card); min-width: 220px; box-shadow: 0px 6px 16px rgba(0,0,0,0.15); z-index: 2000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden;
   }
   .dropdown-content a {
-    color: var(--text);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    transition: background 0.15s ease;
+    color: var(--text); padding: 12px 16px; text-decoration: none; display: block; font-size: 13px; font-weight: 600; transition: background 0.15s ease;
   }
-  .dropdown-content a:hover {
-    background-color: var(--bg);
-    color: var(--teal);
-  }
+  .dropdown-content a:hover { background-color: var(--bg); color: var(--teal); }
   .dropdown.show .dropdown-content { display: block; }
+
+  /* ACORDEONES POR ÁREA (VISTA TODAS) */
+  .area-accordion { margin-bottom: 24px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .accordion-header {
+    background: var(--bg); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 15px; color: var(--text); user-select: none; border-bottom: 1.5px solid var(--border);
+  }
+  .accordion-header:hover { background: rgba(0,0,0,0.02); }
+  .accordion-body { padding: 16px; display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .accordion-header .acc-meta { display: flex; align-items: center; gap: 10px; }
 
   /* CARDS VIEW */
   .cards{ display:grid; grid-template-columns:1fr; gap:14px; }
   .proj-card{
-    background:var(--card);
-    border:1.5px solid var(--border);
-    border-left:5px solid var(--card-color, var(--navy));
-    border-radius:12px;
-    padding:18px 22px;
-    transition:box-shadow .15s ease, transform .15s ease;
+    background:var(--card); border:1.5px solid var(--border); border-left:5px solid var(--card-color, var(--navy)); border-radius:12px; padding:18px 22px; transition:box-shadow .15s ease, transform .15s ease;
   }
   .proj-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-1px);}
-
   .proj-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:8px; }
   .proj-title-area { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
-  .fav-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 0;
-    line-height: 1;
-    transition: transform 0.1s ease;
-    color: #ccc;
-    flex-shrink: 0;
-  }
+  .fav-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0; line-height: 1; transition: transform 0.1s ease; color: #ccc; flex-shrink: 0; }
   .fav-btn:hover { transform: scale(1.2); }
   .fav-btn.is-fav { color: var(--gold); }
   
   .proj-title{font-size:15px; font-weight:700; color:var(--text); line-height:1.3; word-break: break-word;}
   .badges{display:flex; gap:6px; flex-shrink:0; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
   .badge{
-    font-size:10.5px;
-    font-weight:700;
-    padding:4px 11px;
-    border-radius:20px;
-    white-space:nowrap;
-    color:#fff;
-    background:var(--badge-color, var(--navy));
+    font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:20px; white-space:nowrap; color:#fff; background:var(--badge-color, var(--navy));
   }
   .badge.hubia{background:#EFEAFB; color:#6B48D6;}
   .tags-row{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
   .internal-tag{
-    font-size:10px; font-weight:700; color:var(--muted);
-    background:var(--bg); border:1px solid var(--border);
-    padding:3px 9px; border-radius:20px; display:inline-block;
+    font-size:10px; font-weight:700; color:var(--muted); background:var(--bg); border:1px solid var(--border); padding:3px 9px; border-radius:20px; display:inline-block;
   }
   .proj-area-tag{
-    font-size:10.5px; font-weight:700;
-    color:var(--tag-color, var(--muted));
-    background:var(--tag-bg, var(--bg));
-    border:1px solid var(--tag-border, var(--border));
-    padding:3px 9px; border-radius:20px; display:inline-block;
+    font-size:10.5px; font-weight:700; color:var(--tag-color, var(--muted)); background:var(--tag-bg, var(--bg)); border:1px solid var(--tag-border, var(--border)); padding:3px 9px; border-radius:20px; display:inline-block;
   }
   .proj-desc{font-size:13px; line-height:1.6; color:var(--muted); white-space: pre-line; word-break: break-word;}
 
   /* TABLE VIEW */
-  .table-container {
-    width: 100%;
-    overflow-x: auto;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  }
-  .matrix-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 13px;
-  }
-  .matrix-table th {
-    background: var(--bg);
-    color: var(--text);
-    font-weight: 700;
-    padding: 12px 16px;
-    border-bottom: 2px solid var(--border);
-    white-space: nowrap;
-  }
-  .matrix-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    vertical-align: top;
-  }
+  .table-container { width: 100%; overflow-x: auto; background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .matrix-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  .matrix-table th { background: var(--bg); color: var(--text); font-weight: 700; padding: 12px 16px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  .matrix-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
   .matrix-table tr:last-child td { border-bottom: none; }
   .matrix-table tr:hover td { background: rgba(0,0,0,0.015); }
-  .table-desc {
-    font-size: 12px;
-    color: var(--muted);
-    max-width: 450px;
-    line-height: 1.4;
-    white-space: pre-line;
+  .table-desc { font-size: 12px; color: var(--muted); max-width: 450px; line-height: 1.4; white-space: pre-line; }
+
+  /* MODAL AGENDA DE LA SEMANA */
+  .modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center; padding: 20px;
   }
+  .modal-overlay.open { display: flex; }
+  .modal-card {
+    background: var(--card); border-radius: 14px; width: 100%; max-width: 650px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1.5px solid var(--border); overflow: hidden;
+  }
+  .modal-header { padding: 18px 24px; border-bottom: 1.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+  .modal-header h3 { margin: 0; font-size: 16px; font-weight: 800; color: var(--text); }
+  .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); }
+  .modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .agenda-item-row {
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .agenda-item-info { flex: 1; min-width: 0; }
+  .agenda-item-title { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .agenda-item-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .agenda-item-actions { display: flex; gap: 6px; }
+  .agenda-item-actions button { background: var(--card); border: 1px solid var(--border); border-radius: 6px; width: 28px; height: 28px; cursor: pointer; font-weight: 700; color: var(--text); display: flex; align-items: center; justify-content: center; }
+  .agenda-item-actions button:hover { background: var(--border); }
 
   .empty-state{ text-align:center; padding:60px 20px; color:var(--muted); }
   .empty-state .big{font-size:40px; margin-bottom:10px;}
 
   /* TOAST NOTIFICATION */
   .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--navy);
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
+    position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.2); z-index: 4000; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(20px); transition: opacity 0.3s ease, transform 0.3s ease; pointer-events: none;
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
   /* ======================================================== */
-  /* IMPRESIÓN (PDF): LITERALMENTE UNA FOTO DE LA WEB         */
+  /* IMPRESIÓN (PDF): FOTO FIEL DEL TABLERO                   */
   /* ======================================================== */
   @media print {
-    /* Forzamos a TODOS los navegadores a imprimir fondos y colores tal cual */
-    * {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      color-adjust: exact !important;
-    }
-
-    /* Solo ocultamos la barra lateral, el menú superior del celular y los controles */
-    .sidebar, .toolbar, .mobile-top-bar, .toast, .sidebar-overlay { 
-      display: none !important; 
-    }
-    
-    /* Mostramos el encabezado extra de impresión (Fecha y Filtros) */
-    .print-header { 
-      display: block !important; 
-      margin-bottom: 20px; 
-      font-size: 12px; 
-    }
-    
-    /* Hacemos que el contenedor principal ocupe todo el ancho de la hoja */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    .sidebar, .toolbar, .mobile-top-bar, .toast, .sidebar-overlay, .active-filters-bar { display: none !important; }
+    .print-header { display: block !important; margin-bottom: 20px; font-size: 12px; }
     body { display: block !important; }
-    .main { 
-      padding: 0 !important; 
-      margin: 0 !important; 
-      max-width: 100% !important; 
-      width: 100% !important; 
-    }
-    
-    /* Evitamos que una tarjeta quede cortada a la mitad por el salto de página */
-    .proj-card { 
-      page-break-inside: avoid; 
-      break-inside: avoid; 
-    }
+    .main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; width: 100% !important; }
+    .proj-card, .area-accordion { page-break-inside: avoid; break-inside: avoid; }
   }
   
   .print-header{ display:none; font-size:11.5px; color:var(--muted); font-weight:600; }
   .print-header b{ color:var(--text); }
 
-  /* RESPONSIVE MEDIA QUERIES (Web Normal) */
   @media (max-width:900px){
     body{flex-direction:column;}
     .mobile-top-bar { display: flex; }
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: -320px;
-      height: 100vh;
-      width: 290px;
-      transition: left 0.3s ease;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+      position: fixed; top: 0; left: -320px; height: 100vh; width: 290px; transition: left 0.3s ease; box-shadow: 4px 0 20px rgba(0,0,0,0.3);
     }
     .sidebar.open { left: 0; }
     .main { padding: 22px 16px 50px 16px; }
@@ -515,42 +327,52 @@
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="toast" id="toastNotification">✨ Acción completada</div>
 
+<!-- MODAL AGENDA DE LA SEMANA -->
+<div class="modal-overlay" id="agendaModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>⭐ Agenda de la semana (Reunión con Jefatura)</h3>
+      <button class="modal-close" id="closeAgendaModal">✕</button>
+    </div>
+    <div class="modal-body" id="agendaModalBody"></div>
+  </div>
+</div>
+
 <div class="mobile-top-bar">
   <div class="m-title">
-    <span>TECBA · GCBA</span>
+    <span>TECBA · PLANIFICACIÓN</span>
     Líneas de trabajo
   </div>
   <div style="display:flex; gap:8px; align-items:center;">
-    <button class="theme-toggle-mobile" id="themeToggleMobile" title="Cambiar tema claro/oscuro">🌙</button>
-    <button class="hamburger-btn" id="hamburgerBtn" title="Abrir menú de áreas">☰ Menú</button>
+    <button class="theme-toggle-mobile" id="themeToggleMobile" title="Cambiar tema">🌙</button>
+    <button class="hamburger-btn" id="hamburgerBtn" title="Menú">☰ Menú</button>
   </div>
 </div>
 
 <div class="sidebar" id="sidebar">
   <div class="brand">
     <h1>Líneas de trabajo<br>con áreas del GCBA</h1>
-    <button class="theme-toggle-btn" id="themeToggleBtn" title="Cambiar tema claro/oscuro">🌙</button>
+    <button class="theme-toggle-btn" id="themeToggleBtn" title="Cambiar tema">🌙</button>
   </div>
   
-  <!-- DEPÓSITO NOVEDADES DE LA SEMANA -->
-  <div class="weekly-depot" id="weeklyDepot" title="Filtrar proyectos favoritos guardados">
-    <div class="depot-header">
-      <span class="depot-title">⭐ Novedades de la semana</span>
-      <div class="depot-actions">
-        <span class="depot-count" id="depotCount">0</span>
-        <button class="depot-clear-btn" id="clearDepotBtn" title="Borrar todos los favoritos">Limpiar</button>
-      </div>
-    </div>
+  <!-- ACCESO RÁPIDO AGENDA SEMANAL -->
+  <div class="agenda-trigger-wrap">
+    <button class="agenda-btn" id="openAgendaBtn">
+      <span>⭐ Agenda de la semana</span>
+      <span class="agenda-badge" id="agendaCountBadge">0</span>
+    </button>
   </div>
 
   <div class="search-wrap">
-    <input type="text" id="searchArea" placeholder="Buscar área...">
+    <input type="text" id="searchArea" placeholder="Buscar área externa...">
   </div>
   <div class="area-list" id="areaList"></div>
 </div>
 
 <div class="main">
+  <button class="pres-exit-btn" id="exitPresBtn">✕ Salir del modo presentación</button>
   <div class="print-header" id="printHeader"></div>
+  
   <div class="topbar">
     <div class="topbar-header-row">
       <div>
@@ -567,11 +389,11 @@
       <option value="">Todas las áreas internas</option>
     </select>
     <button id="hubiaBtn" title="Mostrar solo líneas del Hub IA">💡 Hub IA</button>
-    <button id="viewModeBtn" class="secondary-action" title="Cambiar vista entre Tarjetas y Tabla">📊 Vista Tabla</button>
+    <button id="viewModeBtn" class="secondary-action" title="Cambiar vista">📊 Vista Tabla</button>
+    <button id="presModeBtn" class="secondary-action" title="Modo presentación para jefatura">🖥️ Modo Presentación</button>
     
-    <button id="copyReportBtn" class="secondary-action" title="Copiar punteo resumido al portapapeles">📋 Copiar reporte</button>
+    <button id="copyReportBtn" class="secondary-action" title="Copiar reporte ejecutivo">📋 Copiar reporte</button>
     
-    <!-- MENÚ DE DESCARGAS -->
     <div class="dropdown" id="downloadDropdown">
       <button id="downloadBtn" class="secondary-action" title="Opciones de descarga">⬇️ Descargar ▼</button>
       <div class="dropdown-content" id="downloadMenu">
@@ -580,8 +402,9 @@
         <a href="#" id="dlExcel">📊 Formato Excel (CSV)</a>
       </div>
     </div>
-
   </div>
+
+  <div class="active-filters-bar" id="activeFiltersBar" style="display:none;"></div>
 
   <div class="stats-row" id="statsRow"></div>
 
@@ -589,16 +412,13 @@
 </div>
 
 <script>
-// --- CONEXIÓN CON GOOGLE SHEETS ---
 const URL_GOOGLE_SHEET = 'https://script.google.com/macros/s/AKfycbzTURQo7rbLlt4RAtmiyx8VcVbZzXPN1Oa2G5BpOq-qyjQ1FTid8VOCe1hOgjsmiimL/exec';
 
-// Variables globales dinámicas
 let RAW_DATA = [];
 let DATA = [];
 let ALL = [];
 let AREA_HUES = {};
 
-// Función robusta para deducir el estado estrictamente de la cadena de etiquetas
 function parseEstado(etiquetasArr) {
   const etqStr = (etiquetasArr || []).join(';').toLowerCase();
   if (etqStr.includes('cancelado')) return 'cancelado';
@@ -610,12 +430,12 @@ function parseEstado(etiquetasArr) {
 }
 
 const STATUS_META = {
-  en_curso:        { label:'En curso',              color:'#2F80ED', order:0 },
-  no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', order:1 },
-  pausado_area:    { label:'Pausado por el área',  color:'#F2994A', order:2 },
-  pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', order:3 },
-  completado:      { label:'Completado',            color:'#219653', order:4 },
-  cancelado:       { label:'Cancelado',            color:'#EB5757', order:5 },
+  en_curso:        { label:'En curso',              color:'#2F80ED', emoji:'🔵', order:0 },
+  no_iniciado:     { label:'No iniciado',          color:'#7F8C8D', emoji:'⚪', order:1 },
+  pausado_area:    { label:'Pausado por el área',  color:'#F2994A', emoji:'🟠', order:2 },
+  pausado_tecba:   { label:'Pausado por TecBA',    color:'#E8B800', emoji: '🟡', order:3 },
+  completado:      { label:'Completado',            color:'#219653', emoji:'🟢', order:4 },
+  cancelado:       { label:'Cancelado',            color:'#EB5757', emoji:'🔴', order:5 },
 };
 const STATUS_KEYS = Object.keys(STATUS_META).sort((a,b)=>STATUS_META[a].order-STATUS_META[b].order);
 
@@ -625,25 +445,23 @@ function hexToRgba(hex, a){
   return `rgba(${r},${g},${b},${a})`;
 }
 
-// State variables
 let currentArea = 'TODAS';
 let selectedEstados = new Set();
 let searchTerm = '';
 let textSearchTerm = '';
 let currentInterna = '';
 let currentHubIA = false;
-let weeklyDepotActive = false;
 let viewMode = 'cards';
 let currentTheme = localStorage.getItem('tecba_theme') || 'light';
 
-if(currentTheme === 'dark'){
-  document.documentElement.setAttribute('data-theme', 'dark');
-}
+if(currentTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
-let favorites = new Set(JSON.parse(localStorage.getItem('tecba_favorites') || '[]'));
+// Guardar array ordenado para la agenda de la semana
+let favorites = JSON.parse(localStorage.getItem('tecba_favorites_ordered') || '[]');
+if(!Array.isArray(favorites)) favorites = [];
 
 function saveFavorites() {
-  localStorage.setItem('tecba_favorites', JSON.stringify(Array.from(favorites)));
+  localStorage.setItem('tecba_favorites_ordered', JSON.stringify(favorites));
 }
 
 function getItemKey(item) {
@@ -668,7 +486,6 @@ function areaColor(name){
 
 function baseFilteredItems(areaName){
   let items = areaName==='TODAS' ? ALL.slice() : ALL.filter(i=>i.area===areaName);
-  if(weeklyDepotActive){ items = items.filter(i=>favorites.has(getItemKey(i))); }
   if(currentInterna){ items = items.filter(i=>(i.internas||[]).includes(currentInterna)); }
   if(currentHubIA){ items = items.filter(i=>i.ia); }
   if(textSearchTerm.trim()){
@@ -689,7 +506,6 @@ function updateURLParams(){
   const params = new URLSearchParams();
   if(currentArea !== 'TODAS') params.set('area', currentArea);
   if(selectedEstados.size > 0) params.set('estados', Array.from(selectedEstados).join(','));
-  if(weeklyDepotActive) params.set('favoritos', 'true');
   if(currentInterna) params.set('interna', currentInterna);
   if(currentHubIA) params.set('hubia', 'true');
   if(textSearchTerm.trim()) params.set('q', textSearchTerm.trim());
@@ -707,7 +523,6 @@ function readURLParams(){
   if(params.has('estados')){
     selectedEstados = new Set(params.get('estados').split(',').filter(s=>STATUS_META[s]));
   }
-  if(params.get('favoritos') === 'true') weeklyDepotActive = true;
   if(params.has('interna')) {
     currentInterna = params.get('interna');
     document.getElementById('internaFilter').value = currentInterna;
@@ -731,8 +546,7 @@ function readURLParams(){
 }
 
 function renderSidebar(){
-  document.getElementById('depotCount').textContent = favorites.size;
-  document.getElementById('weeklyDepot').classList.toggle('active', weeklyDepotActive);
+  document.getElementById('agendaCountBadge').textContent = favorites.length;
 
   const list = document.getElementById('areaList');
   list.innerHTML = '';
@@ -740,19 +554,19 @@ function renderSidebar(){
 
   const allC = areaCounts('TODAS');
   const allDiv = document.createElement('div');
-  allDiv.className = 'area-item all-item' + ((currentArea==='TODAS' && !weeklyDepotActive) ? ' active' : '');
+  allDiv.className = 'area-item all-item' + (currentArea==='TODAS' ? ' active' : '');
   allDiv.innerHTML = `
     <div class="area-row"><span class="area-name-wrap"><span class="area-name">🗂 Todas las áreas</span></span><span class="area-count">${allC.total}</span></div>
     <div class="stack-bar">${stackSegments(allC)}</div>
   `;
-  allDiv.onclick = ()=>{ currentArea='TODAS'; weeklyDepotActive=false; render(); closeMobileSidebar(); };
+  allDiv.onclick = ()=>{ currentArea='TODAS'; render(); closeMobileSidebar(); };
   list.appendChild(allDiv);
 
   DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a=>{
     const c = areaCounts(a.area);
     const col = areaColor(a.area);
     const div = document.createElement('div');
-    div.className = 'area-item' + ((currentArea===a.area && !weeklyDepotActive) ? ' active' : '');
+    div.className = 'area-item' + (currentArea===a.area ? ' active' : '');
     div.style.setProperty('--dot-color', col.dot);
     div.innerHTML = `
       <div class="area-row">
@@ -761,7 +575,7 @@ function renderSidebar(){
       </div>
       <div class="stack-bar">${stackSegments(c)}</div>
     `;
-    div.onclick = ()=>{ currentArea=a.area; weeklyDepotActive=false; render(); closeMobileSidebar(); };
+    div.onclick = ()=>{ currentArea=a.area; render(); closeMobileSidebar(); };
     list.appendChild(div);
   });
 }
@@ -791,10 +605,41 @@ function renderStats(){
 
 function renderHeader(){
   let title = currentArea==='TODAS' ? 'Todas las áreas' : currentArea;
-  if(weeklyDepotActive) title = '⭐ Novedades de la semana (Favoritos)';
   document.getElementById('areaTitle').textContent = title;
   const c = areaCounts(currentArea);
   document.getElementById('areaSub').textContent = `${c.total} línea${c.total===1?'':'s'} de trabajo`;
+}
+
+function renderActiveFiltersBar(){
+  const bar = document.getElementById('activeFiltersBar');
+  const activePills = [];
+
+  if(currentArea !== 'TODAS') activePills.push(`Área: <b>${currentArea}</b> <button onclick="resetAreaFilter()">×</button>`);
+  if(currentHubIA) activePills.push(`<b>Hub IA</b> <button onclick="toggleHubIAFilter()">×</button>`);
+  if(currentInterna) activePills.push(`TECBA: <b>${currentInterna}</b> <button onclick="resetInternaFilter()">×</button>`);
+  if(textSearchTerm) activePills.push(`Búsqueda: <b>"${textSearchTerm}"</b> <button onclick="resetTextSearch()">×</button>`);
+  if(selectedEstados.size > 0) activePills.push(`Estado filtrado <button onclick="resetEstadosFilter()">×</button>`);
+
+  if(activePills.length > 0){
+    bar.style.display = 'flex';
+    bar.innerHTML = `Filtros activos: ${activePills.map(p=>`<span class="filter-pill">${p}</span>`).join('')} <button class="clear-all-filters" onclick="clearAllFilters()">Limpiar todo</button>`;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function resetAreaFilter(){ currentArea = 'TODAS'; render(); }
+function toggleHubIAFilter(){ currentHubIA = false; document.getElementById('hubiaBtn').classList.remove('active'); render(); }
+function resetInternaFilter(){ currentInterna = ''; document.getElementById('internaFilter').value = ''; render(); }
+function resetTextSearch(){ textSearchTerm = ''; document.getElementById('textSearch').value = ''; render(); }
+function resetEstadosFilter(){ selectedEstados.clear(); render(); }
+function clearAllFilters(){
+  currentArea = 'TODAS';
+  currentHubIA = false; document.getElementById('hubiaBtn').classList.remove('active');
+  currentInterna = ''; document.getElementById('internaFilter').value = '';
+  textSearchTerm = ''; document.getElementById('textSearch').value = '';
+  selectedEstados.clear();
+  render();
 }
 
 function getFilteredAndSortedItems(){
@@ -807,28 +652,28 @@ function getFilteredAndSortedItems(){
 }
 
 function renderContent(){
-  const items = getFilteredAndSortedItems();
   const container = document.getElementById('contentContainer');
+  const items = getFilteredAndSortedItems();
 
   if(items.length===0){
-    container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para este filtro.</div>`;
+    container.innerHTML = `<div class="empty-state"><div class="big">🔎</div>No hay líneas de trabajo para estos filtros combinados.</div>`;
     return;
   }
 
   if(viewMode === 'table'){
     renderTableView(items, container);
   } else {
-    renderCardsView(items, container);
+    if(currentArea === 'TODAS'){
+      renderAccordionView(items, container);
+    } else {
+      renderCardsView(items, container);
+    }
   }
 }
 
 function formatDescription(desc) {
   if (!desc) return '';
-  const escaped = desc
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-  
+  const escaped = desc.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const formatted = escaped.replace(/(Status\s*:\s*)(.*)/gi, '<strong>$1</strong> <em>$2</em>');
   return formatted.replace(/\n/g, '<br>');
 }
@@ -837,20 +682,20 @@ function renderCardsView(items, container){
   container.className = 'cards';
   container.innerHTML = items.map(i => {
     const key = getItemKey(i);
-    const isFav = favorites.has(key);
+    const isFav = favorites.includes(key);
     const col = areaColor(i.area);
     const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
     const internas = i.internas || [];
-    const tagsRow = ((currentArea==='TODAS' || weeklyDepotActive) || internas.length>0) ? `
+    const tagsRow = (currentArea==='TODAS' || internas.length>0) ? `
       <div class="tags-row">
-        ${(currentArea==='TODAS' || weeklyDepotActive) ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}
+        ${currentArea==='TODAS' ? `<span class="proj-area-tag" style="--tag-bg:${col.tagBg}; --tag-color:${col.tagColor}; --tag-border:${col.tagBorder}">${escapeHtml(i.area)}</span>` : ''}
         ${internas.map(a=>`<span class="internal-tag">${escapeHtml(a)}</span>`).join('')}
       </div>` : '';
     return `
     <div class="proj-card" style="--card-color:${meta.color}">
       <div class="proj-head">
         <div class="proj-title-area">
-          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de novedades de la semana' : 'Marcar como favorito'}">${isFav ? '★' : '☆'}</button>
+          <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}" title="${isFav ? 'Quitar de la agenda' : 'Marcar para agenda semanal'}">${isFav ? '★' : '☆'}</button>
           <div class="proj-title">${escapeHtml(i.titulo)}</div>
         </div>
         <div class="badges">
@@ -865,6 +710,56 @@ function renderCardsView(items, container){
   }).join('');
 }
 
+function renderAccordionView(items, container){
+  container.className = '';
+  // Agrupar por área externa
+  const grouped = {};
+  items.forEach(i => {
+    if(!grouped[i.area]) grouped[i.area] = [];
+    grouped[i.area].push(i);
+  });
+
+  container.innerHTML = Object.keys(grouped).map(areaName => {
+    const areaItems = grouped[areaName];
+    const col = areaColor(areaName);
+    return `
+      <div class="area-accordion">
+        <div class="accordion-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'grid' : 'none'">
+          <div class="acc-meta">
+            <span style="width:10px; height:10px; border-radius:50%; background:${col.dot}; display:inline-block;"></span>
+            <span>${escapeHtml(areaName)}</span>
+          </div>
+          <span style="font-size:12px; color:var(--muted); font-weight:600;">${areaItems.length} proyecto${areaItems.length===1?'':'s'} ▼</span>
+        </div>
+        <div class="accordion-body" style="display: grid;">
+          ${areaItems.map(i => {
+            const key = getItemKey(i);
+            const isFav = favorites.includes(key);
+            const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
+            const internas = i.internas || [];
+            return `
+              <div class="proj-card" style="--card-color:${meta.color}; margin-bottom:0;">
+                <div class="proj-head">
+                  <div class="proj-title-area">
+                    <button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button>
+                    <div class="proj-title">${escapeHtml(i.titulo)}</div>
+                  </div>
+                  <div class="badges">
+                    ${i.ia ? '<span class="badge hubia">💡 HUB IA</span>' : ''}
+                    <span class="badge" style="--badge-color:${meta.color}">${meta.label}</span>
+                  </div>
+                </div>
+                ${internas.length > 0 ? `<div class="tags-row">${internas.map(a=>`<span class="internal-tag">${escapeHtml(a)}</span>`).join('')}</div>` : ''}
+                <div class="proj-desc">${formatDescription(i.descripcion)}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 function renderTableView(items, container){
   container.className = '';
   container.innerHTML = `
@@ -874,7 +769,7 @@ function renderTableView(items, container){
           <tr>
             <th style="width:40px;">⭐</th>
             <th>Proyecto / Línea</th>
-            ${currentArea==='TODAS' ? '<th>Área</th>' : ''}
+            <th>Área</th>
             <th>Estado</th>
             <th>Áreas internas</th>
             <th>Descripción / Status</th>
@@ -883,14 +778,14 @@ function renderTableView(items, container){
         <tbody>
           ${items.map(i => {
             const key = getItemKey(i);
-            const isFav = favorites.has(key);
+            const isFav = favorites.includes(key);
             const meta = STATUS_META[i.estado] || {label:i.estado, color:'#999'};
             const internas = (i.internas || []).join(', ');
             return `
               <tr>
                 <td><button class="fav-btn ${isFav ? 'is-fav' : ''}" data-key="${escapeHtml(key)}">${isFav ? '★' : '☆'}</button></td>
                 <td><strong>${escapeHtml(i.titulo)}</strong>${i.ia ? '<br><span class="badge hubia" style="display:inline-block; margin-top:4px;">💡 HUB IA</span>' : ''}</td>
-                ${currentArea==='TODAS' ? `<td><span style="font-weight:600; color:var(--text);">${escapeHtml(i.area)}</span></td>` : ''}
+                <td><span style="font-weight:600; color:var(--text);">${escapeHtml(i.area)}</span></td>
                 <td><span class="badge" style="background:${meta.color}">${meta.label}</span></td>
                 <td><span style="font-size:11px; color:var(--muted);">${escapeHtml(internas || '—')}</span></td>
                 <td><div class="table-desc">${formatDescription(i.descripcion)}</div></td>
@@ -911,23 +806,15 @@ function escapeHtml(str){
 
 function renderPrintHeader(){
   const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const filtrosAplicados = [];
-  if(selectedEstados.size > 0) filtrosAplicados.push(Array.from(selectedEstados).map(s=>STATUS_META[s]?.label).join(', '));
-  if(currentInterna) filtrosAplicados.push(currentInterna);
-  if(currentHubIA) filtrosAplicados.push('💡 Hub IA');
-  if(weeklyDepotActive) filtrosAplicados.push('⭐ Novedades de la semana');
-  if(textSearchTerm.trim()) filtrosAplicados.push(`"${textSearchTerm.trim()}"`);
-  
-  const filtrosTxt = filtrosAplicados.length ? ` · Filtros aplicados: ${filtrosAplicados.join(', ')}` : '';
   let tituloArea = currentArea === 'TODAS' ? 'Todas las áreas' : currentArea;
-  
-  document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${tituloArea}</strong><br>Actualizado: ${fecha}${filtrosTxt}`;
+  document.getElementById('printHeader').innerHTML = `<strong>Líneas de trabajo con ${tituloArea}</strong><br>Actualizado: ${fecha}`;
 }
 
 function render(){
   renderSidebar();
   renderHeader();
   renderStats();
+  renderActiveFiltersBar();
   renderContent();
   renderPrintHeader();
   updateURLParams();
@@ -937,11 +824,8 @@ function toggleEstado(estado){
   if(estado === 'todos'){
     selectedEstados.clear();
   } else {
-    if(selectedEstados.has(estado)){
-      selectedEstados.delete(estado);
-    } else {
-      selectedEstados.add(estado);
-    }
+    if(selectedEstados.has(estado)) selectedEstados.delete(estado);
+    else selectedEstados.add(estado);
   }
   render();
 }
@@ -950,26 +834,16 @@ const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 
-function toggleMobileSidebar() {
-  sidebar.classList.toggle('open');
-  sidebarOverlay.classList.toggle('open');
-}
-
-function closeMobileSidebar() {
-  sidebar.classList.remove('open');
-  sidebarOverlay.classList.remove('open');
-}
+function toggleMobileSidebar() { sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('open'); }
+function closeMobileSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
 
 hamburgerBtn.addEventListener('click', toggleMobileSidebar);
 sidebarOverlay.addEventListener('click', closeMobileSidebar);
 
 function toggleTheme(){
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-  if(currentTheme === 'dark'){
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  if(currentTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  else document.documentElement.removeAttribute('data-theme');
   localStorage.setItem('tecba_theme', currentTheme);
   updateURLParams();
 }
@@ -977,52 +851,92 @@ function toggleTheme(){
 document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
 document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
 
-document.getElementById('weeklyDepot').addEventListener('click', (e)=>{
-  if(e.target.closest('#clearDepotBtn')) return;
-  weeklyDepotActive = !weeklyDepotActive;
-  render();
-  closeMobileSidebar();
+// --- GESTIÓN DE LA AGENDA DE LA SEMANA (MODAL) ---
+const agendaModal = document.getElementById('agendaModal');
+document.getElementById('openAgendaBtn').addEventListener('click', () => {
+  renderAgendaModal();
+  agendaModal.classList.add('open');
 });
+document.getElementById('closeAgendaModal').addEventListener('click', () => agendaModal.classList.remove('open'));
+agendaModal.addEventListener('click', (e) => { if(e.target === agendaModal) agendaModal.classList.remove('open'); });
 
-document.getElementById('clearDepotBtn').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  if(favorites.size === 0) return;
-  if(confirm('¿Estás segura de que querés borrar todos los proyectos de "Novedades de la semana"?')){
-    favorites.clear();
-    saveFavorites();
-    weeklyDepotActive = false;
-    render();
+function renderAgendaModal(){
+  const body = document.getElementById('agendaModalBody');
+  if(favorites.length === 0){
+    body.innerHTML = `<div class="empty-state" style="padding:30px;"><div class="big">⭐</div>No hay proyectos seleccionados para la agenda de la semana.<br><small>Marcá con una estrella ⭐ los temas que quieras tratar con la Jefatura.</small></div>`;
+    return;
   }
-});
 
-document.getElementById('searchArea').addEventListener('input', (e)=>{
-  searchTerm = e.target.value;
-  renderSidebar();
-});
+  // Mapear claves a objetos reales
+  const favItems = favorites.map(k => ALL.find(i => getItemKey(i) === k)).filter(Boolean);
 
-document.getElementById('statsRow').addEventListener('click', (e)=>{
-  const card = e.target.closest('.stat-card');
-  if(!card) return;
-  toggleEstado(card.dataset.estado);
-});
+  body.innerHTML = favItems.map((i, idx) => {
+    const key = getItemKey(i);
+    const meta = STATUS_META[i.estado] || {label:i.estado};
+    return `
+      <div class="agenda-item-row">
+        <div class="agenda-item-info">
+          <div class="agenda-item-title">${idx+1}. ${escapeHtml(i.titulo)}</div>
+          <div class="agenda-item-sub">🏢 Área: <b>${escapeHtml(i.area)}</b> · Estado: ${meta.label}</div>
+        </div>
+        <div class="agenda-item-actions">
+          <button onclick="moveAgendaItem('${key}', 'up')" title="Subir en la agenda" ${idx===0?'disabled style="opacity:0.3"':''}>▲</button>
+          <button onclick="moveAgendaItem('${key}', 'down')" title="Bajar en la agenda" ${idx===favItems.length-1?'disabled style="opacity:0.3"':''}>▼</button>
+          <button onclick="removeAgendaItem('${key}')" title="Quitar de la agenda" style="color:#EB5757">✕</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 
+window.moveAgendaItem = function(key, direction){
+  const idx = favorites.indexOf(key);
+  if(idx < 0) return;
+  if(direction === 'up' && idx > 0){
+    const temp = favorites[idx];
+    favorites[idx] = favorites[idx-1];
+    favorites[idx-1] = temp;
+  } else if(direction === 'down' && idx < favorites.length - 1){
+    const temp = favorites[idx];
+    favorites[idx] = favorites[idx+1];
+    favorites[idx+1] = temp;
+  }
+  saveFavorites();
+  renderAgendaModal();
+  render();
+};
+
+window.removeAgendaItem = function(key){
+  favorites = favorites.filter(k => k !== key);
+  saveFavorites();
+  renderAgendaModal();
+  render();
+};
+
+// Clic en estrellas de favoritos
 document.getElementById('contentContainer').addEventListener('click', (e)=>{
   const btn = e.target.closest('.fav-btn');
   if(!btn) return;
   const key = btn.dataset.key;
-  if(favorites.has(key)){
-    favorites.delete(key);
+  const idx = favorites.indexOf(key);
+  if(idx >= 0){
+    favorites.splice(idx, 1);
   } else {
-    favorites.add(key);
+    favorites.push(key);
   }
   saveFavorites();
   render();
 });
 
-document.getElementById('textSearch').addEventListener('input', (e)=>{
-  textSearchTerm = e.target.value;
-  render();
-});
+// Modo Presentación
+const presBtn = document.getElementById('presModeBtn');
+const exitPresBtn = document.getElementById('exitPresBtn');
+presBtn.addEventListener('click', () => { document.body.classList.add('presentation-mode'); window.scrollTo(0,0); });
+exitPresBtn.addEventListener('click', () => document.body.classList.remove('presentation-mode'));
+
+document.getElementById('searchArea').addEventListener('input', (e)=>{ searchTerm = e.target.value; renderSidebar(); });
+document.getElementById('statsRow').addEventListener('click', (e)=>{ const card = e.target.closest('.stat-card'); if(!card) return; toggleEstado(card.dataset.estado); });
+document.getElementById('textSearch').addEventListener('input', (e)=>{ textSearchTerm = e.target.value; render(); });
 
 function populateInternaFilter(){
   const set = new Set();
@@ -1030,33 +944,17 @@ function populateInternaFilter(){
   const sel = document.getElementById('internaFilter');
   sel.innerHTML = '<option value="">Todas las áreas internas</option>';
   Array.from(set).sort().forEach(a=>{
-    const opt = document.createElement('option');
-    opt.value = a;
-    opt.textContent = a;
-    sel.appendChild(opt);
+    const opt = document.createElement('option'); opt.value = a; opt.textContent = a; sel.appendChild(opt);
   });
 }
 
-document.getElementById('internaFilter').addEventListener('change', (e)=>{
-  currentInterna = e.target.value;
-  render();
-});
-
-document.getElementById('hubiaBtn').addEventListener('click', (e)=>{
-  currentHubIA = !currentHubIA;
-  e.target.classList.toggle('active', currentHubIA);
-  render();
-});
+document.getElementById('internaFilter').addEventListener('change', (e)=>{ currentInterna = e.target.value; render(); });
+document.getElementById('hubiaBtn').addEventListener('click', (e)=>{ currentHubIA = !currentHubIA; e.target.classList.toggle('active', currentHubIA); render(); });
 
 function updateViewModeButton(){
   const btn = document.getElementById('viewModeBtn');
-  if(viewMode === 'table'){
-    btn.innerHTML = '📇 Vista Tarjetas';
-    btn.title = 'Cambiar a vista de tarjetas';
-  } else {
-    btn.innerHTML = '📊 Vista Tabla';
-    btn.title = 'Cambiar a vista de tabla compacta';
-  }
+  if(viewMode === 'table'){ btn.innerHTML = '📇 Vista Tarjetas'; btn.title = 'Cambiar a tarjetas'; }
+  else { btn.innerHTML = '📊 Vista Tabla'; btn.title = 'Cambiar a tabla'; }
 }
 
 document.getElementById('viewModeBtn').addEventListener('click', ()=>{
@@ -1067,76 +965,55 @@ document.getElementById('viewModeBtn').addEventListener('click', ()=>{
 
 function showToast(msg){
   const toast = document.getElementById('toastNotification');
-  toast.textContent = msg;
-  toast.classList.add('show');
+  toast.textContent = msg; toast.classList.add('show');
   setTimeout(()=>{ toast.classList.remove('show'); }, 2500);
 }
 
-// LOGICA DEL DROPDOWN DE DESCARGA
-document.getElementById('downloadBtn').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  document.getElementById('downloadDropdown').classList.toggle('show');
-});
-window.addEventListener('click', ()=>{
-  document.getElementById('downloadDropdown').classList.remove('show');
-});
+document.getElementById('downloadBtn').addEventListener('click', (e)=>{ e.stopPropagation(); document.getElementById('downloadDropdown').classList.toggle('show'); });
+window.addEventListener('click', ()=>document.getElementById('downloadDropdown').classList.remove('show'));
 
-// Copiar Reporte
+// Copiar Reporte Ejecutivo con Emojis
 document.getElementById('copyReportBtn').addEventListener('click', ()=>{
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){
-    alert('No hay líneas de trabajo visibles para copiar.');
-    return;
-  }
+  if(items.length === 0){ alert('No hay líneas visibles.'); return; }
   
-  let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-  let report = `📋 *Líneas de trabajo con ${titleArea}*\n\n`;
+  let titleArea = currentArea === 'TODAS' ? 'TECBA (GCBA)' : currentArea;
+  let report = `📋 *Reporte Ejecutivo: Líneas de trabajo con ${titleArea}*\n\n`;
 
   items.forEach((i, idx)=>{
     const meta = STATUS_META[i.estado] || {label:i.estado};
-    
-    report += `${idx + 1}. *${i.titulo}* [${meta.label}]\n`;
+    report += `${idx + 1}. *${i.titulo}* ${meta.emoji} [${meta.label}]\n`;
     
     let desc = (i.descripcion || "").trim();
     let parts = desc.split(/Status\s*:/i);
-    
     let detalle = parts[0].replace(/\n/g, ' ').trim();
     let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, ' ').trim() : "";
 
-    if(detalle) {
-      report += `   ↳ ${detalle}\n`;
-    }
-    if(status) {
-      report += `   *Status:* ${status}\n`;
-    }
-    if(currentArea === 'TODAS') {
-      report += `   🏢 *Área:* ${i.area}\n`;
-    }
-    
+    if(detalle) report += `   ↳ ${detalle}\n`;
+    if(status) report += `   *Status:* ${status}\n`;
+    if(currentArea === 'TODAS') report += `   🏢 *Área externa:* ${i.area}\n`;
+    if(i.internas && i.internas.length > 0) report += `   📎 *TECBA:* ${i.internas.join(', ')}\n`;
     report += `\n`;
   });
 
   navigator.clipboard.writeText(report.trim()).then(()=>{
-    showToast('✨ ¡Reporte copiado con éxito!');
-  }).catch(()=>{
-    alert('No se pudo copiar al portapapeles.');
-  });
+    showToast('✨ ¡Reporte copiado con formato ejecutivo!');
+  }).catch(()=>alert('Error al copiar.'));
 });
 
-// 1. DESCARGAR WORD (Añadido Hub IA y Áreas internas)
+// Word
 document.getElementById('dlWord').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
+  if(items.length === 0){ alert('No hay datos.'); return; }
   
-  const fecha = new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
+  const fecha = new Date().toLocaleDateString('es-AR');
+  let tituloArea = currentArea === 'TODAS' ? 'TODAS LAS ÁREAS' : currentArea;
 
   let html = `
     <div style="font-family: Arial, sans-serif;">
       <h1 style="color: #153244;">Líneas de trabajo con ${tituloArea}</h1>
       <p style="color: #6B7C82; border-bottom: 2px solid #153244; padding-bottom: 10px;"><strong>ACTUALIZADO:</strong> ${fecha}</p>
-      
       <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; border-color: #E4E9EA;">
         <thead>
           <tr>
@@ -1150,95 +1027,46 @@ document.getElementById('dlWord').addEventListener('click', (e)=>{
 
   items.forEach(i => {
     const meta = STATUS_META[i.estado] || {label:i.estado};
-    
-    // Separamos el Status al igual que en WhatsApp
     let desc = (i.descripcion || "").trim();
     let parts = desc.split(/Status\s*:/i);
     let detalle = parts[0].replace(/\n/g, '<br>');
     let status = parts.length > 1 ? parts.slice(1).join("Status:").replace(/\n/g, '<br>') : "";
-
     let descHTML = detalle;
-    if(status) {
-      descHTML += `<br><br><strong>Status:</strong> ${status}`;
-    }
+    if(status) descHTML += `<br><br><strong>Status:</strong> ${status}`;
 
-    // Armamos el bloque del título con las etiquetas
     let proyHTML = `<strong>${escapeHtml(i.titulo)}</strong>`;
-    
-    if(i.ia) {
-      proyHTML += `<br><br><span style="color:#6B48D6; font-size:12px;"><strong>💡 Hub IA</strong></span>`;
-    }
-    if(i.internas && i.internas.length > 0) {
-      proyHTML += `<br><span style="color:#6B7C82; font-size:12px;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
-    }
+    if(i.ia) proyHTML += `<br><br><span style="color:#6B48D6; font-size:12px;"><strong>💡 Hub IA</strong></span>`;
+    if(i.internas && i.internas.length > 0) proyHTML += `<br><span style="color:#6B7C82; font-size:12px;">📎 Áreas TECBA: ${escapeHtml(i.internas.join(', '))}</span>`;
 
-    html += `
-      <tr>
-        <td valign="top" style="color: #16242B;">${proyHTML}</td>
-        <td valign="top" style="color: #16242B;">${descHTML}</td>
-        <td valign="top" style="color: #16242B;"><strong>${meta.label}</strong> ${meta.label === 'Completado' ? '✅' : ''}</td>
-      </tr>
-    `;
+    html += `<tr><td valign="top">${proyHTML}</td><td valign="top">${descHTML}</td><td valign="top"><strong>${meta.label}</strong></td></tr>`;
   });
 
   html += `</tbody></table></div>`;
-  
-  let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reporte TECBA</title></head><body>";
-  let postHtml = "</body></html>";
-  
-  let blob = new Blob(['\ufeff', preHtml + html + postHtml], { type: 'application/msword' });
-  let url = URL.createObjectURL(blob);
+  let blob = new Blob(['\ufeff', "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'></head><body>" + html + "</body></html>"], { type: 'application/msword' });
   let link = document.createElement("a");
-  link.href = url;
-  
-  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
-  link.download = `Reporte_TECBA_${fileNameArea}.doc`;
-  document.body.appendChild(link);
+  link.href = URL.createObjectURL(blob);
+  link.download = `Reporte_TECBA_${currentArea}.doc`;
   link.click();
-  document.body.removeChild(link);
 });
 
-// 2. DESCARGAR / IMPRIMIR PDF
-document.getElementById('dlPdf').addEventListener('click', (e)=>{
-  e.preventDefault();
-  try {
-    window.print();
-  } catch(err) {
-    alert('El navegador bloqueó la impresión.');
-  }
-});
+// PDF
+document.getElementById('dlPdf').addEventListener('click', (e)=>{ e.preventDefault(); window.print(); });
 
-// 3. DESCARGAR EXCEL (CSV)
+// Excel
 document.getElementById('dlExcel').addEventListener('click', (e)=>{
   e.preventDefault();
   const items = getFilteredAndSortedItems();
-  if(items.length === 0){ alert('No hay datos para exportar.'); return; }
-  
-  let csvContent = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
-  
+  if(items.length === 0){ alert('No hay datos.'); return; }
+  let csv = "Área,Proyecto,Estado,Hub IA,Áreas Internas,Descripción\n";
   items.forEach(i => {
-    let area = `"${i.area.replace(/"/g, '""')}"`;
-    let titulo = `"${i.titulo.replace(/"/g, '""')}"`;
-    let estadoStr = `"${(STATUS_META[i.estado] || {label:i.estado}).label}"`;
-    let ia = i.ia ? '"Sí"' : '"No"';
-    let internas = `"${(i.internas || []).join(', ')}"`;
-    let desc = `"${(i.descripcion || "").replace(/"/g, '""').replace(/\n/g, ' ')}"`;
-    
-    csvContent += `${area},${titulo},${estadoStr},${ia},${internas},${desc}\n`;
+    csv += `"${i.area.replace(/"/g, '""')}","${i.titulo.replace(/"/g, '""')}","${(STATUS_META[i.estado]||{}).label}","${i.ia?'Sí':'No'}","${(i.internas||[]).join(', ')}","${(i.descripcion||'').replace(/"/g, '""').replace(/\n/g, ' ')}"\n`;
   });
-  
-  const blob = new Blob(["\uFEFF"+csvContent], { type: 'text/csv;charset=utf-8;' }); 
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  let fileNameArea = currentArea === 'TODAS' ? 'Todas' : currentArea.replace(/[^\w\s]/gi, '');
-  link.setAttribute("download", `Reporte_TECBA_${fileNameArea}.csv`);
-  document.body.appendChild(link);
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob(["\uFEFF"+csv], { type: 'text/csv;charset=utf-8;' }));
+  link.download = `Reporte_TECBA_${currentArea}.csv`;
   link.click();
-  document.body.removeChild(link);
 });
 
-// --- FUNCIÓN PARA BUSCAR LOS DATOS DE GOOGLE SHEETS EN VIVO ---
 async function cargarDatosDeGoogle() {
   const container = document.getElementById('contentContainer');
   container.innerHTML = '<div class="empty-state"><div class="big" style="animation: pulse 1s infinite;">⏳</div>Cargando datos en vivo...</div>';
@@ -1248,23 +1076,16 @@ async function cargarDatosDeGoogle() {
     const json = await respuesta.json();
     
     let datosAgrupados = {};
-    
     json.forEach(fila => {
       let area = fila["Area"] || "Sin Área";
-      if (!datosAgrupados[area]) {
-        datosAgrupados[area] = { area: area, items: [] };
-      }
+      if (!datosAgrupados[area]) datosAgrupados[area] = { area: area, items: [] };
       
       let etiquetasBrutas = fila["Etiquetas"] ? String(fila["Etiquetas"]).split(';').map(s => s.trim()).filter(s => s !== "") : [];
       let esIA = etiquetasBrutas.some(e => e.toLowerCase().includes('hub ia'));
       let internas = etiquetasBrutas.filter(e => {
         let el = e.toLowerCase();
         if (el.includes('hub ia')) return false;
-        if (el.includes('completado') || el.includes('en curso') || 
-            el.includes('pausado') || el.includes('cancelado') || 
-            el.includes('no iniciado')) {
-          return false;
-        }
+        if (['completado', 'en curso', 'pausado', 'cancelado', 'no iniciado'].some(s => el.includes(s))) return false;
         return true; 
       });
       
@@ -1278,32 +1099,19 @@ async function cargarDatosDeGoogle() {
     });
     
     RAW_DATA = Object.values(datosAgrupados);
-
-    RAW_DATA.sort((a, b) => {
-      const limpiarA = a.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-      const limpiarB = b.area.replace(/[^\w\s\u00C0-\u024F]/g, '').trim();
-      return limpiarA.localeCompare(limpiarB, 'es', { sensitivity: 'base' });
-    });
+    RAW_DATA.sort((a, b) => a.area.localeCompare(b.area, 'es', { sensitivity: 'base' }));
     
     DATA = RAW_DATA.map(areaObj => ({
       area: areaObj.area,
-      items: areaObj.items.map(i => ({
-        ...i,
-        estado: parseEstado(i.etiquetas)
-      }))
+      items: areaObj.items.map(i => ({ ...i, estado: parseEstado(i.etiquetas) }))
     }));
 
     ALL = flatten();
 
+    // Limpiar favoritos obsoletos
     const clavesValidas = new Set(ALL.map(getItemKey));
-    let favsModificados = false;
-    favorites.forEach(k => {
-      if(!clavesValidas.has(k)){
-        favorites.delete(k); 
-        favsModificados = true;
-      }
-    });
-    if(favsModificados) saveFavorites();
+    favorites = favorites.filter(k => clavesValidas.has(k));
+    saveFavorites();
     
     DATA.forEach((a,i)=>{ AREA_HUES[a.area] = Math.round((i*137.508)%360); });
     
@@ -1313,11 +1121,10 @@ async function cargarDatosDeGoogle() {
 
   } catch (error) {
     console.error("Error cargando Google Sheets:", error);
-    container.innerHTML = `<div class="empty-state"><div class="big">❌</div>Ocurrió un error al cargar los datos.<br><small style="opacity:0.6">Verifica que tu Excel tenga información y que la Web App esté accesible.</small></div>`;
+    container.innerHTML = `<div class="empty-state"><div class="big">❌</div>Ocurrió un error al cargar los datos en vivo.</div>`;
   }
 }
 
-// Iniciar la descarga de datos al cargar la página
 cargarDatosDeGoogle();
 </script>
 </body>
