@@ -320,7 +320,6 @@ function renderSidebar(){
   const term = searchTerm.trim().toLowerCase();
 
   const allC = areaCountsForSidebar('TODAS');
-  // CORRECCIÓN: Si Novedades de la semana está activo, ninguna área individual se marca como "active" (evita el falso seleccionado)
   list.appendChild(createAreaElement('🗂 Todas las áreas', allC, currentArea === 'TODAS' && !weeklyDepotActive, () => { currentArea='TODAS'; weeklyDepotActive=false; render(); closeMobileSidebar(); }));
 
   DATA.filter(a => !term || a.area.toLowerCase().includes(term)).forEach(a => {
@@ -459,8 +458,13 @@ const toggleMobileSidebar = () => {
   document.getElementById('sidebar').classList.toggle('open'); 
   document.getElementById('sidebarOverlay').classList.toggle('open'); 
 };
+const closeMobileSidebar = () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+};
+
 document.getElementById('hamburgerBtn').onclick = toggleMobileSidebar;
-document.getElementById('sidebarOverlay').onclick = toggleMobileSidebar;
+document.getElementById('sidebarOverlay').onclick = closeMobileSidebar;
 
 const toggleTheme = () => {
   currentTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -471,10 +475,12 @@ const toggleTheme = () => {
 document.getElementById('themeToggleBtn').onclick = toggleTheme;
 document.getElementById('themeToggleMobile').onclick = toggleTheme;
 
+// CORRECCIÓN: Al tocar "Novedades de la semana", aseguramos que se cierre el menú mobile y se quite el overlay gris
 document.getElementById('weeklyDepot').onclick = (e) => {
   if(e.target.closest('#clearDepotBtn')) return;
   weeklyDepotActive = !weeklyDepotActive;
-  render(); toggleMobileSidebar();
+  render(); 
+  closeMobileSidebar();
 };
 
 document.getElementById('clearDepotBtn').onclick = (e) => {
